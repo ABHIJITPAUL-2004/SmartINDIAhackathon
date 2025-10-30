@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Indian Crafts</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link href="category.css" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="logo"><i class="fa-solid fa-landmark"></i> <span id="nav-title">Indian Crafts</span></div>
+    <div class="icons">
+      <!-- Language Selector -->
+      <select onchange="changeLanguage(this.value)" style="margin-left:15px; padding:5px; border-radius:5px;">
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+        <option value="bn">বাংলা</option>
+        <option value="ta">தமிழ்</option>
+      </select>
+      <i class="fa-solid fa-house"></i>
+      <img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" alt="Profile" class="profile-img">
+      </div>
+      
+    </div>
+  </nav>
+
+  <!-- Hero Cards -->
+  <section>
+    <h2 id="featured-states">Featured States</h2>
+    <div class="cards">
+      <div class="card">
+        <img src="https://deih43ym53wif.cloudfront.net/large_Uttarakhand-kedarnath-temple-before-sunrise-hindu-shutterstock_375337813.jpg_d5aae7fdd5.jpg" alt="Uttarakhand">
+        <h3 id="state-uttarakhand">Uttarakhand</h3>
+      </div>
+      <div class="card">
+        <img src="https://i0.wp.com/www.tusktravel.com/blog/wp-content/uploads/2020/09/Island-Majuli-Assam.jpg?w=1024&ssl=1" alt="Assam">
+      <h3>Assam</h3>
+      </div>
+      <div class="card">
+        <img src="https://static.toiimg.com/photo/64028431/.jpg" alt="Maharashtra">
+      <h3>Maharashtra</h3>
+      </div>
+      <div class="card">
+        <img src="https://www.exoticca.com/_next/image?url=https%3A%2F%2Fuploads.exoticca.com%2Fglobal%2Fdestination%2Fpoi%2Fkerala.png&w=1920&q=75" alt="Kerala">
+      <h3>Kerala</h3>
+      </div>
+    </div>
+  </section>
+
+  <!-- Info Sections -->
+  <section>
+    <h2 id="crafts-highlights">Indian Crafts Highlights</h2>
+
+    <div class="info-section">
+      <img src="https://5.imimg.com/data5/SELLER/Default/2024/9/452838257/UG/BH/RB/85330349/terra1072-1-1000x1000.jpg" alt="Terracotta Art">
+      <div class="info-text">
+        <h3 id="craft-terracotta-title">Terracotta Art</h3>
+        <p id="craft-terracotta-desc">Terracotta craft is one of the oldest art forms in India, with beautiful clay idols and pottery.</p>
+      </div>
+    </div>
+
+    <div class="info-section">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPd21udE8pTcyqeh2ZdD0EyWjT8_OJjmvEvd4fyYHHA-J8rpmMT0uADLIP8dUULiLGHB8&usqp=CAU" alt="Wood Carving">
+      <div class="info-text">
+        <h3 id="craft-wood-title">Wood Carving</h3>
+        <p id="craft-wood-desc">Intricate wood carvings from regions like Saharanpur show India's rich heritage.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Video -->
+  <div class="video-container">
+    <h2>Cultural Documentary</h2>
+      <iframe width="560" height="315" 
+      src="https://www.youtube.com/watch?v=O8_n1o5algQ" 
+      title="YouTube video player" 
+      frameborder="0" 
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+      referrerpolicy="strict-origin-when-cross-origin" 
+      allowfullscreen>
+      </iframe>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="socials">
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-x-twitter"></i></a>
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-youtube"></i></a>
+    </div>
+    <div class="contact">
+      <p>Email: <a href="mailto:support@indianculture.org">support@indianculture.org</a></p>
+      <p>Phone: +91 98765 43210</p>
+      <p><a href="#">Contact Support</a></p>
+    </div>
+    <p class="copy">© 2025 <span id="footer-brand">Indian Crafts</span> | Designed with ❤️ in India</p>
+  </footer>
+
+  <!-- Language Script -->
+  <script>
+    const translations = {
+      en: {
+        navTitle: "Indian Crafts",
+        featuredStates: "Featured States",
+        craftsHighlights: "Indian Crafts Highlights",
+        uttarakhand: "Uttarakhand",
+        assam: "Assam",
+        maharashtra: "Maharashtra",
+        kerala: "Kerala",
+        terracottaTitle: "Terracotta Art",
+        terracottaDesc: "Terracotta craft is one of the oldest art forms in India, with beautiful clay idols and pottery.",
+        woodTitle: "Wood Carving",
+        woodDesc: "Intricate wood carvings from regions like Saharanpur show India's rich heritage.",
+        footerBrand: "Indian Crafts"
+      },
+      hi: {
+        navTitle: "भारतीय शिल्प",
+        featuredStates: "विशेष राज्य",
+        craftsHighlights: "भारतीय शिल्प की विशेषताएँ",
+        uttarakhand: "उत्तराखंड",
+        assam: "असम",
+        maharashtra: "महाराष्ट्र",
+        kerala: "केरल",
+        terracottaTitle: "मृण्मय कला",
+        terracottaDesc: "मृण्मय शिल्प भारत की सबसे पुरानी कला शैलियों में से एक है, जिसमें सुंदर मिट्टी की मूर्तियाँ और बर्तन शामिल हैं।",
+        woodTitle: "लकड़ी की नक्काशी",
+        woodDesc: "सहारनपुर जैसे क्षेत्रों की जटिल लकड़ी की नक्काशी भारत की समृद्ध विरासत को दर्शाती है।",
+        footerBrand: "भारतीय शिल्प"
+      },
+      bn: {
+        navTitle: "ভারতীয় হস্তশিল্প",
+        featuredStates: "বৈশিষ্ট্যপূর্ণ রাজ্য",
+        craftsHighlights: "ভারতীয় হস্তশিল্পের বৈশিষ্ট্য",
+        uttarakhand: "উত্তরাখণ্ড",
+        assam: "অসম",
+        maharashtra: "মহারাষ্ট্র",
+        kerala: "কেরল",
+        terracottaTitle: "টেরাকোটা শিল্প",
+        terracottaDesc: "টেরাকোটা শিল্প হল ভারতের অন্যতম প্রাচীন শিল্পরূপ, যেখানে সুন্দর মাটির মূর্তি এবং মৃৎশিল্প রয়েছে।",
+        woodTitle: "কাঠের খোদাই",
+        woodDesc: "সহারানপুরের মতো অঞ্চলের জটিল কাঠের খোদাই ভারতের সমৃদ্ধ ঐতিহ্য প্রদর্শন করে।",
+        footerBrand: "ভারতীয় হস্তশিল্প"
+      },
+      ta: {
+        navTitle: "இந்திய கைவினை",
+        featuredStates: "சிறப்பு மாநிலங்கள்",
+        craftsHighlights: "இந்திய கைவினை சிறப்புகள்",
+        uttarakhand: "உத்தரகாண்ட்",
+        assam: "அசாம்",
+        maharashtra: "மகாராஷ்டிரா",
+        kerala: "கேரளா",
+        terracottaTitle: "டெர்ரகோட்டா கலை",
+        terracottaDesc: "இந்தியாவின் பழமையான கலை வடிவங்களில் ஒன்று டெர்ரகோட்டா, இதில் அழகான களிமண் சிலைகள் மற்றும் பானைகள் உள்ளன.",
+        woodTitle: "மர சிற்பம்",
+        woodDesc: "சஹரன்பூர் போன்ற பகுதிகளின் சிக்கலான மரச் சிற்பங்கள் இந்தியாவின் செழுமையான பாரம்பரியத்தை காட்டுகின்றன.",
+        footerBrand: "இந்திய கைவினை"
+      }
+    };
+
+    function changeLanguage(lang) {
+      const t = translations[lang];
+      document.getElementById("nav-title").innerText = t.navTitle;
+      document.getElementById("featured-states").innerText = t.featuredStates;
+      document.getElementById("crafts-highlights").innerText = t.craftsHighlights;
+      document.getElementById("state-uttarakhand").innerText = t.uttarakhand;
+      document.getElementById("state-assam").innerText = t.assam;
+      document.getElementById("state-maharashtra").innerText = t.maharashtra;
+      document.getElementById("state-kerala").innerText = t.kerala;
+      document.getElementById("craft-terracotta-title").innerText = t.terracottaTitle;
+      document.getElementById("craft-terracotta-desc").innerText = t.terracottaDesc;
+      document.getElementById("craft-wood-title").innerText = t.woodTitle;
+      document.getElementById("craft-wood-desc").innerText = t.woodDesc;
+      document.getElementById("footer-brand").innerText = t.footerBrand;
+      document.documentElement.lang = lang;
+    }
+  </script>
+</body>
+</html>

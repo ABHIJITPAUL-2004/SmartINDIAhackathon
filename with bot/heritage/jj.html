@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rajgadh Heritage – A Heritage Showcase</title>
+  
+  <!-- Include the Heritage Dark Gold Theme -->
+  <style>
+    /* ========================================
+       HERITAGE DARK GOLD THEME v1.0
+       A reusable dark theme with golden accents
+       ======================================== */
+
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Merriweather:wght@300;400;700&display=swap');
+
+    /* ========================================
+       DESIGN TOKENS (CSS VARIABLES)
+       ======================================== */
+    :root {
+      /* === COLORS === */
+      /* Primary Palette */
+      --primary-gold: #facc15;        /* Main gold/amber */
+      --primary-gold-hover: #eab308;  /* Darker gold for hovers */
+      --primary-gold-light: #fde047; /* Light gold variant */
+      
+      /* Background Colors */
+      --bg-dark: #000000;             /* Pure black */
+      --bg-dark-1: #111111;           /* Near black */
+      --bg-dark-2: #1a1a1a;           /* Slightly lighter */
+      --bg-dark-3: #222222;           /* Card backgrounds */
+      --bg-cream: #F5F5DC;            /* Light theme fallback */
+      --bg-paper: #fffaf0;            /* Card background light */
+      
+      /* Text Colors */
+      --text-primary: #ffffff;        /* Main text */
+      --text-secondary: #aaaaaa;      /* Secondary text */
+      --text-muted: #888888;          /* Muted text */
+      --text-dark: #333333;           /* Dark text for light backgrounds */
+      
+      /* Accent Colors */
+      --terracotta: #B5651D;          /* Heritage brown */
+      --amber: #D4AF37;               /* Classic amber */
+      --brown-deep: #6B4423;          /* Deep brown */
+      
+      /* Overlay & Glass Effects */
+      --overlay-dark: rgba(0, 0, 0, 0.7);
+      --overlay-light: rgba(0, 0, 0, 0.4);
+      --glass-effect: rgba(255, 255, 255, 0.1);
+      --glass-border: rgba(255, 255, 255, 0.2);
+      
+      /* === SPACING === */
+      --space-xs: 6px;
+      --space-s: 12px;
+      --space-m: 20px;
+      --space-l: 36px;
+      --space-xl: 48px;
+      --space-xxl: 64px;
+      
+      /* === TYPOGRAPHY === */
+      --font-primary: 'Poppins', sans-serif;
+      --font-secondary: 'Merriweather', Georgia, serif;
+      
+      --text-xs: 0.75rem;    /* 12px */
+      --text-sm: 0.875rem;   /* 14px */
+      --text-base: 1rem;     /* 16px */
+      --text-lg: 1.125rem;   /* 18px */
+      --text-xl: 1.25rem;    /* 20px */
+      --text-2xl: 1.5rem;    /* 24px */
+      --text-3xl: 1.875rem;  /* 30px */
+      --text-4xl: 2.25rem;   /* 36px */
+      --text-5xl: 3rem;      /* 48px */
+      
+      /* === SHADOWS === */
+      --shadow-soft: 0 4px 12px rgba(0, 0, 0, 0.15);
+      --shadow-medium: 0 8px 24px rgba(0, 0, 0, 0.2);
+      --shadow-strong: 0 12px 40px rgba(0, 0, 0, 0.3);
+      --shadow-glow: 0 0 20px rgba(250, 204, 21, 0.3);
+      
+      /* === BORDERS === */
+      --radius-sm: 6px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --radius-full: 9999px;
+      
+      /* === TRANSITIONS === */
+      --transition-fast: 0.15s ease;
+      --transition-medium: 0.3s ease;
+      --transition-slow: 0.6s ease;
+      
+      /* === BREAKPOINTS (for reference) === */
+      --bp-sm: 640px;
+      --bp-md: 768px;
+      --bp-lg: 1024px;
+      --bp-xl: 1280px;
+    }
+
+    /* ========================================
+       BASE STYLES
+       ======================================== */
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-primary);
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ========================================
+       TYPOGRAPHY
+       ======================================== */
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: 700;
+      line-height: 1.2;
+      margin: 0 0 var(--space-m) 0;
+      color: var(--text-primary);
+    }
+
+    h1 { font-size: var(--text-5xl); }
+    h2 { font-size: var(--text-4xl); }
+    h3 { font-size: var(--text-3xl); }
+    h4 { font-size: var(--text-2xl); }
+    h5 { font-size: var(--text-xl); }
+    h6 { font-size: var(--text-lg); }
+
+    p {
+      margin: 0 0 var(--space-m) 0;
+      color: var(--text-secondary);
+    }
+
+    .text-primary { color: var(--text-primary); }
+    .text-secondary { color: var(--text-secondary); }
+    .text-muted { color: var(--text-muted); }
+    .text-gold { color: var(--primary-gold); }
+
+    .lead {
+      font-size: var(--text-lg);
+      font-weight: 400;
+      color: var(--text-secondary);
+    }
+
+    .kicker {
+      font-size: var(--text-xs);
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--primary-gold);
+      margin-bottom: var(--space-s);
+    }
+
+    /* ========================================
+       LAYOUT COMPONENTS
+       ======================================== */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 var(--space-m);
+    }
+
+    .section {
+      padding: var(--space-xxl) 0;
+    }
+
+    .grid {
+      display: grid;
+      gap: var(--space-m);
+    }
+
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid-4 { grid-template-columns: repeat(4, 1fr); }
+    .grid-auto { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+
+    .flex {
+      display: flex;
+    }
+
+    .flex-col { flex-direction: column; }
+    .items-center { align-items: center; }
+    .justify-center { justify-content: center; }
+    .justify-between { justify-content: space-between; }
+    .gap-s { gap: var(--space-s); }
+    .gap-m { gap: var(--space-m); }
+    .gap-l { gap: var(--space-l); }
+
+    /* ========================================
+       HEADER / NAVIGATION
+       ======================================== */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: var(--overlay-dark);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--glass-border);
+      padding: var(--space-m) 0;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: var(--space-s);
+      font-size: var(--text-xl);
+      font-weight: 700;
+      color: var(--primary-gold);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: var(--space-l);
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links a {
+      color: var(--text-primary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color var(--transition-fast);
+      padding: var(--space-s) var(--space-m);
+      border-radius: var(--radius-md);
+    }
+
+    .nav-links a:hover {
+      color: var(--primary-gold);
+      background: var(--glass-effect);
+    }
+
+    /* ========================================
+       HERO SECTION
+       ======================================== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      z-index: -2;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: var(--overlay-dark);
+      z-index: -1;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      padding: var(--space-xl);
+      z-index: 1;
+    }
+
+    .hero-title {
+      font-size: var(--text-5xl);
+      font-weight: 800;
+      color: var(--primary-gold);
+      margin-bottom: var(--space-m);
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-subtitle {
+      font-size: var(--text-xl);
+      color: var(--text-primary);
+      margin-bottom: var(--space-l);
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    /* ========================================
+       BUTTONS
+       ======================================== */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-m) var(--space-l);
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      text-decoration: none;
+      border: 2px solid transparent;
+      cursor: pointer;
+      transition: all var(--transition-medium);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary-gold), var(--primary-gold-hover));
+      color: var(--bg-dark);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-strong);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      border-color: var(--primary-gold);
+      color: var(--primary-gold);
+    }
+
+    .btn-secondary:hover {
+      background: var(--primary-gold);
+      color: var(--bg-dark);
+    }
+
+    .btn-ghost {
+      background: var(--glass-effect);
+      border-color: var(--glass-border);
+      color: var(--text-primary);
+    }
+
+    .btn-ghost:hover {
+      background: var(--glass-border);
+    }
+
+    /* ========================================
+       CARDS
+       ======================================== */
+    .card {
+      background: var(--bg-dark-3);
+      border-radius: var(--radius-md);
+      padding: var(--space-l);
+      box-shadow: var(--shadow-medium);
+      border: 1px solid var(--glass-border);
+      transition: all var(--transition-medium);
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-strong);
+    }
+
+    .card-title {
+      font-size: var(--text-2xl);
+      color: var(--primary-gold);
+      margin-bottom: var(--space-s);
+    }
+
+    .card-content {
+      color: var(--text-secondary);
+    }
+
+    .card-light {
+      background: var(--bg-paper);
+      color: var(--text-dark);
+      border-color: rgba(0, 0, 0, 0.1);
+    }
+
+    .card-light .card-title {
+      color: var(--terracotta);
+    }
+
+    .card-light .card-content {
+      color: var(--brown-deep);
+    }
+
+    /* ========================================
+       TIMELINE
+       ======================================== */
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-l);
+    }
+
+    .timeline-item {
+      display: flex;
+      gap: var(--space-l);
+      align-items: flex-start;
+    }
+
+    .timeline-marker {
+      min-width: 100px;
+      background: linear-gradient(135deg, var(--terracotta), var(--primary-gold));
+      color: var(--text-primary);
+      padding: var(--space-m);
+      border-radius: var(--radius-md);
+      font-weight: 700;
+      text-align: center;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .timeline-content {
+      flex: 1;
+      background: var(--bg-paper);
+      padding: var(--space-m);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .timeline-title {
+      font-weight: 700;
+      color: var(--brown-deep);
+      margin-bottom: var(--space-s);
+    }
+
+    /* ========================================
+       GALLERY
+       ======================================== */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: var(--space-m);
+    }
+
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius-md);
+      aspect-ratio: 4/3;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform var(--transition-slow);
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.05);
+    }
+
+    .gallery-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: var(--overlay-dark);
+      color: var(--text-primary);
+      padding: var(--space-m);
+      transform: translateY(100%);
+      transition: transform var(--transition-medium);
+    }
+
+    .gallery-item:hover .gallery-caption {
+      transform: translateY(0);
+    }
+
+    /* ========================================
+       LEGENDS/FEATURES
+       ======================================== */
+    .legend-card {
+      background: linear-gradient(135deg, var(--bg-dark-2), var(--bg-dark-1));
+      border-radius: var(--radius-md);
+      padding: var(--space-l);
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--glass-border);
+    }
+
+    .legend-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 30% 30%, var(--primary-gold-light) 0%, transparent 60%);
+      opacity: 0.03;
+      z-index: 0;
+    }
+
+    .legend-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .legend-card h4 {
+      color: var(--primary-gold);
+      margin-bottom: var(--space-s);
+    }
+
+    /* ========================================
+       FOOTER
+       ======================================== */
+    .footer {
+      background: var(--bg-dark-1);
+      border-top: 1px solid var(--glass-border);
+      padding: var(--space-xl) 0;
+      margin-top: var(--space-xxl);
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-brand {
+      font-size: var(--text-lg);
+      font-weight: 700;
+      color: var(--primary-gold);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: var(--space-l);
+    }
+
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color var(--transition-fast);
+    }
+
+    .footer-links a:hover {
+      color: var(--primary-gold);
+    }
+
+    /* ========================================
+       UTILITIES
+       ======================================== */
+    .text-center { text-align: center; }
+    .text-left { text-align: left; }
+    .text-right { text-align: right; }
+
+    .mb-0 { margin-bottom: 0; }
+    .mb-s { margin-bottom: var(--space-s); }
+    .mb-m { margin-bottom: var(--space-m); }
+    .mb-l { margin-bottom: var(--space-l); }
+    .mb-xl { margin-bottom: var(--space-xl); }
+
+    .mt-0 { margin-top: 0; }
+    .mt-s { margin-top: var(--space-s); }
+    .mt-m { margin-top: var(--space-m); }
+    .mt-l { margin-top: var(--space-l); }
+    .mt-xl { margin-top: var(--space-xl); }
+
+    .p-0 { padding: 0; }
+    .p-s { padding: var(--space-s); }
+    .p-m { padding: var(--space-m); }
+    .p-l { padding: var(--space-l); }
+
+    .opacity-50 { opacity: 0.5; }
+    .opacity-75 { opacity: 0.75; }
+
+    /* ========================================
+       ANIMATIONS
+       ======================================== */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .fade-in-up {
+      animation: fadeInUp 0.6s ease forwards;
+    }
+
+    .fade-in {
+      animation: fadeIn 0.6s ease forwards;
+    }
+
+    /* Scroll reveal utility */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ========================================
+       RESPONSIVE DESIGN
+       ======================================== */
+    @media (max-width: 768px) {
+      .container {
+        padding: 0 var(--space-s);
+      }
+      
+      .hero-title {
+        font-size: var(--text-4xl);
+      }
+      
+      .nav-links {
+        display: none; /* Implement mobile menu as needed */
+      }
+      
+      .grid-2,
+      .grid-3,
+      .grid-4 {
+        grid-template-columns: 1fr;
+      }
+      
+      .timeline-item {
+        flex-direction: column;
+      }
+      
+      .timeline-marker {
+        align-self: flex-start;
+        min-width: auto;
+      }
+      
+      .footer-content {
+        flex-direction: column;
+        gap: var(--space-m);
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title {
+        font-size: var(--text-3xl);
+      }
+      
+      .btn {
+        padding: var(--space-s) var(--space-m);
+        font-size: var(--text-sm);
+      }
+    }
+
+    /* Custom heritage-specific styles */
+    .logo {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--terracotta), var(--primary-gold));
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      border: 2px solid var(--primary-gold);
+    }
+
+    .grid-2-special { 
+      grid-template-columns: 1fr 420px; 
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header using the theme -->
+  <header class="header">
+    <div class="container">
+      <nav class="nav">
+        <a href="#" class="nav-brand">
+          <div class="logo">RJ</div>
+          <div>
+            <div>Rajgadh Heritage</div>
+            <div style="font-size: 0.85rem; opacity: 0.8;">A living heritage experience</div>
+          </div>
+        </a>
+
+        <ul class="nav-links">
+          <li><a href="#history">History</a></li>
+          <li><a href="#culture">Culture</a></li>
+          <li><a href="#nature">Nature</a></li>
+          <li><a href="#legends">Legends</a></li>
+          <li><a href="#visit">Visit</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-bg" style="background-image: url('https://images.unsplash.com/photo-1549880338-65ddcdfd017b?q=80&w=1800&auto=format&fit=crop&ixlib=rb-4.0.3&s=0f0c0f6e2f6e2d45e0a2f975d5a9a2f7');"></div>
+    <div class="hero-overlay"></div>
+    
+    <div class="hero-content">
+      <div class="kicker">DISCOVER • PRESERVE • EXPERIENCE</div>
+      <h1 class="hero-title">Rajgadh – Where Stones Remember</h1>
+      <p class="hero-subtitle">An immersive heritage complex spanning two millennia – palaces, temples, living crafts, seasonal festivals, sacred groves and riverine landscapes, preserved by communities and brought to life for curious travellers.</p>
+      
+      <div style="margin-top: var(--space-l);">
+        <a href="#visit" class="btn btn-primary">Plan Your Visit</a>
+        <a href="#history" class="btn btn-ghost">Explore History</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- History Section -->
+  <section id="history" class="section">
+    <div class="container">
+      <div class="kicker">HISTORY</div>
+      <h2>A Story Spanning Two Millennia</h2>
+
+      <div class="grid" style="grid-template-columns: 1fr 420px; gap: var(--space-l);">
+        <div>
+          <div class="card card-light">
+            <p class="lead">Rajgadh Palace and its surrounding settlements originated as a riverine fortified hub around <strong>c. 200 CE</strong>. Over centuries the site grew into a political, religious and artisanal center, shaped by successive dynasties, trade routes, and spiritual movements.</p>
+
+            <div style="height: 1px; background: linear-gradient(90deg, rgba(0,0,0,0.1), transparent); margin: var(--space-m) 0;"></div>
+
+            <div class="timeline">
+              <div class="timeline-item">
+                <div class="timeline-marker">c. 200 CE</div>
+                <div class="timeline-content">
+                  <div class="timeline-title">Founding Era – Merchant-Prince Dynasty</div>
+                  <div>A fortified riverside settlement with stepped ghats, brick workshops and stone sanctuaries. The earliest palatial masonry and the royal archive foundations are from this period.</div>
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-marker">8th–12th C</div>
+                <div class="timeline-content">
+                  <div class="timeline-title">Temple-Building Age</div>
+                  <div>Stone carving traditions flourish. Major sanctuaries and open-air theatres are carved into the river bluffs; murals and bronze-casting guilds grow prominent.</div>
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-marker">14th–17th C</div>
+                <div class="timeline-content">
+                  <div class="timeline-title">Palace & Courtly Expansion</div>
+                  <div>Elaborate palace wings, gardens, and waterworks constructed. Poets and court artists establish a cosmopolitan cultural life blending local craft and pan-regional idioms.</div>
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-marker">1800s</div>
+                <div class="timeline-content">
+                  <div class="timeline-title">Colonial Contact & Conservation Beginnings</div>
+                  <div>Rajgadh becomes a regional administrative seat. Early preservation-minded restorations are recorded alongside intensive archival documentation.</div>
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-marker">1947 – Present</div>
+                <div class="timeline-content">
+                  <div class="timeline-title">Modern Era & Living Heritage</div>
+                  <div>Community-led stewardship preserves rituals, crafts and festivals. Rajgadh evolves into a major cultural tourism destination with an emphasis on sustainable practice.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <aside>
+          <div class="card">
+            <div class="kicker">ARCHAEOLOGY EXHIBIT</div>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/38/Indian_rock-cut_architecture.jpg" alt="Ancient ruins" style="width: 100%; border-radius: 8px; margin-bottom: var(--space-m);" />
+            <p class="text-secondary">Recent excavations have exposed concentric fort walls and a workshop quarter. Finds include pottery, beadwork and ritual objects dated to the 2nd–4th centuries CE.</p>
+          </div>
+
+          <div class="card mt-m">
+            <div class="kicker">TIMELINE HIGHLIGHT</div>
+            <p><strong>Temple Mural Ensemble (10th C)</strong> – A sequence of painted narrative panels depicting courtly life and seasonal rites. Attempts to conserve and display the panels in situ began in the 1990s.</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Culture Section -->
+  <section id="culture" class="section">
+    <div class="container">
+      <div class="kicker">LIVING CULTURE</div>
+      <h2>Arts, Festivals & Community Life</h2>
+
+      <div class="card card-light">
+        <p class="lead">Rajgadh is not just monuments – it is a living hub of performance, craft and ritual. Generations of families maintain weaving, bronze casting, stone-carving and storytelling traditions. Seasonal festivals animate the palace courtyards and river ghats.</p>
+
+        <div class="grid grid-auto mt-l">
+          <div style="background: #fff; padding: var(--space-m); border-radius: var(--radius-md); border: 1px solid #eee;">
+            <div style="font-weight: 700; color: var(--terracotta); margin-bottom: var(--space-s);">Traditional Dance – Nalini Nritya</div>
+            <div style="color: #555;">Floor-based narrative dance performed at dawn during the harvest festival. Costumes use handwoven textiles and natural dyes from local plants.</div>
+          </div>
+
+          <div style="background: #fff; padding: var(--space-m); border-radius: var(--radius-md); border: 1px solid #eee;">
+            <div style="font-weight: 700; color: var(--terracotta); margin-bottom: var(--space-s);">Bronze & Metalwork Guilds</div>
+            <div style="color: #555;">Continuous lineage of bronze casting using lost-wax technique. Guild workshops produce ritual icons, bells and contemporary commissions.</div>
+          </div>
+
+          <div style="background: #fff; padding: var(--space-m); border-radius: var(--radius-md); border: 1px solid #eee;">
+            <div style="font-weight: 700; color: var(--terracotta); margin-bottom: var(--space-s);">Weaving & Textiles</div>
+            <div style="color: #555;">Multi-shaft loom weaving producing ikat and tapestry panels, traditionally woven by women's cooperatives for temple festivals and market trade.</div>
+          </div>
+
+          <div style="background: #fff; padding: var(--space-m); border-radius: var(--radius-md); border: 1px solid #eee;">
+            <div style="font-weight: 700; color: var(--terracotta); margin-bottom: var(--space-s);">Oral Storytellers (Katha)</div>
+            <div style="color: #555;">Professional storytellers who recite local history and moral tales in the evening assembly on the palace steps.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Nature Section -->
+  <section id="nature" class="section">
+    <div class="container">
+      <div class="kicker">NATURE</div>
+      <h2>River, Groves & Wildlife</h2>
+
+      <div class="grid" style="grid-template-columns: 1fr 420px; gap: var(--space-l);">
+        <div>
+          <div class="card card-light">
+            <p class="lead">Rajgadh sits at the confluence of a seasonal river and an ancient sacred grove. The landscape features terraced gardens, reed wetlands, hillock woodlands and protected meadows that support a diverse flora and fauna.</p>
+
+            <div style="height: 1px; background: linear-gradient(90deg, rgba(0,0,0,0.1), transparent); margin: var(--space-m) 0;"></div>
+
+            <h3>Key Natural Features</h3>
+            <ul style="margin: var(--space-s) 0 0 var(--space-m); color: var(--text-dark);">
+              <li><strong>The Serai River</strong> – seasonal flow with stepped ghats and fish sanctuaries</li>
+              <li><strong>Terraced Palace Gardens</strong> – waterlift terraces and fragrant herb plots</li>
+              <li><strong>Hillock Woodlands</strong> – sacred groves protected by local trusts</li>
+              <li><strong>Wetland Reedbeds</strong> – migratory birds and amphibian breeding grounds</li>
+            </ul>
+
+            <h3 class="mt-l">Local Wildlife</h3>
+            <ul style="margin: var(--space-s) 0 0 var(--space-m); color: var(--text-dark);">
+              <li><strong>Indian pangolin</strong> – nocturnal forager in the groves</li>
+              <li><strong>Asian openbill</strong> – nesting in reedbeds</li>
+              <li><strong>Common langur</strong> – often seen around temple groves</li>
+              <li><strong>River otter</strong> – indicator of healthy waterways</li>
+            </ul>
+          </div>
+
+          <div class="card mt-m">
+            <div class="kicker">CONSERVATION</div>
+            <p>Community-driven conservation works: wetland restoration, native tree planting and seasonal fish sanctuaries. Visitor impact is managed through group limits and interpretive trails.</p>
+          </div>
+        </div>
+
+        <aside>
+          <div class="card card-light">
+            <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&s=8a4b0a2ba2f1f8b31f53f2f6b1fb2a13" alt="Natural landscape" style="width: 100%; border-radius: 8px; margin-bottom: var(--space-m);" />
+            <p class="text-muted">The gardens beneath the palace bloom with native medicinal herbs and seasonal blossoms.</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Legends Section -->
+  <section id="legends" class="section">
+    <div class="container">
+      <div class="kicker">LEGENDS</div>
+      <h2>Myths & Mysteries</h2>
+
+      <div class="grid grid-auto">
+        <div class="legend-card">
+          <h4>The Sunstone Mirror</h4>
+          <p>They say a carved basin in the palace reflects the first ray of sun so bright that the stones appear to glow – only during the equinox when a hidden aperture aligns.</p>
+        </div>
+
+        <div class="legend-card">
+          <h4>The Weeping Bell</h4>
+          <p>A bronze bell hung in the northern cloister is said to ring itself on nights when a child is born to a family destined to be a guardian of the shrine.</p>
+        </div>
+
+        <div class="legend-card">
+          <h4>River of Memory</h4>
+          <p>Boatmen tell of ghostly lanterns that guide lost travellers to the ghats; elders insist these lights are ancestral spirits watching over the community.</p>
+        </div>
+
+        <div class="legend-card">
+          <h4>Stone-Wife of the Hill</h4>
+          <p>A solitary statue on the hill is said to be a woman turned to stone for defying a ruler – locals leave garlands and coins, and small children are told cautionary tales about pride and kindness.</p>
+        </div>
+      </div>
+
+      <div class="card card-light mt-l">
+        <h3>Smaller Tales</h3>
+        <ul style="color: var(--text-dark);">
+          <li>A secret passage used by musicians to reach the palace gardens unnoticed.</li>
+          <li>A carved fish that brings luck to anglers during the monsoon.</li>
+          <li>The 'two-hour shadow' – a spot in the courtyard that stays shaded exactly two hours after sunrise.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section class="section">
+    <div class="container">
+      <div class="kicker">GALLERY</div>
+      <h2 class="text-center">Visual Tour</h2>
+
+      <div class="card" style="padding: var(--space-s);">
+        <div class="gallery">
+          <div class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=3c3ad3fb2c5f3cc3bd6b4b5e0f9d3e2a" alt="Palace terraces">
+            <div class="gallery-caption">Palace terraces at golden hour</div>
+          </div>
+          <div class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1556365976-9f4647b5e2b5?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=c87d1f5f3b4dfd9b4b6a7f8b1f4b2d3a" alt="Temple murals">
+            <div class="gallery-caption">Temple mural ensemble</div>
+          </div>
+          <div class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1456926631375-92e8a1b148f9?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=0d7f8aa1e2f6c9a3c7d1b451a1b2c3d4" alt="Traditional weaving">
+            <div class="gallery-caption">Handloom weavers</div>
+          </div>
+          <div class="gallery-item">
+            <img src="https://images.unsplash.com/photo-1495567720989-cebdbdd97913?q=80&w=800&auto=format&fit=crop&ixlib=rb-4.0.3&s=6b0e4f3f7a7d4e5a6b4c2d1e0f1a2b3c" alt="Festival lights">
+            <div class="gallery-caption">Chandra Utsav – Festival of Lights</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Visit Section -->
+  <section id="visit" class="section">
+    <div class="container">
+      <div class="kicker">VISIT</div>
+      <h2>Plan Your Visit</h2>
+
+      <div class="grid" style="grid-template-columns: 1fr 420px; gap: var(--space-l);">
+        <div>
+          <div class="card card-light">
+            <p class="lead">Choose a way to experience Rajgadh – from a short immersive tour to extended cultural residencies. All visits are designed to support local livelihoods and conservation.</p>
+
+            <div class="grid grid-2 mt-l">
+              <div style="background: #fff; padding: var(--space-m); border-radius: var(--radius-md); border: 1px solid #eee;">
+                <div style="font-weight: 700; color: var(--terracotta); margin-bottom: var(--space-s);">Courtyard Sunrise Tour</div>
+                <div style="color: #555; margin-bottom: var(--space-s);">2 hours – Guided architecture walk, morning dance performance and tea at the ghats.</div>
+                <div style="display: flex; gap: var(--space-s); flex-wrap: wrap;">
+                  <span style="background: #fff7e6; padding: 4px 8px; border-radius: 6px; font-size: 0.8rem; font-weight: 600;">Guide</span>
+                  <span style="background: #fff7e6; padding: 4px 8px; border-radius: 6px; font-size: 0.8rem; font-weight: 600;">Morning</span>
+                  <span style="background: #fff7e6; padding: 4px 8px; border-radius: 6px; font-size: 0.8rem; font-weight: 600;">Small Group</span>
+                </div>
+              </div>
+
+              <div style="background: #fff; padding: var(--space-m); border-radius: var(--radius-md); border: 1px solid #eee;">
+                <div style="font-weight: 700; color: var(--terracotta); margin-bottom: var(--space-s);">Craft Immersion (2 Days)</div>
+                <div style="color: #555; margin-bottom: var(--space-s);">Hands-on weaving or bronze-casting workshops with local masters, stays in traditional guesthouses.</div>
+                <div style="display: flex; gap: var(--space-s); flex-wrap: wrap;">
+                  <span style="background: #fff7e6; padding: 4px 8px; border-radius: 6px; font-size: 0.8rem; font-weight: 600;">Workshop</span>
+                  <span style="background: #fff7e6; padding: 4px 8px; border-radius: 6px; font-size: 0.8rem; font-weight: 600;">Accommodation</span>
+                  <span style="background: #fff7e6; padding: 4px 8px; border-radius: 6px; font-size: 0.8rem; font-weight: 600;">Meals</span>
+                </div>
+              </div>
+
+              <div style="background: #fff; padding: var(--space-m); border-radius: var(--radius-md); border: 1px solid #eee;">
+                <div style="font-weight: 700; color: var(--terracotta); margin-bottom: var(--space-s);">Ritual & Spiritual Visit</div>
+                <div style="color: #555; margin-bottom: var(--space-s);">Attend temple ceremonies, learn ritual contexts, and meet ritual specialists. Respectful attire required.</div>
+                <div style="display: flex; gap: var(--space-s); flex-wrap: wrap;">
+                  <span style="background: #fff7e6; padding: 4px 8px; border-radius: 6px; font-size: 0.8rem; font-weight: 600;">Ceremony</span>
+                  <span style="background: #fff7e6; padding: 4px 8px; border-radius: 6px; font-size: 0.8rem; font-weight: 600;">Guide</span>
+                </div>
+              </div>
+
+              <div style="background: #fff; padding: var(--space-m); border-radius: var(--radius-md); border: 1px solid #eee;">
+                <div style="font-weight: 700; color: var(--terracotta); margin-bottom: var(--space-s);">Archaeology Field Day</div>
+                <div style="color: #555; margin-bottom: var(--space-s);">Introductory digs, finds workshop and site-interpretation session with the conservation team.</div>
+                <div style="display: flex; gap: var(--space-s); flex-wrap: wrap;">
+                  <span style="background: #fff7e6; padding: 4px 8px; border-radius: 6px; font-size: 0.8rem; font-weight: 600;">Hands-on</span>
+                  <span style="background: #fff7e6; padding: 4px 8px; border-radius: 6px; font-size: 0.8rem; font-weight: 600;">Limited</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="height: 1px; background: linear-gradient(90deg, rgba(0,0,0,0.1), transparent); margin: var(--space-l) 0;"></div>
+
+            <h4>Facilities & Practical Info</h4>
+            <ul style="margin: var(--space-s) 0 0 var(--space-m); color: var(--text-dark);">
+              <li>Visitor Centre & Museum with multilingual exhibits</li>
+              <li>Guided tours daily: 08:00–12:00 & 14:00–18:00</li>
+              <li>On-site conservation lab & craft workshops</li>
+              <li>Accessibility: selected routes are wheelchair friendly</li>
+              <li>Booking: online booking recommended during festivals</li>
+              <li>Local homestays and heritage guesthouses available</li>
+            </ul>
+
+            <div class="mt-l">
+              <button class="btn btn-primary">Book a Visit</button>
+            </div>
+          </div>
+        </div>
+
+        <aside>
+          <div class="card">
+            <div class="kicker">CONTACT & HOURS</div>
+            <p><strong>Open:</strong> Daily (except select conservation days) – 08:00 to 18:00</p>
+            <p><strong>Book:</strong> reservations@rajgadh-heritage.example</p>
+            <p class="text-secondary">Group sizes limited to protect fragile areas. Special permits required for research access.</p>
+          </div>
+
+          <div class="card mt-m">
+            <div class="kicker">MAP PREVIEW</div>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Old_map_sample.jpg" alt="Site map preview" style="width: 100%; border-radius: 8px; margin-bottom: var(--space-s);" />
+            <p class="text-secondary">Interactive maps and trail guides available at the Visitor Centre.</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div>
+          <div class="footer-brand">Rajgadh Heritage</div>
+          <div style="font-size: 0.9rem; opacity: 0.7;">© 2025 Rajgadh Heritage Trust. All rights reserved.</div>
+        </div>
+        <div class="footer-links">
+          <a href="#visit">Plan a Visit</a>
+          <a href="#contact">Contact</a>
+          <a href="#about">About</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript for smooth scrolling and interactions -->
+  <script>
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Parallax effect for hero background
+    window.addEventListener('scroll', () => {
+      const scrolled = window.pageYOffset;
+      const rate = scrolled * -0.5;
+      const heroBackground = document.querySelector('.hero-bg');
+      if (heroBackground) {
+        heroBackground.style.transform = `translateY(${rate}px)`;
+      }
+    });
+
+    // Simple reveal animation on scroll
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    // Observe cards for animation
+    document.querySelectorAll('.card, .timeline-item, .legend-card, .gallery-item').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(el);
+    });
+
+    // Add floating animation to legend cards
+    document.querySelectorAll('.legend-card').forEach((card, index) => {
+      card.style.animationDelay = `${index * 0.2}s`;
+      card.classList.add('fade-in-up');
+    });
+  </script>
+  <!-- Chatbot Floating Icon -->
+<div id="chatbot-icon">
+  💬
+</div>
+
+<!-- Chatbot Sidebar -->
+<div id="chatbot-sidebar">
+  <div id="chatbot-close">✖</div>
+  <iframe src="chatbot.html"></iframe>
+</div>
+
+<style>
+  /* Floating Icon */
+  #chatbot-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--primary-gold);
+    color: black;
+    font-size: 24px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow-strong);
+    z-index: 2000;
+    transition: transform 0.3s ease;
+  }
+
+  #chatbot-icon:hover {
+    transform: scale(1.1);
+  }
+
+  /* Sidebar */
+  #chatbot-sidebar {
+    position: fixed;
+    top: 0;
+    right: -420px; /* Hidden by default */
+    width: 420px;
+    height: 100%;
+    background: white;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.5);
+    z-index: 2500;
+    transition: right 0.4s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #chatbot-sidebar iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  #chatbot-sidebar.active {
+    right: 0;
+  }
+
+  /* Close Button */
+  #chatbot-close {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 2600;
+    background: #ff4d4d;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+  }
+</style>
+
+<script>
+  const chatbotIcon = document.getElementById("chatbot-icon");
+  const chatbotSidebar = document.getElementById("chatbot-sidebar");
+  const chatbotClose = document.getElementById("chatbot-close");
+
+  chatbotIcon.addEventListener("click", () => {
+    chatbotSidebar.classList.add("active");
+  });
+
+  chatbotClose.addEventListener("click", () => {
+    chatbotSidebar.classList.remove("active");
+  });
+</script>
+
+
+</body>
+</html>

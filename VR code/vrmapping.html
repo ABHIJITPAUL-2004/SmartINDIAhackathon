@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bharat Heritage - VR Experience</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+
+        #container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #ui-overlay {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            color: white;
+            background: rgba(0,0,0,0.7);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        #controls {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100;
+            display: flex;
+            gap: 10px;
+            background: rgba(255,123,0,0.9);
+            padding: 15px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        .control-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .control-btn:hover {
+            background: rgba(255,255,255,0.4);
+            transform: scale(1.05);
+        }
+
+        .control-btn.active {
+            background: rgba(255,255,255,0.6);
+            color: #ff7b00;
+        }
+
+        #info-panel {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 300px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            z-index: 100;
+        }
+
+        #info-panel.show {
+            transform: translateX(0);
+        }
+
+        #loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+            z-index: 100;
+        }
+
+        .spinner {
+            border: 4px solid rgba(255,255,255,0.3);
+            border-left: 4px solid #ff7b00;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        #vr-button {
+            position: absolute;
+            top: 20px;
+            right: 340px;
+            background: #ff7b00;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        #vr-button:hover {
+            background: #e66a00;
+            transform: scale(1.05);
+        }
+
+        .heritage-marker {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #ff7b00;
+            border: 3px solid white;
+            border-radius: 50%;
+            cursor: pointer;
+            animation: pulse 2s infinite;
+            z-index: 50;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,123,0,0.7); }
+            70% { transform: scale(1.1); box-shadow: 0 0 0 10px rgba(255,123,0,0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255,123,0,0); }
+        }
+
+        #audio-controls {
+            position: absolute;
+            bottom: 100px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        .audio-btn {
+            background: rgba(255,123,0,0.8);
+            border: none;
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .audio-btn:hover {
+            background: rgba(255,123,0,1);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="loading">
+            <div class="spinner"></div>
+            <h3>Loading Heritage Experience...</h3>
+            <p>Preparing your virtual journey through Indian heritage</p>
+        </div>
+
+        <div id="ui-overlay">
+            <h3>🕉️ Bharat Heritage VR</h3>
+            <p><strong>Current Location:</strong> <span id="current-location">Main Courtyard</span></p>
+            <p><strong>Visitors Online:</strong> <span id="visitor-count">1,247</span></p>
+            <p><strong>Experience Mode:</strong> <span id="mode">3D Explorer</span></p>
+        </div>
+
+        <button id="vr-button">Enter VR Mode</button>
+
+        <div id="controls">
+            <button class="control-btn active" data-location="courtyard">🏛️ Courtyard</button>
+            <button class="control-btn" data-location="temple">🕉️ Temple</button>
+            <button class="control-btn" data-location="garden">🌺 Garden</button>
+            <button class="control-btn" data-location="museum">🎭 Museum</button>
+            <button class="control-btn" data-location="workshop">🎨 Workshop</button>
+        </div>
+
+        <div id="info-panel">
+            <div id="location-info">
+                <h3>Heritage Site Information</h3>
+                <p>Click on the glowing markers to learn more about each element of our heritage site.</p>
+            </div>
+        </div>
+
+        <div id="audio-controls">
+            <button class="audio-btn" id="audio-toggle" title="Toggle Audio Guide">🔊</button>
+            <button class="audio-btn" id="music-toggle" title="Traditional Music">🎵</button>
+        </div>
+    </div>
+
+    <script>
+        class HeritageVRExperience {
+            constructor() {
+                this.scene = new THREE.Scene();
+                this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                this.renderer = new THREE.WebGLRenderer({ antialias: true });
+                this.currentLocation = 'courtyard';
+                this.isVRMode = false;
+                this.audioContext = null;
+                this.backgroundMusic = null;
+                
+                this.init();
+                this.setupControls();
+                this.createEnvironment();
+                this.setupInteractions();
+                this.animate();
+            }
+
+            init() {
+                this.renderer.setSize(window.innerWidth, window.innerHeight);
+                this.renderer.setClearColor(0x87CEEB);
+                this.renderer.shadowMap.enabled = true;
+                this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+                document.getElementById('container').appendChild(this.renderer.domElement);
+
+                // Hide loading screen
+                setTimeout(() => {
+                    document.getElementById('loading').style.display = 'none';
+                }, 2000);
+
+                // Setup lighting
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+                this.scene.add(ambientLight);
+
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+                directionalLight.position.set(50, 100, 50);
+                directionalLight.castShadow = true;
+                directionalLight.shadow.mapSize.width = 2048;
+                directionalLight.shadow.mapSize.height = 2048;
+                this.scene.add(directionalLight);
+
+                // Position camera
+                this.camera.position.set(0, 5, 10);
+                this.camera.lookAt(0, 0, 0);
+            }
+
+            createEnvironment() {
+                this.locations = {
+                    courtyard: this.createCourtyard(),
+                    temple: this.createTemple(),
+                    garden: this.createGarden(),
+                    museum: this.createMuseum(),
+                    workshop: this.createWorkshop()
+                };
+
+                // Start with courtyard
+                this.switchLocation('courtyard');
+            }
+
+            createCourtyard() {
+                const group = new THREE.Group();
+
+                // Main platform
+                const platformGeometry = new THREE.CylinderGeometry(15, 15, 0.5, 32);
+                const platformMaterial = new THREE.MeshLambertMaterial({ 
+                    color: 0xD2691E,
+                    map: this.createStoneTexture()
+                });
+                const platform = new THREE.Mesh(platformGeometry, platformMaterial);
+                platform.receiveShadow = true;
+                group.add(platform);
+
+                // Pillars around the courtyard
+                for(let i = 0; i < 8; i++) {
+                    const angle = (i / 8) * Math.PI * 2;
+                    const pillar = this.createPillar();
+                    pillar.position.x = Math.cos(angle) * 12;
+                    pillar.position.z = Math.sin(angle) * 12;
+                    pillar.position.y = 3;
+                    group.add(pillar);
+                }
+
+                // Central fountain
+                const fountainBase = new THREE.CylinderGeometry(2, 2, 1, 16);
+                const fountain = new THREE.Mesh(fountainBase, new THREE.MeshLambertMaterial({ color: 0x8B4513 }));
+                fountain.position.y = 0.75;
+                fountain.castShadow = true;
+                group.add(fountain);
+
+                // Decorative elephants
+                for(let i = 0; i < 4; i++) {
+                    const angle = (i / 4) * Math.PI * 2;
+                    const elephant = this.createElephant();
+                    elephant.position.x = Math.cos(angle) * 8;
+                    elephant.position.z = Math.sin(angle) * 8;
+                    elephant.position.y = 1;
+                    elephant.rotation.y = angle + Math.PI;
+                    group.add(elephant);
+                }
+
+                return group;
+            }
+
+            createTemple() {
+                const group = new THREE.Group();
+
+                // Temple base
+                const baseGeometry = new THREE.BoxGeometry(10, 1, 10);
+                const baseMaterial = new THREE.MeshLambertMaterial({ color: 0xDEB887 });
+                const base = new THREE.Mesh(baseGeometry, baseMaterial);
+                base.position.y = 0.5;
+                base.receiveShadow = true;
+                group.add(base);
+
+                // Main temple structure
+                const templeGeometry = new THREE.BoxGeometry(6, 8, 6);
+                const templeMaterial = new THREE.MeshLambertMaterial({ color: 0xF4A460 });
+                const temple = new THREE.Mesh(templeGeometry, templeMaterial);
+                temple.position.y = 5;
+                temple.castShadow = true;
+                group.add(temple);
+
+                // Temple dome
+                const domeGeometry = new THREE.SphereGeometry(4, 16, 8);
+                const domeMaterial = new THREE.MeshLambertMaterial({ color: 0xFF7B00 });
+                const dome = new THREE.Mesh(domeGeometry, domeMaterial);
+                dome.position.y = 11;
+                dome.castShadow = true;
+                group.add(dome);
+
+                // Temple spire
+                const spireGeometry = new THREE.ConeGeometry(1, 4, 8);
+                const spireMaterial = new THREE.MeshLambertMaterial({ color: 0xFFD700 });
+                const spire = new THREE.Mesh(spireGeometry, spireMaterial);
+                spire.position.y = 15;
+                spire.castShadow = true;
+                group.add(spire);
+
+                // Temple steps
+                for(let i = 0; i < 3; i++) {
+                    const stepGeometry = new THREE.BoxGeometry(8 + i, 0.3, 8 + i);
+                    const step = new THREE.Mesh(stepGeometry, baseMaterial);
+                    step.position.y = 0.15 * (i + 1);
+                    step.position.z = 2;
+                    group.add(step);
+                }
+
+                return group;
+            }
+
+            createGarden() {
+                const group = new THREE.Group();
+
+                // Garden ground
+                const groundGeometry = new THREE.PlaneGeometry(30, 30);
+                const groundMaterial = new THREE.MeshLambertMaterial({ color: 0x228B22 });
+                const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+                ground.rotation.x = -Math.PI / 2;
+                ground.receiveShadow = true;
+                group.add(ground);
+
+                // Create flower beds in patterns
+                const flowerColors = [0xFF69B4, 0xFF6347, 0xFFD700, 0x9370DB];
+                for(let i = 0; i < 4; i++) {
+                    const angle = (i / 4) * Math.PI * 2;
+                    const bedGeometry = new THREE.CylinderGeometry(3, 3, 0.2, 8);
+                    const bedMaterial = new THREE.MeshLambertMaterial({ color: flowerColors[i] });
+                    const bed = new THREE.Mesh(bedGeometry, bedMaterial);
+                    bed.position.x = Math.cos(angle) * 8;
+                    bed.position.z = Math.sin(angle) * 8;
+                    bed.position.y = 0.1;
+                    group.add(bed);
+                }
+
+                // Add trees
+                for(let i = 0; i < 6; i++) {
+                    const tree = this.createTree();
+                    const angle = Math.random() * Math.PI * 2;
+                    const radius = 10 + Math.random() * 5;
+                    tree.position.x = Math.cos(angle) * radius;
+                    tree.position.z = Math.sin(angle) * radius;
+                    group.add(tree);
+                }
+
+                // Central lotus pond
+                const pondGeometry = new THREE.CylinderGeometry(4, 4, 0.1, 16);
+                const pondMaterial = new THREE.MeshLambertMaterial({ color: 0x1E90FF, transparent: true, opacity: 0.7 });
+                const pond = new THREE.Mesh(pondGeometry, pondMaterial);
+                pond.position.y = 0.05;
+                group.add(pond);
+
+                return group;
+            }
+
+            createMuseum() {
+                const group = new THREE.Group();
+
+                // Museum building
+                const buildingGeometry = new THREE.BoxGeometry(15, 6, 10);
+                const buildingMaterial = new THREE.MeshLambertMaterial({ color: 0xF5DEB3 });
+                const building = new THREE.Mesh(buildingGeometry, buildingMaterial);
+                building.position.y = 3;
+                building.castShadow = true;
+                group.add(building);
+
+                // Display cases
+                for(let i = 0; i < 6; i++) {
+                    const caseGeometry = new THREE.BoxGeometry(1.5, 2, 1.5);
+                    const caseMaterial = new THREE.MeshLambertMaterial({ 
+                        color: 0xFFFFFF, 
+                        transparent: true, 
+                        opacity: 0.8 
+                    });
+                    const displayCase = new THREE.Mesh(caseGeometry, caseMaterial);
+                    displayCase.position.x = (i % 3 - 1) * 4;
+                    displayCase.position.z = Math.floor(i / 3) * 3 - 1.5;
+                    displayCase.position.y = 1.5;
+                    group.add(displayCase);
+
+                    // Artifact inside case
+                    const artifactGeometry = new THREE.SphereGeometry(0.3, 8, 6);
+                    const artifactMaterial = new THREE.MeshLambertMaterial({ color: 0xFF7B00 });
+                    const artifact = new THREE.Mesh(artifactGeometry, artifactMaterial);
+                    artifact.position.copy(displayCase.position);
+                    artifact.position.y = 0.8;
+                    group.add(artifact);
+                }
+
+                return group;
+            }
+
+            createWorkshop() {
+                const group = new THREE.Group();
+
+                // Workshop floor
+                const floorGeometry = new THREE.PlaneGeometry(20, 15);
+                const floorMaterial = new THREE.MeshLambertMaterial({ color: 0xDEB887 });
+                const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+                floor.rotation.x = -Math.PI / 2;
+                floor.receiveShadow = true;
+                group.add(floor);
+
+                // Workshop tables
+                for(let i = 0; i < 4; i++) {
+                    const tableGeometry = new THREE.BoxGeometry(3, 0.1, 1.5);
+                    const tableMaterial = new THREE.MeshLambertMaterial({ color: 0x8B4513 });
+                    const table = new THREE.Mesh(tableGeometry, tableMaterial);
+                    table.position.x = (i % 2) * 6 - 3;
+                    table.position.z = Math.floor(i / 2) * 4 - 2;
+                    table.position.y = 1;
+                    group.add(table);
+
+                    // Pottery/crafts on tables
+                    const potGeometry = new THREE.CylinderGeometry(0.3, 0.2, 0.5, 8);
+                    const potMaterial = new THREE.MeshLambertMaterial({ color: 0xD2691E });
+                    const pot = new THREE.Mesh(potGeometry, potMaterial);
+                    pot.position.copy(table.position);
+                    pot.position.y = 1.3;
+                    group.add(pot);
+                }
+
+                // Traditional tools display
+                for(let i = 0; i < 3; i++) {
+                    const toolGeometry = new THREE.BoxGeometry(0.1, 1, 0.1);
+                    const toolMaterial = new THREE.MeshLambertMaterial({ color: 0x654321 });
+                    const tool = new THREE.Mesh(toolGeometry, toolMaterial);
+                    tool.position.x = i * 2 - 2;
+                    tool.position.z = -5;
+                    tool.position.y = 1;
+                    tool.rotation.z = Math.PI / 6;
+                    group.add(tool);
+                }
+
+                return group;
+            }
+
+            createPillar() {
+                const group = new THREE.Group();
+                
+                // Main pillar
+                const pillarGeometry = new THREE.CylinderGeometry(0.5, 0.7, 6, 12);
+                const pillarMaterial = new THREE.MeshLambertMaterial({ color: 0xD2691E });
+                const pillar = new THREE.Mesh(pillarGeometry, pillarMaterial);
+                pillar.castShadow = true;
+                group.add(pillar);
+
+                // Pillar capital
+                const capitalGeometry = new THREE.CylinderGeometry(0.8, 0.5, 1, 12);
+                const capital = new THREE.Mesh(capitalGeometry, pillarMaterial);
+                capital.position.y = 3.5;
+                capital.castShadow = true;
+                group.add(capital);
+
+                return group;
+            }
+
+            createElephant() {
+                const group = new THREE.Group();
+                
+                // Simple elephant body
+                const bodyGeometry = new THREE.BoxGeometry(2, 1, 1);
+                const bodyMaterial = new THREE.MeshLambertMaterial({ color: 0x708090 });
+                const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+                body.castShadow = true;
+                group.add(body);
+
+                // Elephant head
+                const headGeometry = new THREE.BoxGeometry(1, 0.8, 0.8);
+                const head = new THREE.Mesh(headGeometry, bodyMaterial);
+                head.position.x = 1.2;
+                head.position.y = 0.1;
+                head.castShadow = true;
+                group.add(head);
+
+                // Trunk
+                const trunkGeometry = new THREE.CylinderGeometry(0.1, 0.2, 1, 8);
+                const trunk = new THREE.Mesh(trunkGeometry, bodyMaterial);
+                trunk.position.x = 1.8;
+                trunk.position.y = -0.3;
+                trunk.rotation.z = Math.PI / 4;
+                group.add(trunk);
+
+                return group;
+            }
+
+            createTree() {
+                const group = new THREE.Group();
+                
+                // Tree trunk
+                const trunkGeometry = new THREE.CylinderGeometry(0.3, 0.4, 3, 8);
+                const trunkMaterial = new THREE.MeshLambertMaterial({ color: 0x8B4513 });
+                const trunk = new THREE.Mesh(trunkGeometry, trunkMaterial);
+                trunk.position.y = 1.5;
+                trunk.castShadow = true;
+                group.add(trunk);
+
+                // Tree canopy
+                const canopyGeometry = new THREE.SphereGeometry(2, 12, 8);
+                const canopyMaterial = new THREE.MeshLambertMaterial({ color: 0x228B22 });
+                const canopy = new THREE.Mesh(canopyGeometry, canopyMaterial);
+                canopy.position.y = 4;
+                canopy.castShadow = true;
+                group.add(canopy);
+
+                return group;
+            }
+
+            createStoneTexture() {
+                const canvas = document.createElement('canvas');
+                canvas.width = 256;
+                canvas.height = 256;
+                const ctx = canvas.getContext('2d');
+                
+                ctx.fillStyle = '#D2691E';
+                ctx.fillRect(0, 0, 256, 256);
+                
+                for(let i = 0; i < 50; i++) {
+                    ctx.fillStyle = `rgba(${139 + Math.random() * 50}, ${69 + Math.random() * 50}, ${19 + Math.random() * 50}, 0.3)`;
+                    ctx.fillRect(Math.random() * 256, Math.random() * 256, Math.random() * 20, Math.random() * 20);
+                }
+                
+                const texture = new THREE.CanvasTexture(canvas);
+                texture.wrapS = THREE.RepeatWrapping;
+                texture.wrapT = THREE.RepeatWrapping;
+                texture.repeat.set(4, 4);
+                return texture;
+            }
+
+            switchLocation(locationName) {
+                // Clear current scene
+                const objectsToRemove = [];
+                this.scene.children.forEach(child => {
+                    if (child.userData.isLocation) {
+                        objectsToRemove.push(child);
+                    }
+                });
+                objectsToRemove.forEach(obj => this.scene.remove(obj));
+
+                // Add new location
+                if (this.locations[locationName]) {
+                    this.locations[locationName].userData.isLocation = true;
+                    this.scene.add(this.locations[locationName]);
+                    this.currentLocation = locationName;
+                    
+                    // Update UI
+                    document.getElementById('current-location').textContent = 
+                        locationName.charAt(0).toUpperCase() + locationName.slice(1);
+                    
+                    this.updateLocationInfo(locationName);
+                }
+            }
+
+            updateLocationInfo(location) {
+                const info = {
+                    courtyard: {
+                        title: "Main Courtyard",
+                        description: "The heart of our heritage complex, featuring traditional pillars and elephant sculptures representing strength and wisdom in Indian culture.",
+                        artifacts: ["Ancient Pillars", "Elephant Sculptures", "Central Fountain"]
+                    },
+                    temple: {
+                        title: "Sacred Temple",
+                        description: "A traditional Hindu temple architecture showcasing the divine connection and spiritual heritage of India.",
+                        artifacts: ["Golden Spire", "Sacred Dome", "Temple Steps"]
+                    },
+                    garden: {
+                        title: "Heritage Garden",
+                        description: "Beautiful gardens representing the harmony between nature and culture, featuring traditional flower patterns and lotus ponds.",
+                        artifacts: ["Lotus Pond", "Flower Mandalas", "Sacred Trees"]
+                    },
+                    museum: {
+                        title: "Heritage Museum",
+                        description: "Explore ancient artifacts and cultural treasures that tell the story of India's rich heritage.",
+                        artifacts: ["Ancient Pottery", "Traditional Jewelry", "Sacred Texts"]
+                    },
+                    workshop: {
+                        title: "Artisan Workshop",
+                        description: "Experience traditional crafts and see how ancient art forms are preserved and practiced today.",
+                        artifacts: ["Pottery Wheel", "Traditional Tools", "Handmade Crafts"]
+                    }
+                };
+
+                const locationInfo = info[location];
+                const panel = document.getElementById('info-panel');
+                panel.innerHTML = `
+                    <h3>${locationInfo.title}</h3>
+                    <p>${locationInfo.description}</p>
+                    <h4>Featured Elements:</h4>
+                    <ul>
+                        ${locationInfo.artifacts.map(artifact => `<li>${artifact}</li>`).join('')}
+                    </ul>
+                    <button onclick="heritageVR.toggleInfoPanel()" style="background: #ff7b00; color: white; border: none; padding: 10px; border-radius: 5px; margin-top: 10px; cursor: pointer;">Close</button>
+                `;
+            }
+
+            setupControls() {
+                // Location controls
+                document.querySelectorAll('.control-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        document.querySelectorAll('.control-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        this.switchLocation(btn.dataset.location);
+                    });
+                });
+
+                // VR button
+                document.getElementById('vr-button').addEventListener('click', () => {
+                    this.toggleVR();
+                });
+
+                // Audio controls
+                document.getElementById('audio-toggle').addEventListener('click', () => {
+                    this.toggleAudioGuide();
+                });
+
+                document.getElementById('music-toggle').addEventListener('click', () => {
+                    this.toggleBackgroundMusic();
+                });
+
+                // Mouse controls for camera
+                let mouseDown = false;
+                let mouseX = 0;
+                let mouseY = 0;
+
+                this.renderer.domElement.addEventListener('mousedown', (e) => {
+                    mouseDown = true;
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                });
+
+                this.renderer.domElement.addEventListener('mouseup', () => {
+                    mouseDown = false;
+                });
+
+                this.renderer.domElement.addEventListener('mousemove', (e) => {
+                    if (!mouseDown) return;
+
+                    const deltaX = e.clientX - mouseX;
+                    const deltaY = e.clientY - mouseY;
+
+                    this.camera.rotation.y += deltaX * 0.01;
+                    this.camera.rotation.x += deltaY * 0.01;
+
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                });
+
+                // Keyboard controls
+                window.addEventListener('keydown', (e) => {
+                    const moveSpeed = 0.5;
+                    switch(e.key) {
+                        case 'w':
+                        case 'W':
+                            this.camera.position.z -= moveSpeed;
+                            break;
+                        case 's':
+                        case 'S':
+                            this.camera.position.z += moveSpeed;
+                            break;
+                        case 'a':
+                        case 'A':
+                            this.camera.position.x -= moveSpeed;
+                            break;
+                        case 'd':
+                        case 'D':
+                            this.camera.position.x += moveSpeed;
+                            break;
+                        case ' ':
+                            this.camera.position.y += moveSpeed;
+                            break;
+                        case 'Shift':
+                            this.camera.position.y -= moveSpeed;
+                            break;
+                    }
+                });
+            }
+
+            setupInteractions() {
+                // Add interactive hotspots
+                this.renderer.domElement.addEventListener('click', (e) => {
+                    const mouse = new THREE.Vector2();
+                    mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+                    mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+
+                    const raycaster = new THREE.Raycaster();
+                    raycaster.setFromCamera(mouse, this.camera);
+
+                    const intersects = raycaster.intersectObjects(this.scene.children, true);
+                    
+                    if (intersects.length > 0) {
+                        this.onObjectClick(intersects[0].object);
+                    }
+                });
+            }
+
+            onObjectClick(object) {
+                // Show info panel with object details
+                const panel = document.getElementById('info-panel');
+                panel.classList.add('show');
+                
+                // Add visual feedback
+                const originalColor = object.material.color.clone();
+                object.material.color.setHex(0xFFD700);
+                
+                setTimeout(() => {
+                    object.material.color.copy(originalColor);
+                }, 500);
+            }
+
+            toggleVR() {
+                if (!this.isVRMode) {
+                    // Enter VR mode
+                    this.isVRMode = true;
+                    document.getElementById('vr-button').textContent = 'Exit VR Mode';
+                    document.getElementById('mode').textContent = 'VR Immersive';
+                    
+                    // Fullscreen for VR effect
+                    if (this.renderer.domElement.requestFullscreen) {
+                        this.renderer.domElement.requestFullscreen();
+                    }
+                    
+                    // Adjust camera for VR
+                    this.camera.fov = 90;
+                    this.camera.updateProjectionMatrix();
+                    
+                } else {
+                    // Exit VR mode
+                    this.isVRMode = false;
+                    document.getElementById('vr-button').textContent = 'Enter VR Mode';
+                    document.getElementById('mode').textContent = '3D Explorer';
+                    
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
+                    
+                    this.camera.fov = 75;
+                    this.camera.updateProjectionMatrix();
+                }
+            }
+
+            toggleInfoPanel() {
+                const panel = document.getElementById('info-panel');
+                panel.classList.toggle('show');
+            }
+
+            toggleAudioGuide() {
+                const btn = document.getElementById('audio-toggle');
+                if (btn.textContent === '🔊') {
+                    btn.textContent = '🔇';
+                    // Simulate audio guide
+                    this.speakLocationInfo();
+                } else {
+                    btn.textContent = '🔊';
+                }
+            }
+
+            toggleBackgroundMusic() {
+                const btn = document.getElementById('music-toggle');
+                if (btn.textContent === '🎵') {
+                    btn.textContent = '⏸️';
+                    this.startBackgroundMusic();
+                } else {
+                    btn.textContent = '🎵';
+                    this.stopBackgroundMusic();
+                }
+            }
+
+            speakLocationInfo() {
+                const locationTexts = {
+                    courtyard: "Welcome to the main courtyard, the heart of our heritage complex. Notice the traditional pillars representing the architectural mastery of ancient India.",
+                    temple: "You are now in the sacred temple area. The golden spire reaches toward the heavens, symbolizing the connection between earth and divine.",
+                    garden: "Explore our heritage garden, where nature and culture harmoniously blend. The lotus pond represents purity and enlightenment.",
+                    museum: "Welcome to our heritage museum. Each artifact here tells a story of India's rich cultural tapestry spanning thousands of years.",
+                    workshop: "Step into the artisan workshop where traditional crafts come alive. These techniques have been passed down through generations."
+                };
+
+                if ('speechSynthesis' in window) {
+                    const utterance = new SpeechSynthesisUtterance(locationTexts[this.currentLocation]);
+                    utterance.rate = 0.8;
+                    utterance.pitch = 1;
+                    speechSynthesis.speak(utterance);
+                }
+            }
+
+            startBackgroundMusic() {
+                // Simulate traditional Indian music
+                if (!this.audioContext) {
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                
+                // Create a simple sitar-like sound
+                this.createTraditionalMusic();
+            }
+
+            stopBackgroundMusic() {
+                if (this.backgroundMusic) {
+                    this.backgroundMusic.stop();
+                    this.backgroundMusic = null;
+                }
+            }
+
+            createTraditionalMusic() {
+                const ctx = this.audioContext;
+                const oscillator = ctx.createOscillator();
+                const gainNode = ctx.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(ctx.destination);
+                
+                // Sitar-like frequencies
+                const notes = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88]; // C major scale
+                let noteIndex = 0;
+                
+                const playNote = () => {
+                    oscillator.frequency.setValueAtTime(notes[noteIndex], ctx.currentTime);
+                    noteIndex = (noteIndex + 1) % notes.length;
+                    
+                    gainNode.gain.setValueAtTime(0.1, ctx.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+                };
+                
+                oscillator.type = 'sawtooth';
+                oscillator.start();
+                
+                this.backgroundMusic = oscillator;
+                
+                // Play notes in sequence
+                setInterval(playNote, 800);
+            }
+
+            createParticleSystem() {
+                const particles = new THREE.Group();
+                
+                for (let i = 0; i < 100; i++) {
+                    const particleGeometry = new THREE.SphereGeometry(0.02, 4, 2);
+                    const particleMaterial = new THREE.MeshBasicMaterial({ 
+                        color: 0xFFD700,
+                        transparent: true,
+                        opacity: 0.6
+                    });
+                    const particle = new THREE.Mesh(particleGeometry, particleMaterial);
+                    
+                    particle.position.x = (Math.random() - 0.5) * 20;
+                    particle.position.y = Math.random() * 10;
+                    particle.position.z = (Math.random() - 0.5) * 20;
+                    
+                    particle.userData = {
+                        velocity: new THREE.Vector3(
+                            (Math.random() - 0.5) * 0.02,
+                            Math.random() * 0.01,
+                            (Math.random() - 0.5) * 0.02
+                        )
+                    };
+                    
+                    particles.add(particle);
+                }
+                
+                this.scene.add(particles);
+                this.particles = particles;
+            }
+
+            updateParticles() {
+                if (this.particles) {
+                    this.particles.children.forEach(particle => {
+                        particle.position.add(particle.userData.velocity);
+                        
+                        // Reset particle if it goes too far
+                        if (particle.position.length() > 15) {
+                            particle.position.x = (Math.random() - 0.5) * 20;
+                            particle.position.y = Math.random() * 10;
+                            particle.position.z = (Math.random() - 0.5) * 20;
+                        }
+                        
+                        // Gentle floating animation
+                        particle.position.y += Math.sin(Date.now() * 0.001 + particle.id) * 0.001;
+                        particle.rotation.y += 0.01;
+                    });
+                }
+            }
+
+            addWeatherEffects() {
+                // Add gentle wind effect to trees and particles
+                const time = Date.now() * 0.001;
+                
+                this.scene.children.forEach(child => {
+                    if (child.userData.isLocation) {
+                        child.children.forEach(obj => {
+                            if (obj.userData.isTree) {
+                                obj.rotation.z = Math.sin(time + obj.position.x) * 0.05;
+                            }
+                        });
+                    }
+                });
+            }
+
+            addAmbientSounds() {
+                // Add spatial audio for different locations
+                const sounds = {
+                    courtyard: 'temple-bells',
+                    temple: 'chanting',
+                    garden: 'nature-sounds',
+                    museum: 'quiet-ambience',
+                    workshop: 'crafting-sounds'
+                };
+                
+                // This would integrate with Web Audio API for spatial sound
+                console.log(`Playing ambient sound: ${sounds[this.currentLocation]}`);
+            }
+
+            animate() {
+                requestAnimationFrame(() => this.animate());
+                
+                // Update particles
+                this.updateParticles();
+                
+                // Add weather effects
+                this.addWeatherEffects();
+                
+                // Update visitor counter (simulate)
+                const visitorCount = 1247 + Math.floor(Math.sin(Date.now() * 0.001) * 50);
+                document.getElementById('visitor-count').textContent = visitorCount;
+                
+                // Render the scene
+                this.renderer.render(this.scene, this.camera);
+            }
+
+            // Responsive design
+            onWindowResize() {
+                this.camera.aspect = window.innerWidth / window.innerHeight;
+                this.camera.updateProjectionMatrix();
+                this.renderer.setSize(window.innerWidth, window.innerHeight);
+            }
+        }
+
+        // Initialize the VR experience
+        let heritageVR;
+        window.addEventListener('load', () => {
+            heritageVR = new HeritageVRExperience();
+            heritageVR.createParticleSystem();
+            
+            // Handle window resize
+            window.addEventListener('resize', () => heritageVR.onWindowResize());
+            
+            // Add touch controls for mobile
+            let touchStartX = 0;
+            let touchStartY = 0;
+            
+            heritageVR.renderer.domElement.addEventListener('touchstart', (e) => {
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+            });
+            
+            heritageVR.renderer.domElement.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                const deltaX = e.touches[0].clientX - touchStartX;
+                const deltaY = e.touches[0].clientY - touchStartY;
+                
+                heritageVR.camera.rotation.y += deltaX * 0.01;
+                heritageVR.camera.rotation.x += deltaY * 0.01;
+                
+                touchStartX = e.touches[0].clientX;
+                touchStartY = e.touches[0].clientY;
+            });
+        });
+
+        // Add gesture controls for mobile/tablet
+        if ('DeviceOrientationEvent' in window) {
+            window.addEventListener('deviceorientation', (e) => {
+                if (heritageVR && heritageVR.isVRMode) {
+                    const alpha = e.alpha * Math.PI / 180; // Z axis
+                    const beta = e.beta * Math.PI / 180;   // X axis
+                    const gamma = e.gamma * Math.PI / 180; // Y axis
+                    
+                    heritageVR.camera.rotation.y = alpha;
+                    heritageVR.camera.rotation.x = beta;
+                    heritageVR.camera.rotation.z = gamma;
+                }
+            });
+        }
+
+        // PWA functionality
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js').then(() => {
+                console.log('Heritage VR app installed');
+            });
+        }
+    </script>
+</body>
+</html>

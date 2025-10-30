@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Map - Indian Culture</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #111;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    header {
+      background: #000;
+      padding: 15px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    header h1 {
+      color: gold;
+      font-size: 24px;
+    }
+    .card-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin: 40px auto;
+  max-width: 1200px;
+}
+
+.card {
+  background: #1a1a1a;
+  border-radius: 12px;
+  overflow: hidden;
+  width: 250px;  /* Reel width */
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  transition: transform 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+}
+
+.card img {
+  width: 100%;
+  height: 444px;   /* 9:16 aspect ratio (250 × 444) */
+  object-fit: cover;
+}
+
+.card a {
+  text-decoration: none;
+  color: white;  /* prevents blue color */
+  display: block;
+  padding: 10px;
+  font-weight: 600;
+}
+
+    .section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+      margin: 60px auto;
+      max-width: 1000px;
+    }
+    .section img {
+      width: 350px;
+      border-radius: 12px;
+    }
+    .section div {
+      flex: 1;
+    }
+    .section h2 {
+      color: gold;
+      margin-bottom: 10px;
+    }
+    .section p {
+      line-height: 1.6;
+    }
+
+    /* Footer styles */
+    footer {
+      background: #000;
+      padding: 30px 20px;
+      margin-top: auto;
+      text-align: center;
+    }
+    .footer-content {
+      max-width: 900px;
+      margin: auto;
+    }
+    .socials a {
+      color: gold;
+      margin: 0 10px;
+      font-size: 20px;
+      transition: color 0.3s;
+    }
+    .socials a:hover {
+      color: #ff4444;
+    }
+    .contact {
+      margin: 15px 0;
+    }
+    .contact a {
+      color: gold;
+      text-decoration: none;
+    }
+    .contact a:hover {
+      text-decoration: underline;
+    }
+    .copy {
+      font-size: 14px;
+      color: #aaa;
+      margin-top: 15px;
+    }
+
+    .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #000;
+    padding: 15px 30px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+  }
+
+  .logo {
+    color: gold;
+    font-size: 20px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .logo i {
+    font-size: 22px;
+  }
+
+  .icons {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .icons a {
+    color: gold;
+    font-size: 20px;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .icons a:hover {
+    color: #ff4444;
+  }
+
+  .profile-img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 2px solid gold;
+    cursor: pointer;
+  }
+  </style>
+</head>
+<body>
+
+
+<nav class="navbar">
+  <div class="logo">
+    <i class="fa-solid fa-landmark"></i> Maps
+  </div>
+  <div class="icons">
+    <a href="index.html"><i class="fa-solid fa-house"></i></a>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png" 
+         alt="Profile" class="profile-img">
+  </div>
+</nav>
+
+<!-- Cards with hyperlinks -->
+<div class="card-container">
+  <div class="card">
+    <a href="#uttarakhand.html">
+      <img src="https://deih43ym53wif.cloudfront.net/large_Uttarakhand-kedarnath-temple-before-sunrise-hindu-shutterstock_375337813.jpg_d5aae7fdd5.jpg" alt="Uttarakhand">
+      Uttarakhand
+    </a>
+  </div>
+  <div class="card">
+    <a href="assam.html">
+      <img src="https://i0.wp.com/www.tusktravel.com/blog/wp-content/uploads/2020/09/Island-Majuli-Assam.jpg?w=1024&ssl=1" alt="Assam">
+      Assam
+    </a>
+  </div>
+  <div class="card">
+    <a href="maharashtra.html">
+      <img src="https://static.toiimg.com/photo/64028431/.jpg" alt="Maharashtra">
+      Maharashtra
+    </a>
+  </div>
+  <div class="card">
+    <a href="kerala.html">
+      <img src="https://www.exoticca.com/_next/image?url=https%3A%2F%2Fuploads.exoticca.com%2Fglobal%2Fdestination%2Fpoi%2Fkerala.png&w=1920&q=75" alt="Kerala">
+      Kerala
+    </a>
+  </div>
+</div>
+
+<!-- Sections with images + descriptions -->
+<div class="section" id="uttarakhand">
+  <img src="https://deih43ym53wif.cloudfront.net/large_Uttarakhand-kedarnath-temple-before-sunrise-hindu-shutterstock_375337813.jpg_d5aae7fdd5.jpg" alt="Uttarakhand">
+  <div>
+    <h2>Uttarakhand</h2>
+    <p>Known as the "Land of Gods," Uttarakhand is famous for its snow-capped Himalayas, Kedarnath temple, Valley of Flowers, and adventure sports in Rishikesh. It is a perfect blend of spirituality and natural beauty.</p>
+  </div>
+</div>
+
+<div class="section" id="assam">
+  <img src="https://i0.wp.com/www.tusktravel.com/blog/wp-content/uploads/2020/09/Island-Majuli-Assam.jpg?w=1024&ssl=1" alt="Assam">
+  <div>
+    <h2>Assam</h2>
+    <p>Assam is the gateway to Northeast India, known for its lush tea gardens, Kaziranga National Park (home of the one-horned rhino), and the mighty Brahmaputra river. Its rich culture and wildlife attract tourists worldwide.</p>
+  </div>
+</div>
+
+<div class="section" id="maharashtra">
+  <img src="https://static.toiimg.com/photo/64028431/.jpg" alt="Maharashtra">
+  <div>
+    <h2>Maharashtra</h2>
+    <p>Maharashtra is home to the bustling city of Mumbai, the Gateway of India, Ajanta-Ellora caves, and hill stations like Mahabaleshwar. It is a land of history, culture, and modern vibrancy.</p>
+  </div>
+</div>
+
+<div class="section" id="kerala">
+  <img src="https://www.exoticca.com/_next/image?url=https%3A%2F%2Fuploads.exoticca.com%2Fglobal%2Fdestination%2Fpoi%2Fkerala.png&w=1920&q=75" alt="Kerala">
+  <div>
+    <h2>Kerala</h2>
+    <p>Popularly called "God’s Own Country," Kerala is known for its serene backwaters, houseboats, beaches, Kathakali dance, and Ayurveda. A perfect mix of culture and natural beauty.</p>
+  </div>
+</div>
+
+
+
+
+<!-- Footer -->
+<footer>
+  <div class="footer-content">
+    <div class="socials">
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-x-twitter"></i></a>
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-youtube"></i></a>
+    </div>
+    <div class="contact">
+      <p>Email: <a href="mailto:support@indianartists.org">support@indianartists.org</a></p>
+      <p>Phone: +91 98765 43210</p>
+      <p><a href="#">Contact Support</a></p>
+    </div>
+    <p class="copy">© 2025 Indian Artists | Designed with ❤️ in India</p>
+  </div>
+</footer>
+
+</body>
+</html>

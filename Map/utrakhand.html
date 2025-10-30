@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Uttarakhand Heritage - Devbhumi</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <style>
+    :root {
+      --bg-dark: #0d0d0d;
+      --card-dark: #1a1a1a;
+      --accent: #d4af37;
+      --text-light: #f5f5f5;
+      --overlay: rgba(0,0,0,0.65);
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Poppins',sans-serif;background:var(--bg-dark);color:var(--text-light);line-height:1.6;scroll-behavior:smooth;}
+    nav{position:fixed;top:0;left:0;width:100%;background:var(--bg-dark);display:flex;justify-content:center;padding:1rem;z-index:1000;box-shadow:0 4px 20px rgba(0,0,0,0.5);}
+    nav ul{display:flex;list-style:none;gap:2rem;flex-wrap:wrap;}
+    nav a{text-decoration:none;color:var(--text-light);font-weight:500;transition:0.3s;}
+    nav a:hover{color:var(--accent);}
+    .hero{
+      height:100vh;
+      background: linear-gradient(var(--overlay), var(--overlay)),
+        url("https://deih43ym53wif.cloudfront.net/large_Uttarakhand-kedarnath-temple-before-sunrise-hindu-shutterstock_375337813.jpg_d5aae7fdd5.jpg") center/cover no-repeat;
+      display:flex;justify-content:center;align-items:center;text-align:center;padding:2rem;}
+    .hero h1{font-size:3.5rem;color:var(--accent);text-shadow:2px 2px 8px black;margin-bottom:1rem;}
+    .hero p{font-size:1.3rem;margin-bottom:1.5rem;}
+    .cta-button{padding:0.8rem 2rem;border-radius:30px;background:var(--accent);color:var(--bg-dark);border:none;font-size:1.1rem;cursor:pointer;transition:0.3s;text-decoration:none;font-weight:600;}
+    .cta-button:hover{background:var(--text-light);color:var(--bg-dark);}
+    section{padding:5rem 2rem;max-width:1200px;margin:auto;}
+    .section-header{text-align:center;margin-bottom:3rem;}
+    .section-header h2{font-size:2.5rem;color:var(--accent);margin-bottom:1rem;}
+    .timeline{position:relative;margin-top:2rem;}
+    .timeline::before{content:'';position:absolute;left:50%;transform:translateX(-50%);width:4px;height:100%;background:var(--accent);}
+    .timeline-item{width:45%;position:relative;margin:2rem 0;}
+    .timeline-item:nth-child(odd){left:0;text-align:right;}
+    .timeline-item:nth-child(even){left:55%;}
+    .timeline-content{background:var(--card-dark);padding:1.5rem;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.6);transition:transform 0.3s;}
+    .timeline-content:hover{transform:translateY(-6px);}
+    .timeline-date{color:var(--accent);font-weight:bold;}
+    .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;}
+    .card{background:var(--card-dark);border-radius:12px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,0.6);transition:transform 0.3s;}
+    .card:hover{transform:translateY(-8px);}
+    .card img{width:100%;height:200px;object-fit:cover;}
+    .card-content{padding:1rem;}
+    .card-content h3{color:var(--accent);}
+    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;}
+    .gallery-item{position:relative;overflow:hidden;border-radius:12px;height:250px;cursor:pointer;}
+    .gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform 0.3s;}
+    .gallery-item:hover img{transform:scale(1.1);}
+    .gallery-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.6);color:var(--text-light);opacity:0;display:flex;justify-content:center;align-items:center;transition:opacity 0.3s;text-align:center;padding:1rem;}
+    .gallery-item:hover .gallery-overlay{opacity:1;}
+    #heritage-map{height:420px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.6);margin-top:2rem;}
+    .legends{background:var(--card-dark);padding:3rem;border-radius:20px;}
+    .legend-card{margin:1.5rem 0;padding:1.5rem;background:rgba(255,255,255,0.05);border-radius:12px;}
+    .legend-card h3{color:var(--accent);}
+    .itinerary-tabs{display:flex;gap:1rem;justify-content:center;margin-bottom:2rem;flex-wrap:wrap;}
+    .tab-button{background:var(--card-dark);color:var(--text-light);border:none;padding:0.7rem 1.5rem;border-radius:25px;cursor:pointer;font-weight:bold;transition:0.3s;}
+    .tab-button.active,.tab-button:hover{background:var(--accent);color:var(--bg-dark);}
+    .tab-content{display:none;}
+    .tab-content.active{display:block;}
+    footer{background:#000;color:var(--text-light);text-align:center;padding:2rem;margin-top:3rem;}
+  </style>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#history">History</a></li>
+      <li><a href="#culture">Culture</a></li>
+      <li><a href="#nature">Nature</a></li>
+      <li><a href="#legends">Legends</a></li>
+      <li><a href="#visit">Visit</a></li>
+    </ul>
+  </nav>
+
+  <section id="home" class="hero">
+    <div>
+      <h1>Uttarakhand</h1>
+      <p>Devbhumi – Land of the Gods, Himalayas, and Pilgrimages</p>
+      <a href="#history" class="cta-button">Explore Uttarakhand's Heritage</a>
+    </div>
+  </section>
+
+  <section id="history">
+    <div class="section-header">
+      <h2>Chronicles of Uttarakhand</h2>
+      <p>From ancient sages to spiritual pilgrimages and Himalayan culture.</p>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item"><div class="timeline-content"><div class="timeline-date">Vedic Era</div><h3>Rishis & Sages</h3><p>The Himalayas are revered as the meditation grounds of ancient sages.</p></div></div>
+      <div class="timeline-item"><div class="timeline-content"><div class="timeline-date">8th CE</div><h3>Adi Shankaracharya</h3><p>Established the Char Dham temples including Badrinath and Kedarnath.</p></div></div>
+      <div class="timeline-item"><div class="timeline-content"><div class="timeline-date">19th CE</div><h3>Tehri Garhwal</h3><p>The princely state merged with India, enriching Uttarakhand’s culture.</p></div></div>
+    </div>
+    <div id="heritage-map"></div>
+  </section>
+
+  <section id="culture">
+    <div class="section-header"><h2>Living Traditions</h2></div>
+    <div class="card-grid">
+      <div class="card"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2e/Nanda_Devi_Raj_Jat_Yatra.jpg"><div class="card-content"><h3>Nanda Devi Raj Jat</h3><p>A grand pilgrimage and cultural procession in the Garhwal region.</p></div></div>
+      <div class="card"><img src="https://upload.wikimedia.org/wikipedia/commons/7/70/Bugyal_Meadow.jpg"><div class="card-content"><h3>Traditional Music</h3><p>Folk songs and instruments narrate stories of devotion and valor.</p></div></div>
+      <div class="card"><img src="https://upload.wikimedia.org/wikipedia/commons/1/12/Ganga_Aarti_in_Haridwar.jpg"><div class="card-content"><h3>Ganga Aarti</h3><p>Spiritual evening rituals on the ghats of Haridwar and Rishikesh.</p></div></div>
+    </div>
+  </section>
+
+  <section id="nature">
+    <div class="section-header"><h2>Natural Splendor</h2></div>
+    <div class="gallery">
+      <div class="gallery-item"><img src="https://upload.wikimedia.org/wikipedia/commons/3/34/Valley_of_flowers_Uttarakhand.jpg"><div class="gallery-overlay"><h4>Valley of Flowers</h4></div></div>
+      <div class="gallery-item"><img src="https://upload.wikimedia.org/wikipedia/commons/8/8e/Nanda_Devi.jpg"><div class="gallery-overlay"><h4>Nanda Devi Peak</h4></div></div>
+      <div class="gallery-item"><img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Rishikesh_Laxman_Jhula.jpg"><div class="gallery-overlay"><h4>Rishikesh & Laxman Jhula</h4></div></div>
+    </div>
+  </section>
+
+  <section id="legends" class="legends">
+    <div class="section-header"><h2>Legends & Myths</h2></div>
+    <div class="legend-card"><h3>Char Dham</h3><p>Badrinath, Kedarnath, Gangotri, and Yamunotri – sacred pilgrimages in the Himalayas.</p></div>
+    <div class="legend-card"><h3>Ganga Descent</h3><p>The story of Goddess Ganga descending to Earth, tamed by Lord Shiva in his locks.</p></div>
+  </section>
+
+  <section id="visit">
+    <div class="section-header"><h2>Plan Your Journey</h2></div>
+    <div class="itinerary-tabs">
+      <button class="tab-button active" onclick="showTab('2day')">2-Day</button>
+      <button class="tab-button" onclick="showTab('5day')">5-Day</button>
+    </div>
+    <div id="2day" class="tab-content active"><div class="card"><div class="card-content"><h3>Rishikesh & Haridwar</h3><p>Yoga, Ganga Aarti, and adventure along the Ganges river.</p></div></div></div>
+    <div id="5day" class="tab-content"><div class="card"><div class="card-content"><h3>Extended Tour</h3><p>Haridwar, Rishikesh, Kedarnath, Badrinath, Valley of Flowers.</p></div></div></div>
+  </section>
+
+  <footer><p>© 2025 Uttarakhand Heritage Tourism</p></footer>
+
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script>
+    const map = L.map('heritage-map').setView([30.07, 79.1], 7);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    const sites = [
+      [30.73,79.07,"Badrinath Temple"],
+      [30.74,79.07,"Kedarnath Temple"],
+      [30.73,78.49,"Gangotri"],
+      [31.01,78.46,"Yamunotri"],
+      [29.95,78.16,"Haridwar"]
+    ];
+    sites.forEach(s=>L.marker([s[0],s[1]]).addTo(map).bindPopup(s[2]));
+    function showTab(id){document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));document.querySelectorAll('.tab-button').forEach(el=>el.classList.remove('active'));document.getElementById(id).classList.add('active');event.target.classList.add('active');}
+  </script>
+</body>
+</html>

@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heritage Site Audio & Sign Language Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #8b7355 0%, #6d5a47 50%, #4a3728 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .heritage-container {
+            background: #f8f6f0;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            border: 3px solid #8b7355;
+        }
+        
+        .heritage-header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #4a3728;
+            position: relative;
+        }
+        
+        .heritage-header::before,
+        .heritage-header::after {
+            content: "🏛️";
+            position: absolute;
+            top: 0;
+            font-size: 2rem;
+        }
+        
+        .heritage-header::before { left: 20px; }
+        .heritage-header::after { right: 20px; }
+        
+        .main-title {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #6d5a47;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            color: #8b7355;
+            font-style: italic;
+        }
+        
+        .content-section {
+            margin-bottom: 30px;
+        }
+        
+        .section-title {
+            font-size: 1.3rem;
+            color: #4a3728;
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+            border-bottom: 2px solid #8b7355;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .exhibit-text {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #8b7355;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            line-height: 1.6;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .accessibility-controls {
+            background: #e8e2d5;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .control-group {
+            margin-bottom: 15px;
+        }
+        
+        .control-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #4a3728;
+        }
+        
+        .heritage-icon-button {
+            background: linear-gradient(45deg, #8b7355, #6d5a47);
+            border: 3px solid #4a3728;
+            border-radius: 50%;
+            width: 90px;
+            height: 90px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 10px;
+            position: relative;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        }
+        
+        .heritage-icon-button:hover {
+            transform: scale(1.1) rotate(5deg);
+            box-shadow: 0 12px 24px rgba(139, 115, 85, 0.4);
+        }
+        
+        .heritage-icon-button:active {
+            transform: scale(0.95);
+        }
+        
+        .heritage-icon-button svg {
+            width: 45px;
+            height: 45px;
+            fill: #f8f6f0;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.3));
+        }
+        
+        .heritage-icon-button.speaking {
+            animation: heritage-pulse 1.2s infinite;
+            border-color: #d4af37;
+        }
+        
+        @keyframes heritage-pulse {
+            0% { transform: scale(1); box-shadow: 0 8px 16px rgba(0,0,0,0.2); }
+            50% { transform: scale(1.05); box-shadow: 0 12px 24px rgba(212, 175, 55, 0.6); }
+            100% { transform: scale(1); box-shadow: 0 8px 16px rgba(0,0,0,0.2); }
+        }
+        
+        .quick-select {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+            justify-content: center;
+        }
+        
+        .quick-btn {
+            padding: 8px 16px;
+            background: #8b7355;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .quick-btn:hover {
+            background: #6d5a47;
+            transform: translateY(-2px);
+        }
+        
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        
+        .heritage-control-btn {
+            padding: 12px 24px;
+            border: 2px solid #8b7355;
+            border-radius: 25px;
+            background: white;
+            color: #4a3728;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        
+        .heritage-control-btn:hover {
+            background: #8b7355;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+        
+        .sign-display {
+            background: #f0ede5;
+            border: 2px solid #8b7355;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 25px;
+            display: none;
+        }
+        
+        .sign-display.active {
+            display: block;
+            animation: heritage-fadeIn 0.6s ease;
+        }
+        
+        @keyframes heritage-fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .sign-display h3 {
+            text-align: center;
+            color: #4a3728;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+        }
+        
+        .sign-letter {
+            display: inline-block;
+            margin: 8px;
+            padding: 15px;
+            background: white;
+            border: 2px solid #8b7355;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            animation: heritage-slideIn 0.6s ease forwards;
+            opacity: 0;
+        }
+        
+        .sign-letter:hover {
+            transform: translateY(-8px) rotate(2deg);
+            box-shadow: 0 8px 16px rgba(139, 115, 85, 0.3);
+        }
+        
+        @keyframes heritage-slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0) rotate(0deg);
+            }
+        }
+        
+        .letter {
+            font-size: 20px;
+            font-weight: bold;
+            color: #4a3728;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        
+        .sign-image {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, #8b7355, #6d5a47);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            margin: 0 auto;
+        }
+        
+        .status {
+            text-align: center;
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .status.show { opacity: 1; }
+        .status.speaking {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+        .status.finished {
+            background: #cce5ff;
+            color: #0056b3;
+            border: 2px solid #b3d7ff;
+        }
+        
+        .implementation-guide {
+            background: #e8e2d5;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+            border-left: 4px solid #8b7355;
+        }
+        
+        .guide-title {
+            color: #4a3728;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .guide-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .guide-list li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+            color: #555;
+        }
+        
+        .guide-list li::before {
+            content: "🏛️";
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .heritage-container {
+                padding: 20px;
+                margin: 10px;
+            }
+            
+            .main-title {
+                font-size: 1.8rem;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="heritage-container">
+        <div class="heritage-header">
+            <h1 class="main-title">Heritage Site Audio Guide</h1>
+            <p class="subtitle">Accessible Audio & Sign Language Tool</p>
+        </div>
+        
+        <div class="content-section">
+            <div class="section-title">
+                <span>🎧</span> Featured Exhibit Information
+            </div>
+            
+            <div class="exhibit-text" id="exhibitContent">
+The Great Temple stands as a testament to ancient architectural mastery. Built over 800 years ago, this magnificent structure served as the spiritual heart of the city. The intricate stone carvings tell stories of gods and heroes, while the towering spires reach toward the heavens. Visitors can explore the sacred chambers and witness the play of light through stained glass windows that have illuminated prayers for centuries.
+            </div>
+        </div>
+        
+        <div class="accessibility-controls">
+            <div class="control-group">
+                <label class="control-label">Quick Select Heritage Information:</label>
+                <div class="quick-select">
+                    <button class="quick-btn" onclick="loadContent('temple')">Ancient Temple</button>
+                    <button class="quick-btn" onclick="loadContent('artifacts')">Sacred Artifacts</button>
+                    <button class="quick-btn" onclick="loadContent('history')">Historical Timeline</button>
+                    <button class="quick-btn" onclick="loadContent('architecture')">Architecture Details</button>
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label class="control-label">Audio & Sign Language Controls:</label>
+                <button class="heritage-icon-button" id="speakButton" onclick="speakAndSign()">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+                    </svg>
+                </button>
+            </div>
+            
+            <div class="controls">
+                <button class="heritage-control-btn" onclick="stopSpeaking()">⏹️ Stop Audio</button>
+                <button class="heritage-control-btn" onclick="toggleSpeed()">⚡ Speed: <span id="speedIndicator">Normal</span></button>
+            </div>
+        </div>
+        
+        <div class="status" id="status"></div>
+        
+        <div class="sign-display" id="signDisplay">
+            <h3>🤟 Sign Language Interpretation</h3>
+            <div id="signContainer"></div>
+        </div>
+        
+        <div class="implementation-guide">
+            <h3 class="guide-title">🔧 Where to Implement This Tool on Your Heritage Site:</h3>
+            <ul class="guide-list">
+                <li><strong>Exhibit Pages:</strong> Next to artifact descriptions and historical information</li>
+                <li><strong>Audio Tour Sections:</strong> Replace or supplement existing audio guides</li>
+                <li><strong>Museum Navigation:</strong> For wayfinding and directional information</li>
+                <li><strong>Educational Content:</strong> Alongside videos, timelines, and interactive displays</li>
+                <li><strong>Accessibility Corner:</strong> Dedicated section for visitors with hearing impairments</li>
+                <li><strong>Mobile App Integration:</strong> As part of your heritage site's mobile application</li>
+                <li><strong>Information Kiosks:</strong> Touch-screen displays throughout the site</li>
+                <li><strong>Virtual Tours:</strong> Online exhibitions and 360° virtual experiences</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        let currentUtterance = null;
+        let isCurrentlySpeaking = false;
+        let currentSpeed = 0.8;
+        let speedSettings = [0.6, 0.8, 1.0, 1.2];
+        let speedIndex = 1;
+
+        const heritageContent = {
+            temple: "The Great Temple stands as a testament to ancient architectural mastery. Built over 800 years ago, this magnificent structure served as the spiritual heart of the city. The intricate stone carvings tell stories of gods and heroes, while the towering spires reach toward the heavens. Visitors can explore the sacred chambers and witness the play of light through stained glass windows that have illuminated prayers for centuries.",
+            
+            artifacts: "The Sacred Artifacts Collection houses treasures that span millennia. Golden ceremonial vessels gleam under protective lighting, their surfaces etched with prayers in ancient script. Clay tablets preserve the wisdom of scholars who once walked these halls. Each piece tells a story of devotion, craftsmanship, and the enduring human spirit that built this remarkable civilization.",
+            
+            history: "Our timeline begins in 1156 CE when the first stones were laid by Master Builder Ramanath. By 1203, the main temple was complete, followed by the surrounding monastery complex in 1245. The site flourished for 400 years before political upheaval led to its abandonment in 1678. Archaeological excavations began in 1892, and restoration efforts continue to preserve this cultural treasure for future generations.",
+            
+            architecture: "The temple showcases the pinnacle of regional architectural style. Notice the lotus-shaped foundation symbolizing purity and rebirth. The walls rise in precise mathematical proportions, with each level representing a stage of spiritual enlightenment. Flying buttresses support the weight of elaborately carved stone screens that filter sunlight into sacred geometric patterns. The dome's interior features a stunning mandala painted with natural pigments that remain vibrant after eight centuries."
+        };
+
+        function loadContent(type) {
+            const content = heritageContent[type];
+            document.getElementById('exhibitContent').textContent = content;
+            document.getElementById('signDisplay').classList.remove('active');
+            stopSpeaking();
+        }
+
+        function speakAndSign() {
+            const text = document.getElementById('exhibitContent').textContent.trim();
+            const button = document.getElementById('speakButton');
+            
+            if (!text) {
+                showStatus('No content available to read', 'finished');
+                return;
+            }
+
+            if (isCurrentlySpeaking) {
+                stopSpeaking();
+                return;
+            }
+
+            if (!('speechSynthesis' in window)) {
+                showStatus('Text-to-speech not supported in this browser', 'finished');
+                return;
+            }
+
+            currentUtterance = new SpeechSynthesisUtterance(text);
+            currentUtterance.rate = currentSpeed;
+            currentUtterance.pitch = 1;
+            currentUtterance.volume = 1;
+
+            currentUtterance.onstart = function() {
+                isCurrentlySpeaking = true;
+                button.classList.add('speaking');
+                showStatus('🎧 Playing heritage audio guide...', 'speaking');
+            };
+
+            currentUtterance.onend = function() {
+                isCurrentlySpeaking = false;
+                button.classList.remove('speaking');
+                showStatus('✅ Audio guide completed', 'finished');
+                setTimeout(() => hideStatus(), 3000);
+            };
+
+            currentUtterance.onerror = function(event) {
+                isCurrentlySpeaking = false;
+                button.classList.remove('speaking');
+                showStatus('Audio error occurred', 'finished');
+                setTimeout(() => hideStatus(), 3000);
+            };
+
+            speechSynthesis.speak(currentUtterance);
+            displaySignLanguage(text);
+        }
+
+        function displaySignLanguage(text) {
+            const signDisplay = document.getElementById('signDisplay');
+            const signContainer = document.getElementById('signContainer');
+            
+            signContainer.innerHTML = '';
+            
+            // Get first 50 letters for sign language display
+            const letters = text.toUpperCase().replace(/[^A-Z\s]/g, '').replace(/\s+/g, '').substring(0, 50);
+            
+            if (letters.length === 0) {
+                signContainer.innerHTML = '<p style="color: #666; text-align: center;">No letters available for sign language display</p>';
+                signDisplay.classList.add('active');
+                return;
+            }
+            
+            letters.split('').forEach((char, index) => {
+                const signLetter = document.createElement('div');
+                signLetter.className = 'sign-letter';
+                signLetter.style.animationDelay = `${index * 0.08}s`;
+                
+                const letter = document.createElement('div');
+                letter.className = 'letter';
+                letter.textContent = char;
+                
+                const signImage = document.createElement('div');
+                signImage.className = 'sign-image';
+                signImage.textContent = getSignRepresentation(char);
+                signImage.title = `Sign language for letter ${char}`;
+                
+                signLetter.appendChild(letter);
+                signLetter.appendChild(signImage);
+                signContainer.appendChild(signLetter);
+            });
+            
+            signDisplay.classList.add('active');
+        }
+
+        function getSignRepresentation(letter) {
+            const signs = {
+                'A': '✊', 'B': '🖐', 'C': '🤏', 'D': '👆', 'E': '✋',
+                'F': '👌', 'G': '👉', 'H': '✌️', 'I': '🤞', 'J': '👇',
+                'K': '🤟', 'L': '👍', 'M': '👊', 'N': '✊', 'O': '⭕',
+                'P': '👇', 'Q': '👎', 'R': '🤞', 'S': '✊', 'T': '👊',
+                'U': '✌️', 'V': '✌️', 'W': '🤟', 'X': '☝️', 'Y': '🤙',
+                'Z': '👆'
+            };
+            return signs[letter] || '❓';
+        }
+
+        function toggleSpeed() {
+            speedIndex = (speedIndex + 1) % speedSettings.length;
+            currentSpeed = speedSettings[speedIndex];
+            const speedNames = ['Slow', 'Normal', 'Fast', 'Very Fast'];
+            document.getElementById('speedIndicator').textContent = speedNames[speedIndex];
+            
+            if (isCurrentlySpeaking) {
+                stopSpeaking();
+                setTimeout(() => speakAndSign(), 500);
+            }
+        }
+
+        function showStatus(message, type) {
+            const status = document.getElementById('status');
+            status.textContent = message;
+            status.className = `status show ${type}`;
+        }
+
+        function hideStatus() {
+            const status = document.getElementById('status');
+            status.classList.remove('show');
+        }
+
+        function stopSpeaking() {
+            if (speechSynthesis.speaking) {
+                speechSynthesis.cancel();
+            }
+            isCurrentlySpeaking = false;
+            document.getElementById('speakButton').classList.remove('speaking');
+            showStatus('⏹️ Audio stopped', 'finished');
+            setTimeout(() => hideStatus(), 2000);
+        }
+
+        // Handle browser refresh/close
+        window.addEventListener('beforeunload', function() {
+            if (speechSynthesis.speaking) {
+                speechSynthesis.cancel();
+            }
+        });
+    </script>
+</body>
+</html>

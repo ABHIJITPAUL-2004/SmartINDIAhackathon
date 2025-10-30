@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Assam Heritage - Land of Tea and Rhinos</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #121212;
+      --card-dark: #1a1a1a;
+      --accent: #d4af37;
+      --text-light: #f5f5f5;
+      --overlay: rgba(0,0,0,0.6);
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Poppins',sans-serif;background:var(--bg-dark);color:var(--text-light);line-height:1.6;scroll-behavior:smooth;}
+    nav{position:fixed;top:0;left:0;width:100%;background:#000;display:flex;justify-content:center;padding:1rem;z-index:1000;box-shadow:0 4px 20px rgba(0,0,0,0.6);}
+    nav ul{display:flex;list-style:none;gap:2rem;flex-wrap:wrap;}
+    nav a{text-decoration:none;color:var(--text-light);font-weight:600;transition:color 0.3s;}
+    nav a:hover{color:var(--accent);}
+    .hero{height:100vh;background:linear-gradient(var(--overlay),var(--overlay)),url('https://i0.wp.com/www.tusktravel.com/blog/wp-content/uploads/2020/09/Island-Majuli-Assam.jpg?w=1024&ssl=1')center/cover no-repeat;display:flex;justify-content:center;align-items:center;text-align:center;padding:2rem;}
+    .hero h1{font-size:3.5rem;color:var(--accent);text-shadow:2px 2px 8px black;margin-bottom:1rem;}
+    .hero p{font-size:1.3rem;margin-bottom:1.5rem;}
+    .cta-button{padding:0.8rem 2rem;border-radius:30px;background:var(--accent);color:black;border:none;font-size:1.1rem;cursor:pointer;transition:0.3s;text-decoration:none;}
+    .cta-button:hover{background:white;color:black;}
+    section{padding:5rem 2rem;max-width:1200px;margin:auto;}
+    .section-header{text-align:center;margin-bottom:3rem;}
+    .section-header h2{font-size:2.5rem;color:var(--accent);margin-bottom:1rem;}
+    .timeline{position:relative;margin-top:2rem;}
+    .timeline::before{content:'';position:absolute;left:50%;transform:translateX(-50%);width:4px;height:100%;background:var(--accent);}
+    .timeline-item{width:45%;position:relative;margin:2rem 0;}
+    .timeline-item:nth-child(odd){left:0;text-align:right;}
+    .timeline-item:nth-child(even){left:55%;}
+    .timeline-content{background:var(--card-dark);padding:1.5rem;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,0.6);transition:transform 0.3s;}
+    .timeline-content:hover{transform:translateY(-6px);}
+    .timeline-date{color:var(--accent);font-weight:bold;}
+    .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;}
+    .card{background:var(--card-dark);border-radius:12px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,0.7);transition:transform 0.3s;}
+    .card:hover{transform:translateY(-8px);}
+    .card img{width:100%;height:220px;object-fit:cover;}
+    .card-content{padding:1rem;}
+    .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1rem;}
+    .gallery-item{position:relative;overflow:hidden;border-radius:10px;height:250px;cursor:pointer;}
+    .gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform 0.3s;}
+    .gallery-item:hover img{transform:scale(1.1);}
+    .gallery-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.6);color:white;opacity:0;display:flex;justify-content:center;align-items:center;transition:opacity 0.3s;text-align:center;padding:1rem;}
+    .gallery-item:hover .gallery-overlay{opacity:1;}
+    #heritage-map{height:420px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.6);margin-top:2rem;}
+    .legends{background:var(--card-dark);color:var(--text-light);padding:3rem;border-radius:20px;box-shadow:0 6px 18px rgba(0,0,0,0.6);}
+    .legend-card{margin:1.5rem 0;padding:1.5rem;background:rgba(255,255,255,0.05);border-radius:12px;}
+    .legend-card h3{color:var(--accent);}
+    .itinerary-tabs{display:flex;gap:1rem;justify-content:center;margin-bottom:2rem;flex-wrap:wrap;}
+    .tab-button{background:var(--card-dark);color:var(--text-light);border:none;padding:0.7rem 1.5rem;border-radius:25px;cursor:pointer;font-weight:bold;transition:0.3s;}
+    .tab-button.active,.tab-button:hover{background:var(--accent);color:black;}
+    .tab-content{display:none;}
+    .tab-content.active{display:block;}
+    footer{background:#000;color:var(--text-light);text-align:center;padding:2rem;margin-top:3rem;font-size:0.9rem;}
+    .socials a{color:var(--accent);margin:0 10px;font-size:1.3rem;transition:0.3s;}
+    .socials a:hover{color:white;}
+  </style>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#history">History</a></li>
+      <li><a href="#culture">Culture</a></li>
+      <li><a href="#nature">Nature</a></li>
+      <li><a href="#legends">Legends</a></li>
+      <li><a href="#visit">Visit</a></li>
+    </ul>
+  </nav>
+
+  <section id="home" class="hero">
+    <div>
+      <h1>Assam</h1>
+      <p>Tea Gardens, Rhinos, and the Mighty Brahmaputra</p>
+      <a href="#history" class="cta-button">Explore Assam's Heritage</a>
+    </div>
+  </section>
+
+  <section id="history">
+    <div class="section-header">
+      <h2>Chronicles of Assam</h2>
+      <p>From Ahom kings to modern Assam, the state is a cultural jewel of the Northeast.</p>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item"><div class="timeline-content"><div class="timeline-date">1228 CE</div><h3>Ahom Dynasty</h3><p>Established by Sukaphaa, ruled Assam for nearly 600 years.</p></div></div>
+      <div class="timeline-item"><div class="timeline-content"><div class="timeline-date">16th CE</div><h3>Srimanta Sankardev</h3><p>Bhakti saint, reformer and cultural icon of Assam.</p></div></div>
+      <div class="timeline-item"><div class="timeline-content"><div class="timeline-date">1826 CE</div><h3>Treaty of Yandabo</h3><p>Ahom rule ended, British took control of Assam.</p></div></div>
+    </div>
+    <div id="heritage-map"></div>
+  </section>
+
+  <section id="culture">
+    <div class="section-header"><h2>Living Traditions</h2></div>
+    <div class="card-grid">
+      <div class="card"><img src="https://upload.wikimedia.org/wikipedia/commons/f/f4/Bihu_dance_assam.jpg"><div class="card-content"><h3>Bihu Dance</h3><p>Traditional folk dance celebrating harvest and joy.</p></div></div>
+      <div class="card"><img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Kamakhya_temple_festival.jpg"><div class="card-content"><h3>Ambubachi Mela</h3><p>Major festival at Kamakhya Temple in Guwahati.</p></div></div>
+      <div class="card"><img src="https://upload.wikimedia.org/wikipedia/commons/2/22/Muga_silk.jpg"><div class="card-content"><h3>Muga Silk</h3><p>World famous golden silk unique to Assam.</p></div></div>
+    </div>
+  </section>
+
+  <section id="nature">
+    <div class="section-header"><h2>Natural Splendor</h2></div>
+    <div class="gallery">
+      <div class="gallery-item"><img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Kaziranga_one_horned_rhino.jpg"><div class="gallery-overlay"><h4>Kaziranga National Park</h4></div></div>
+      <div class="gallery-item"><img src="https://upload.wikimedia.org/wikipedia/commons/f/f6/Majuli_island.jpg"><div class="gallery-overlay"><h4>Majuli Island</h4></div></div>
+      <div class="gallery-item"><img src="https://upload.wikimedia.org/wikipedia/commons/7/71/Tea_garden_in_Assam.jpg"><div class="gallery-overlay"><h4>Tea Gardens</h4></div></div>
+    </div>
+  </section>
+
+  <section id="legends" class="legends">
+    <div class="section-header"><h2>Legends & Myths</h2></div>
+    <div class="legend-card"><h3>Kamakhya Temple</h3><p>One of the Shakti Peethas, associated with goddess fertility rituals.</p></div>
+    <div class="legend-card"><h3>Ahom Valor</h3><p>Legendary stories of resistance against Mughals in battles of Saraighat.</p></div>
+  </section>
+
+  <section id="visit">
+    <div class="section-header"><h2>Plan Your Journey</h2></div>
+    <div class="itinerary-tabs">
+      <button class="tab-button active" onclick="showTab('2day')">2-Day</button>
+      <button class="tab-button" onclick="showTab('5day')">5-Day</button>
+    </div>
+    <div id="2day" class="tab-content active"><div class="card"><div class="card-content"><h3>Guwahati & Kaziranga</h3><p>Visit Kamakhya temple and enjoy a safari at Kaziranga.</p></div></div></div>
+    <div id="5day" class="tab-content"><div class="card"><div class="card-content"><h3>Extended Tour</h3><p>Explore Guwahati, Kaziranga, Majuli, and Sivasagar Ahom monuments.</p></div></div></div>
+  </section>
+
+  <footer>
+    <div class="socials">
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-x-twitter"></i></a>
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-youtube"></i></a>
+    </div>
+    <p>© 2025 Assam Heritage Tourism</p>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script>
+    const map = L.map('heritage-map').setView([26.2, 92.9], 7);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    const sites = [
+      [26.6,93.3,"Kaziranga National Park"],
+      [26.2,91.75,"Guwahati - Kamakhya Temple"],
+      [27.0,94.2,"Majuli Island"],
+      [26.98,94.63,"Sivasagar - Ahom Monuments"]
+    ];
+    sites.forEach(s=>L.marker([s[0],s[1]]).addTo(map).bindPopup(s[2]));
+    function showTab(id){
+      document.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
+      document.querySelectorAll('.tab-button').forEach(el=>el.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      event.target.classList.add('active');
+    }
+  </script>
+</body>
+</html>

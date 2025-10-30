@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kerala Heritage - God's Own Country</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #121212;
+      --card-dark: #1a1a1a;
+      --accent: #d4af37;
+      --text-light: #f5f5f5;
+      --overlay: rgba(0,0,0,0.6);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-light);
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+
+    /* Navbar */
+    nav {
+      position: fixed;
+      top: 0; left: 0; width: 100%;
+      background: #000;
+      display: flex; justify-content: center;
+      padding: 1rem; z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+    }
+    nav ul { display: flex; list-style: none; gap: 2rem; flex-wrap: wrap; }
+    nav a {
+      text-decoration: none;
+      color: var(--text-light);
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+    nav a:hover { color: var(--accent); }
+
+    /* Hero */
+    .hero {
+      height: 100vh;
+      background: linear-gradient(var(--overlay), var(--overlay)),
+        url("https://www.exoticca.com/_next/image?url=https%3A%2F%2Fuploads.exoticca.com%2Fglobal%2Fdestination%2Fpoi%2Fkerala.png&w=1920&q=75") center/cover no-repeat;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem;
+    }
+    .hero h1 {
+      font-size: 3.5rem; color: var(--accent);
+      text-shadow: 2px 2px 8px black;
+      margin-bottom: 1rem;
+    }
+    .hero p { font-size: 1.3rem; margin-bottom: 1.5rem; }
+    .cta-button {
+      padding: 0.8rem 2rem; border-radius: 30px;
+      background: var(--accent); color: black; border: none;
+      font-size: 1.1rem; cursor: pointer;
+      transition: 0.3s; text-decoration: none;
+    }
+    .cta-button:hover { background: white; color: black; }
+
+    /* Sections */
+    section { padding: 5rem 2rem; max-width: 1200px; margin: auto; }
+    .section-header { text-align: center; margin-bottom: 3rem; }
+    .section-header h2 { font-size: 2.5rem; color: var(--accent); margin-bottom: 1rem; }
+
+    /* Timeline */
+    .timeline { position: relative; margin-top: 2rem; }
+    .timeline::before {
+      content: ''; position: absolute; left: 50%; transform: translateX(-50%);
+      width: 4px; height: 100%; background: var(--accent);
+    }
+    .timeline-item { width: 45%; position: relative; margin: 2rem 0; }
+    .timeline-item:nth-child(odd) { left: 0; text-align: right; }
+    .timeline-item:nth-child(even) { left: 55%; }
+    .timeline-content {
+      background: var(--card-dark); padding: 1.5rem; border-radius: 10px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+      transition: transform 0.3s;
+    }
+    .timeline-content:hover { transform: translateY(-6px); }
+    .timeline-date { color: var(--accent); font-weight: bold; }
+
+    /* Cards */
+    .card-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 1.5rem; }
+    .card {
+      background: var(--card-dark); border-radius: 12px; overflow: hidden;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.7);
+      transition: transform 0.3s;
+    }
+    .card:hover { transform: translateY(-8px); }
+    .card img { width: 100%; height: 220px; object-fit: cover; }
+    .card-content { padding: 1rem; }
+
+    /* Gallery */
+    .gallery { display: grid; grid-template-columns: repeat(auto-fit,minmax(250px,1fr)); gap: 1rem; }
+    .gallery-item { position: relative; overflow: hidden; border-radius: 10px; height: 250px; cursor: pointer; }
+    .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+    .gallery-item:hover img { transform: scale(1.1); }
+    .gallery-overlay {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.6); color: white;
+      opacity: 0; display: flex; justify-content: center; align-items: center;
+      transition: opacity 0.3s; text-align: center; padding: 1rem;
+    }
+    .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+    /* Map */
+    #heritage-map {
+      height: 420px; border-radius: 12px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+      margin-top: 2rem;
+    }
+
+    /* Footer */
+    footer {
+      background: #000; color: var(--text-light);
+      text-align: center; padding: 2rem; margin-top: 3rem;
+      font-size: 0.9rem;
+    }
+    .footer-content {
+      max-width: 1000px; margin: auto;
+    }
+    .socials a {
+      color: var(--accent);
+      margin: 0 10px;
+      font-size: 1.3rem;
+      transition: 0.3s;
+    }
+    .socials a:hover { color: white; }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#history">History</a></li>
+      <li><a href="#culture">Culture</a></li>
+      <li><a href="#nature">Nature</a></li>
+      <li><a href="#visit">Visit</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section id="home" class="hero">
+    <div>
+      <h1>Kerala</h1>
+      <p>God’s Own Country – Backwaters, Culture & Spice Trails</p>
+      <a href="#history" class="cta-button">Discover Kerala’s Heritage</a>
+    </div>
+  </section>
+
+  <!-- History -->
+  <section id="history">
+    <div class="section-header">
+      <h2>Timeless Heritage</h2>
+      <p>From Chera dynasty to spice trade, Kerala’s legacy is etched in history.</p>
+    </div>
+    <div class="timeline">
+      <div class="timeline-item"><div class="timeline-content"><div class="timeline-date">3rd BCE</div><h3>Chera Dynasty</h3><p>Ancient rulers of Kerala, linked with Sangam literature.</p></div></div>
+      <div class="timeline-item"><div class="timeline-content"><div class="timeline-date">15th CE</div><h3>Spice Trade</h3><p>Kerala spices attracted Arabs, Chinese, Portuguese & Dutch.</p></div></div>
+      <div class="timeline-item"><div class="timeline-content"><div class="timeline-date">1956 CE</div><h3>State Formation</h3><p>Modern Kerala formed on linguistic basis.</p></div></div>
+    </div>
+    <div id="heritage-map"></div>
+  </section>
+
+  <!-- Culture -->
+  <section id="culture">
+    <div class="section-header"><h2>Living Culture</h2></div>
+    <div class="card-grid">
+      <div class="card"><img src="https://upload.wikimedia.org/wikipedia/commons/2/2d/Kathakali_Performance.jpg"><div class="card-content"><h3>Kathakali</h3><p>Classical dance-drama known for elaborate makeup & storytelling.</p></div></div>
+      <div class="card"><img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Onam_Sadya.jpg"><div class="card-content"><h3>Onam Festival</h3><p>Harvest festival celebrated with Sadya feasts and Vallamkali boat races.</p></div></div>
+      <div class="card"><img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Kalaripayattu.jpg"><div class="card-content"><h3>Kalaripayattu</h3><p>Ancient martial art of Kerala, blending agility and discipline.</p></div></div>
+    </div>
+  </section>
+
+  <!-- Nature -->
+  <section id="nature">
+    <div class="section-header"><h2>Natural Wonders</h2></div>
+    <div class="gallery">
+      <div class="gallery-item"><img src="https://upload.wikimedia.org/wikipedia/commons/a/a1/Munnar_Tea_Plantations.jpg"><div class="gallery-overlay"><h4>Munnar Hills</h4></div></div>
+      <div class="gallery-item"><img src="https://upload.wikimedia.org/wikipedia/commons/5/58/Alleppey_Houseboat.jpg"><div class="gallery-overlay"><h4>Alleppey Backwaters</h4></div></div>
+      <div class="gallery-item"><img src="https://upload.wikimedia.org/wikipedia/commons/1/19/Periyar_Tiger_Reserve.jpg"><div class="gallery-overlay"><h4>Periyar Wildlife Sanctuary</h4></div></div>
+    </div>
+  </section>
+
+  <!-- Visit -->
+  <section id="visit">
+    <div class="section-header"><h2>Plan Your Journey</h2></div>
+    <div class="card-grid">
+      <div class="card"><div class="card-content"><h3>3-Day Itinerary</h3><p>Cochin, Alleppey houseboat, Munnar tea gardens.</p></div></div>
+      <div class="card"><div class="card-content"><h3>7-Day Itinerary</h3><p>Kochi, Munnar, Thekkady, Kumarakom, Kovalam.</p></div></div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div class="socials">
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-x-twitter"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+      </div>
+      <p>Email: <a href="mailto:support@keralaheritage.org" style="color:var(--accent);">support@keralaheritage.org</a></p>
+      <p>Phone: +91 98765 67890</p>
+      <p class="copy">© 2025 Kerala Heritage | Designed with ❤️ in India</p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+  <script>
+    // Map Init
+    const map = L.map('heritage-map').setView([10.5, 76], 7);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    const sites = [
+      [9.5,76.33,"Alleppey Backwaters"],
+      [10.08,77.06,"Munnar"],
+      [9.57,77.23,"Thekkady"],
+      [8.4,76.97,"Kovalam Beach"],
+      [9.97,76.28,"Kochi"]
+    ];
+    sites.forEach(s=>L.marker([s[0],s[1]]).addTo(map).bindPopup(s[2]));
+  </script>
+</body>
+</html>

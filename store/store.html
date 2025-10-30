@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Culture Store - Preserving Heritage Through Art</title>
+  <meta name="description" content="Discover authentic traditional crafts, heritage artifacts, and cultural treasures from around the world. Preserving traditions through beautiful handmade art." />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Preloader -->
+  <div id="preloader" class="preloader">
+    <div class="preloader-inner">
+      <div class="mandala"></div>
+      <p>Discovering Cultural Treasures...</p>
+    </div>
+  </div>
+
+  <!-- Top Banner -->
+  <div class="top-banner">
+    <div class="container">
+      <div class="left">
+        <i class="fas fa-globe-asia"></i>
+        <span>Celebrating World Heritage • Supporting Traditional Artisans</span>
+      </div>
+      <div class="right">
+        <span class="flash">✨ Heritage Collection Sale — 25% Off!</span>
+        <span class="delivery"><i class="fas fa-truck"></i> Free worldwide shipping $100+</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <nav id="navbar" class="navbar">
+    <div class="container nav-inner">
+      <div class="logo">
+        <i class="fas fa-om logo-icon"></i>
+        <div class="logo-texts">
+          <span class="brand">Culture Store</span>
+          <small class="tag">Heritage & Tradition</small>
+        </div>
+      </div>
+
+      <ul id="nav-menu" class="nav-menu">
+        <li><a href="#home">Home</a></li>
+        <li class="has-dropdown">
+          <a href="#collections">Collections <i class="fas fa-chevron-down"></i></a>
+          <ul class="dropdown">
+            <li><a href="#pottery">Pottery & Ceramics</a></li>
+            <li><a href="#textiles">Traditional Textiles</a></li>
+            <li><a href="#jewelry">Heritage Jewelry</a></li>
+            <li><a href="#woodwork">Woodcraft</a></li>
+          </ul>
+        </li>
+        <li><a href="#artisans">Artisans</a></li>
+        <li><a href="#heritage">Heritage</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <div class="search">
+          <input id="search-input" placeholder="Search treasures..." />
+          <button id="search-btn"><i class="fas fa-search"></i></button>
+        </div>
+
+        <button id="cart-btn" class="icon-btn">
+          <i class="fas fa-shopping-bag"></i><span class="count" id="cart-count">0</span>
+        </button>
+        <button id="wish-btn" class="icon-btn">
+          <i class="fas fa-heart"></i><span class="count" id="wish-count">0</span>
+        </button>
+        <button id="menu-toggle" class="menu-toggle" aria-label="Toggle menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header id="home" class="hero">
+    <div class="container hero-inner">
+      <div class="hero-left">
+        <small class="subtitle">Preserving Cultural Heritage</small>
+        <h1>Discover the <span class="accent">Beauty</span> of Traditional <span class="accent">Craftsmanship</span></h1>
+        <p>Explore authenticated handcrafted treasures from master artisans across the globe. Each piece tells a story — of people, place, and tradition.</p>
+        <div class="hero-ctas">
+          <a class="btn primary" href="#collections"><i class="fas fa-compass"></i> Explore Collections</a>
+          <a class="btn ghost" href="#heritage"><i class="fas fa-scroll"></i> Learn Heritage Stories</a>
+        </div>
+        <div class="stats">
+          <div><strong>500+</strong><small>Artisan Partners</small></div>
+          <div><strong>50+</strong><small>Countries</small></div>
+          <div><strong>1000+</strong><small>Heritage Items</small></div>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="showcase">
+          <img src="https://media.istockphoto.com/id/458417619/photo/craftsman-working-on-the-loom.jpg?s=612x612&w=0&k=20&c=2v9JfzZZ--jYkuPj4Hp3iZSUItVSiwUUscsKgWgNixU=" alt="Artisan showcase" />
+        </div>
+      </div>
+    </div>
+    <div class="scroll-hint">Scroll to Explore <i class="fas fa-chevron-down"></i></div>
+  </header>
+
+  <!-- Features -->
+  <section class="features container">
+    <div class="feature">
+      <i class="fas fa-hands-helping"></i>
+      <h4>Supporting Artisans</h4>
+      <p>Direct partnerships and fair trade that keeps craft alive.</p>
+    </div>
+    <div class="feature">
+      <i class="fas fa-certificate"></i>
+      <h4>Authentic Heritage</h4>
+      <p>Certified traditional techniques and provenance info.</p>
+    </div>
+    <div class="feature">
+      <i class="fas fa-shipping-fast"></i>
+      <h4>Global Delivery</h4>
+      <p>Insured shipping and careful packaging for fragile items.</p>
+    </div>
+    <div class="feature">
+      <i class="fas fa-book-open"></i>
+      <h4>Cultural Stories</h4>
+      <p>Read the rich background of each artifact from artisan interviews.</p>
+    </div>
+  </section>
+
+  <!-- Collections -->
+  <section id="collections" class="collections container">
+    <div class="section-head">
+      <small>Curated Collections</small>
+      <h2>Treasures from Around the World</h2>
+      <p>Handpicked items representing the cultural heritage and craft of their places of origin.</p>
+    </div>
+
+    <div class="collection-controls">
+      <button class="filter-btn active" data-cat="all">All Items</button>
+      <button class="filter-btn" data-cat="pottery">Pottery & Ceramics</button>
+      <button class="filter-btn" data-cat="textiles">Traditional Textiles</button>
+      <button class="filter-btn" data-cat="jewelry">Heritage Jewelry</button>
+      <button class="filter-btn" data-cat="woodwork">Wooden Crafts</button>
+    </div>
+
+    <div id="collections-grid" class="grid">
+      <!-- Item (repeatable) -->
+      <article class="card" data-category="pottery">
+        <div class="media">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/Traditional_pottery_in_Dilli_Haat.jpg/330px-Traditional_pottery_in_Dilli_Haat.jpg" alt="Handmade Pottery">
+          <div class="card-actions">
+            <button class="action wish" title="Add to wishlist"><i class="far fa-heart"></i></button>
+            <button class="action view" title="Quick view"><i class="fas fa-eye"></i></button>
+            <button class="action add" title="Add to cart"><i class="fas fa-shopping-bag"></i></button>
+          </div>
+          <span class="badge">UNESCO</span>
+        </div>
+        <div class="card-body">
+          <h3>Pottery And Ceramics</h3>
+          <p class="origin"><i class="fas fa-map-marker-alt"></i> Jaipur,Rajasthan</p>
+          <p class="desc">Traditional black ceramics with ancient techniques and striking finish.</p>
+          <div class="price-row">
+            <div class="price">Rs.799<small class="old"> Rs.999</small></div>
+            <div class="rating">★★★★★ <small>(24)</small></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" data-category="textiles">
+        <div class="media">
+          <img src="https://brandwin.in/wp-content/uploads/2024/08/T-Saree-7.png" alt="Handwoven Mandu">
+          <div class="card-actions">
+            <button class="action wish"><i class="far fa-heart"></i></button>
+            <button class="action view"><i class="fas fa-eye"></i></button>
+            <button class="action add"><i class="fas fa-shopping-bag"></i></button>
+          </div>
+          <span class="badge">Artisan</span>
+        </div>
+        <div class="card-body">
+          <h3>Kerala Silk Mandu</h3>
+          <p class="origin"><i class="fas fa-map-marker-alt"></i>Thiruvananthapuram,Kerala</p>
+          <p class="desc">Handwoven silk with traditional motifs and vibrant dyeing.</p>
+          <div class="price-row">
+            <div class="price">Rs.699</div>
+            <div class="rating">★★★★☆ <small>(18)</small></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" data-category="jewelry">
+        <div class="media">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQu69TUnJ121-g-ToIhM7Iho4zGuRCD6YEQHw&s" alt="Silver Jewelry">
+          <div class="card-actions">
+            <button class="action wish"><i class="far fa-heart"></i></button>
+            <button class="action view"><i class="fas fa-eye"></i></button>
+            <button class="action add"><i class="fas fa-shopping-bag"></i></button>
+          </div>
+          <span class="badge new">New</span>
+        </div>
+        <div class="card-body">
+          <h3>Konyak Collar</h3>
+          <p class="origin"><i class="fas fa-map-marker-alt"></i>Kohima, Nagaland</p>
+          <p class="desc">Made up of ancient deomani glass beads and brass.</p>
+          <div class="price-row">
+            <div class="price">Rs.299</div>
+            <div class="rating">★★★★★ <small>(31)</small></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" data-category="woodwork">
+        <div class="media">
+          <img src="https://m.media-amazon.com/images/I/91ZxuHsovfL._UF350,350_QL80_.jpg" alt="Wooden Craft">
+          <div class="card-actions">
+            <button class="action wish"><i class="far fa-heart"></i></button>
+            <button class="action view"><i class="fas fa-eye"></i></button>
+            <button class="action add"><i class="fas fa-shopping-bag"></i></button>
+          </div>
+          <span class="badge limited">Limited</span>
+        </div>
+        <div class="card-body">
+          <h3>Bhaona Masks</h3>
+          <p class="origin"><i class="fas fa-map-marker-alt"></i> Darjeeling,Assam</p>
+          <p class="desc">Hand-carved bamboo face mask for traditional ceremonies.</p>
+          <div class="price-row">
+            <div class="price">Rs.399</div>
+            <div class="rating">★★★★☆ <small>(12)</small></div>
+          </div>
+        </div>
+      </article>
+
+      <!-- two more sample items for demo -->
+      <article class="card" data-category="pottery">
+        <div class="media">
+          <img src="https://www.memeraki.com/cdn/shop/files/Serenity-Unveiled-Aparna-Terracotta-Sculpture-Terracotta-art-by-Dolon-Kundu-1_1024x.jpg?v=1726244606" alt="Terracotta">
+          <div class="card-actions">
+            <button class="action wish"><i class="far fa-heart"></i></button>
+            <button class="action view"><i class="fas fa-eye"></i></button>
+            <button class="action add"><i class="fas fa-shopping-bag"></i></button>
+          </div>
+          <span class="badge eco">Eco</span>
+        </div>
+        <div class="card-body">
+          <h3>Indian Terracotta</h3>
+          <p class="origin"><i class="fas fa-map-marker-alt"></i> West Bengal, India</p>
+          <p class="desc">Hand-painted terracotta with local motifs.</p>
+          <div class="price-row">
+            <div class="price">Rs.1299<small class="old">Rs.1599</small></div>
+            <div class="rating">★★★★★ <small>(19)</small></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card" data-category="textiles">
+        <div class="media">
+          <img src="https://m.media-amazon.com/images/I/71Id9mhaK-L._UF350,350_QL80_.jpg" alt="Kente Cloth">
+          <div class="card-actions">
+            <button class="action wish"><i class="far fa-heart"></i></button>
+            <button class="action view"><i class="fas fa-eye"></i></button>
+            <button class="action add"><i class="fas fa-shopping-bag"></i></button>
+          </div>
+          <span class="badge heritage">Heritage</span>
+        </div>
+        <div class="card-body">
+          <h3>Assamese Gamcha</h3>
+          <p class="origin"><i class="fas fa-map-marker-alt"></i>Assam,India</p>
+          <p class="desc">Bright, handwoven symbolic cloth with cultural meaning.</p>
+          <div class="price-row">
+            <div class="price">Rs.199</div>
+            <div class="rating">★★★★★ <small>(27)</small></div>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <div class="load-more">
+      <button id="load-more" class="btn ghost"><i class="fas fa-plus"></i> Load More Treasures</button>
+    </div>
+  </section>
+
+  <!-- Heritage Stories -->
+  <section id="heritage" class="heritage container">
+    <div class="section-head">
+      <small>Cultural Heritage</small>
+      <h2>Stories Behind the Craft</h2>
+      <p>Explore the traditions and significance behind featured crafts.</p>
+    </div>
+
+    <div class="stories">
+      <article class="story">
+        <div class="story-media">
+          <img src="https://imagedelivery.net/y9EHf1toWJTBqJVsQzJU4g/www.indianholiday.com/2025/06/Kutiyattam-Sanskrit-Theatre-Kerala.jpg/w=750,h=550" alt="Intangible heritage">
+        </div>
+        <div class="story-body">
+          <h3>Traditional Craftsmanship as Intangible Heritage</h3>
+          <p>UNESCO recognizes craftsmanship as an expression of intangible heritage — the know-how, rituals, and social meaning that travel through generations.</p>
+          <a class="link" href="https://ich.unesco.org/en/traditional-craftsmanship-00057" target="_blank" rel="noopener">Read more <i class="fas fa-external-link-alt"></i></a>
+        </div>
+      </article>
+
+      <article class="story">
+        <div class="story-media">
+          <img src="https://media.licdn.com/dms/image/v2/D4D12AQEghHGDoCE4ZA/article-inline_image-shrink_1000_1488/article-inline_image-shrink_1000_1488/0/1702122645498?e=1762387200&v=beta&t=i6e8w_UZVc5x2co6n1RPfAkq5KuITMNVUMTNU34Ht8w" alt="Artisan story">
+        </div>
+        <div class="story-body">
+          <h3>Local Artisans Preserving Traditions</h3>
+          <p>Local artisans keep craft alive — using regional materials, techniques, and motifs that make each object unique.</p>
+          <a class="link" href="https://medium.com/@faizanfaisal9242/the-role-of-local-artisans-in-preserving-traditions-a34404940d8b" target="_blank" rel="noopener">Read more <i class="fas fa-external-link-alt"></i></a>
+        </div>
+      </article>
+
+      <article class="story">
+        <div class="story-media">
+          <img src="https://assets.telegraphindia.com/telegraph/04d39207-cbcc-4a51-808c-635e9e626b48.jpg" alt="Museum">
+        </div>
+        <div class="story-body">
+          <h3>National Crafts Museum</h3>
+          <p>Explore museum collections documenting centuries of textile, metalwork and woodcraft traditions.</p>
+          <a class="link" href="https://nationalcraftsmuseum.nic.in/" target="_blank" rel="noopener">Visit museum <i class="fas fa-external-link-alt"></i></a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- Artisans -->
+  <section id="artisans" class="artisans container">
+    <div class="section-head">
+      <small>Meet Our Partners</small>
+      <h2>Master Artisans</h2>
+      <p>Meet the talented craftspeople behind our curated treasures.</p>
+    </div>
+
+    <div class="artisan-grid">
+      <div class="artisan-card">
+        <!-- If you want to use uploaded local image, place it as images/artisan1.png -->
+        <img src="https://cdn.shopify.com/s/files/1/0646/1194/2623/files/IMG_4334_480x480.heic?v=1727081165" alt="Santabai" onerror="this.src='https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=800&q=60&auto=format&fit=crop'">
+        <div class="artisan-body">
+          <h3>SantaBai</h3>
+          <p class="craft">Master Potter</p>
+          <p class="location"><i class="fas fa-map-marker-alt"></i> SoanGaon,Maharastra</p>
+          <p class="bio">Third-generation potter specializing in Talavera ceramics — hand-painted glazes and traditional kiln techniques.</p>
+          <div class="meta"><span><i class="fas fa-award"></i> 25+ years</span><span><i class="fas fa-star"></i>local Craftswomen</span></div>
+        </div>
+      </div>
+
+      <div class="artisan-card">
+        <img src="https://theindiacrafthouse.com/cdn/shop/files/390x474.jpg?v=1614324822" alt="Shivani Ahom" onerror="this.src='https://images.unsplash.com/photo-1554151228-14d9def656e4?w=800&q=60&auto=format&fit=crop'">
+        <div class="artisan-body">
+          <h3>Ritika Ahom</h3>
+          <p class="craft">Bamboo artisan</p>
+          <p class="location"><i class="fas fa-map-marker-alt"></i> Guwahati, Assam</p>
+          <p class="bio">a mastery of weaving techniques to meet design specifications and quality standards.</p>
+          <div class="meta"><span><i class="fas fa-award"></i> 10+ years</span><span><i class="fas fa-heart"></i>startup women</span></div>
+        </div>
+      </div>
+
+      <div class="artisan-card">
+        <img src="https://c7.alamy.com/comp/BMRTW5/weaver-weaving-silk-handloom-kanchipuram-tamilnadu-india-BMRTW5.jpg" alt="Sister artisan fallback">
+        <div class="artisan-body">
+          <h3>T. senthil</h3>
+          <p class="craft">silk weaver</p>
+          <p class="location"><i class="fas fa-map-marker-alt"></i> madurai,Tamil nadu</p>
+          <p class="bio">Master weaver of silk sarees — preserves symbolic motifs and trains young artisans.</p>
+          <div class="meta"><span><i class="fas fa-award"></i> 30+ years</span><span><i class="fas fa-users"></i>mentor</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="about container">
+    <div class="section-head">
+      <small>About Us</small>
+      <h2>Preserving Tradition, Empowering Communities</h2>
+      <p>Culture Store partners with artisan communities worldwide to create sustainable livelihoods and conserve traditional craft knowledge.</p>
+    </div>
+
+    <div class="about-grid">
+      <div>
+        <h4>Our Mission</h4>
+        <p>Support authenticity, fair pricing, and artisan-led design to ensure traditions thrive in the modern world.</p>
+      </div>
+      <div>
+        <h4>Fair Trade</h4>
+        <p>We maintain transparent pricing and provide training, micro-loans, and market access for craftspeople.</p>
+      </div>
+      <div>
+        <h4>Education</h4>
+        <p>Workshops, stories, and workshops to help buyers understand cultural context and care instructions.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="contact container">
+    <div class="section-head">
+      <small>Get In Touch</small>
+      <h2>Contact & Partnerships</h2>
+      <p>Questions about an item, or want to partner as an artisan or organization? Drop us a line.</p>
+    </div>
+
+    <div class="contact-grid">
+      <form id="contact-form" class="contact-form">
+        <label>
+          <span>Your name</span>
+          <input type="text" name="name" required />
+        </label>
+        <label>
+          <span>Email</span>
+          <input type="email" name="email" required />
+        </label>
+        <label>
+          <span>Message</span>
+          <textarea name="message" rows="5" required></textarea>
+        </label>
+        <button class="btn primary" type="submit">Send Message</button>
+      </form>
+
+      <div class="contact-info">
+        <h4>Visit / Partner</h4>
+        <p><i class="fas fa-map-marker-alt"></i> 123 Heritage Lane, Example City</p>
+        <p><i class="fas fa-envelope"></i> hello@culturestore.example</p>
+        <p><i class="fas fa-phone"></i> +1 555 555 555</p>
+        <h4>Working Hours</h4>
+        <p>Mon — Fri: 10am — 6pm</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-col">
+        <h4>Culture Store</h4>
+        <p>Preserving heritage through fair craft trade and storytelling.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick links</h4>
+        <ul>
+          <li><a href="#collections">Collections</a></li>
+          <li><a href="#artisans">Artisans</a></li>
+          <li><a href="#heritage">Heritage</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Subscribe</h4>
+        <form id="subscribe-form">
+          <input type="email" placeholder="Your email" required />
+          <button class="btn small" type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+    <div class="copyright">
+      © <span id="year"></span> Culture Store — All rights reserved.
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

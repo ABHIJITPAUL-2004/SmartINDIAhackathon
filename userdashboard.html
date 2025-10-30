@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heritage & Culture Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="cssdashbord.css">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-landmark"></i>
+            <h1>Heritage & Culture</h1>
+        </div>
+        
+        <ul class="nav-links">
+            <li><a href="User/Heritage/heritage.html"><i class="fas fa-monument"></i> Heritage</a></li>
+            <li><a href="User/Culture/culture.html"><i class="fas fa-theater-masks"></i> Culture</a></li>
+            <li><a href="Map/map.html"><i class="fas fa-map-marked-alt"></i> Map</a></li>
+            <li><a href="store/store.html"><i class="fas fa-store"></i> Store <i class="fas fa-shopping-cart"></i></a></li>
+            <li><a href="game/game1.html"><i class="fas fa-gamepad"></i> Game</a></li>
+            <li><a href="VR code/vrmapping.html"><i class="fas fa-cube"></i> 3D Model</a></li>
+            <li><a href="specialneeds/specialneeds.HTML"><i></i> Special needs</a></li>
+            <li><a href="aboutus.html"><i class="fas fa-info-circle"></i> About Us</a></li>
+        </ul>
+        
+        <div class="nav-right">
+            <div class="search-bar">
+                <i class="fas fa-search"></i>
+                <input type="text" placeholder="Search...">
+            </div>
+            <div class="user-actions">
+                <a href="profile.html"><i class="fas fa-user"></i></a>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Dashboard Content -->
+    <div class="dashboard">
+        <div class="dashboard-header">
+            <h2>Explore Heritage & Culture</h2>
+            <p>Discover historical sites, cultural events, and traditional artifacts from around the world</p>
+        </div>
+        
+        <!-- Featured Heritage Sites -->
+        <h3>Featured Heritage Sites</h3>
+        <div class="card-grid">
+            <div class="card">
+                <div class="card-img">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5LczIAAU0jWwCdcoKRmd9nbqaL4M0GWc_oQ&s" alt="Badrinath Temple">
+                </div>
+                <div class="card-content">
+                    <h3>Badrinath Dham</h3>
+                    <p>Badarinath is one of the holy shrines for Vaishnavites among the 108 divya desams incarnation of Lord Vishnu. It is also part of the Panch Badri temples.</p>
+                    <a href="#">Explore <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-img">
+                    <img src="https://www.astroved.com/astropedia/assets/images/temples/sabarimala-temple.jpg" alt="Sabarimala Temple">
+                </div>
+                <div class="card-content">
+                    <h3>Sabarimala Temple</h3>
+                    <p>Sabarimala is a temple complex inside the Periyar Tiger Reserve, Kerala. It is one of the largest annual pilgrimage sites in the world.</p>
+                    <a href="#">Explore <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-img">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvHWDgwWu18ciCg5Jb8vFb1chGzhMPizEiIw&s" alt="Kamakhya Temple">
+                </div>
+                <div class="card-content">
+                    <h3>Kamakhya Temple</h3>
+                    <p>Located near Guwahati, Kamakhya is one of the biggest Shakti shrines in India, situated on the Nilachal Hills.</p>
+                    <a href="#">Explore <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Cultural Events -->
+        <h3>Upcoming Cultural Events</h3>
+        <div class="card2-grid">
+            <div class="card">
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=900&q=80" alt="Dance Festival">
+                </div>
+                <div class="card-content">
+                    <h3>Traditional Dance Festival</h3>
+                    <p style="color:#333; font-size:15px; line-height:1.7; font-family:Arial, sans-serif; text-align:justify;">
+        Traditional dance festivals are vibrant annual celebrations of cultural heritage that feature diverse performances, 
+        often set against historic backdrops. These festivals serve to preserve traditions and foster cultural exchange by 
+        bringing together artists and audiences from around the world. <br><br>
+        
+        <b style="color:#8b0000;">Khajuraho Dance Festival (India)</b><br>
+        <i>Description:</i> A week-long festival of classical Indian dance held in February or March. It is organized by 
+        the Madhya Pradesh Kala Parishad to promote Indian classical dance forms.<br>
+        <i>Setting:</i> Performances take place in front of the Chitragupta and Vishwanatha Temples, with the illuminated 
+        Khajuraho temples forming a spectacular backdrop.<br>
+        <i>Dance forms:</i> Bharatanatyam, Kathak, Odissi, Kuchipudi, Manipuri, Kathakali, and modern dance. <br><br>
+        
+        <b style="color:#8b0000;">Konark Dance Festival (India)</b><br>
+        <i>Description:</i> A five-day carnival of classical Indian dance in December, started in 1986 by Odisha Tourism.<br>
+        <i>Setting:</i> Held against the backdrop of the 13th-century Sun Temple in Konark, Odisha.<br>
+        <i>Dance forms:</i> Odissi, Bharatanatyam, Manipuri, Kathakali, Kathak, and Sattriya. <br><br>
+
+        <b style="color:#8b0000;">Andong International MaskDance Festival (South Korea)</b><br>
+        <i>Description:</i> A week-long festival in September at Andong Hahoe Folk Village.<br>
+        <i>Highlights:</i> Korean mask dance, global folk performances, parades, workshops, and competitions. <br><br>
+
+        <b style="color:#8b0000;">Hornbill Festival (Nagaland, India)</b><br>
+        <i>Description:</i> Known as the "Festival of Festivals," held every December near Kohima.<br>
+        <i>Highlights:</i> Folk dances, music, craft exhibitions, food stalls, traditional sports, and concerts. <br><br>
+
+        <b style="color:#8b0000;">International Folklore Festival Beltinci (Slovenia)</b><br>
+        <i>Description:</i> A four-day July festival at Beltinci Castle & Park.<br>
+        <i>Features:</i> Folkloric dance, traditional customs, folk music, and art exhibitions. <br><br>
+
+        <b style="color:#8b0000;">Folklorama (Canada)</b><br>
+        <i>Description:</i> A two-week festival in Manitoba showcasing cultural diversity.<br>
+        <i>Experience:</i> Traditional performances, cuisine, and global cultural immersion.
+        </p>
+                    <a href="#">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card2-img">
+                    <img src="https://npr.brightspotcdn.com/dims4/default/3c52118/2147483647/strip/true/crop/4160x1872+0+0/resize/1760x792!/format/webp/quality/90/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2F1a%2Fdf%2Fda8bd87847cb9b69d0f002102f1b%2Fimg-20220303-111240232.jpg" alt="Art Exhibition">
+                </div>
+                <div class="card-content">
+                    <h3>Indigenous Art Exhibition</h3>
+                    <p>Showcasing the work of indigenous artists from across the continent, celebrating their cultural heritage.</p>
+                    <a href="#">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-img">
+                    <img src="https://engage4more.com/blog/wp-content/uploads/2023/12/Blog-banner-Music-festival-_1280x478-1200x448.jpg" alt="Music Concert">
+                </div>
+                <div class="card-content">
+                    <h3>World Music Concert</h3>
+                    <p>Enjoy an evening of traditional music from various cultures, performed by master musicians.</p>
+                    <a href="#">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Map Section -->
+        <section class="map-section">
+            <h2><i class="fas fa-map-marked-alt"></i> Explore Cultural Sites on Our Interactive Map</h2>
+            <div id="heritage-map"></div>
+        </section>
+        
+        <!-- Store Section -->
+        <div class="store-section">
+            <h3><i class="fas fa-store"></i> Cultural Store</h3>
+            <div class="store-items">
+                <div class="store-item">
+                    <img src="https://cdn.pixabay.com/photo/2017/03/27/14/33/ancient-2179091_1280.jpg" alt="Traditional Pottery">
+                    <h4>Traditional Pottery</h4>
+                    <p>Rs.199.00</p>
+                </div>
+                
+                <div class="store-item">
+                    <img src="https://weaverhut.com/wp-content/uploads/2020/12/1_W6Gf9hw8fOprL0T1VmkDNA.jpeg" alt="Handwoven Textile">
+                    <h4>Handwoven Textile</h4>
+                    <p>Rs.650.00</p>
+                </div>
+                
+                <div class="store-item">
+                    <img src="https://exclusivelane.com/cdn/shop/collections/3_1_480x.jpg?v=1715668865" alt="Artisan Jewelry">
+                    <h4>Artisan Jewelry</h4>
+                    <p>Rs.999.00</p>
+                </div>
+                
+                <div class="store-item">
+                    <img src="https://www.exoticindiaart.com/images/products/original/books-2017/nak697.webp" alt="Sacred Texts">
+                    <h4>Sacred Texts</h4>
+                    <p>Rs.99.00</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>About Us</h3>
+                <p>We are dedicated to preserving and promoting cultural heritage sites and traditions from around the world. Our mission is to educate and inspire people to appreciate the diversity of human culture.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Heritage Sites</a></li>
+                    <li><a href="#">Cultural Events</a></li>
+                    <li><a href="#">Interactive Map</a></li>
+                    <li><a href="#">Online Store</a></li>
+                    <li><a href="#">Membership</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Connect With Us</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#"><i class="fab fa-pinterest"></i></a>
+                </div>
+                <p>Subscribe to our newsletter for updates on cultural events and new heritage site features.</p>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2023 Heritage & Culture. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <!-- Map Script -->
+    <!-- Map Script -->
+<script>
+    // Create map (centered on India)
+    var map = L.map('heritage-map').setView([20.5937, 78.9629], 5);
+
+    // Add OpenStreetMap tile layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 18,
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // === Heritage Sites Markers ===
+    L.marker([30.746, 79.493]).addTo(map)
+        .bindPopup('<b>Badrinath Dham</b><br>Uttarakhand');
+
+    L.marker([9.436, 77.067]).addTo(map)
+        .bindPopup('<b>Sabarimala Temple</b><br>Kerala');
+
+    L.marker([26.167, 91.705]).addTo(map)
+        .bindPopup('<b>Kamakhya Temple</b><br>Assam');
+
+    L.marker([19.887, 86.094]).addTo(map)
+        .bindPopup('<b>Konark Sun Temple</b><br>Odisha');
+
+    L.marker([20.888, 70.401]).addTo(map)
+        .bindPopup('<b>Somnath Temple</b><br>Gujarat');
+
+    L.marker([30.734, 79.066]).addTo(map)
+        .bindPopup('<b>Kedarnath Temple</b><br>Uttarakhand');
+
+    L.marker([31.620, 74.876]).addTo(map)
+        .bindPopup('<b>Golden Temple</b><br>Amritsar, Punjab');
+
+    L.marker([20.552, 75.703]).addTo(map)
+        .bindPopup('<b>Ajanta Caves</b><br>Maharashtra');
+
+    L.marker([9.919, 78.119]).addTo(map)
+        .bindPopup('<b>Meenakshi Temple</b><br>Madurai, Tamil Nadu');
+
+    L.marker([15.335, 76.460]).addTo(map)
+        .bindPopup('<b>Hampi</b><br>Karnataka - UNESCO Heritage Site');
+</script>
+dPopup('<b>Kamakhya Temple</b><br>Assam');
+    </script>
+
+    <!-- CSS for map height (inline, or move to cssdashbord.css) -->
+    <style>
+        #heritage-map {
+            height: 400px;
+            width: 100%;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+    </style>
+</body>
+</html>

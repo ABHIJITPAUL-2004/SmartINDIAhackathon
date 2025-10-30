@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Culture Companion Dashboard</title>
+  <style>
+    * {
+  box-sizing: border-box;
+  margin: 0; padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+body, html {
+  height: 100%;
+  /* Set black background and add rangoli wallpaper */
+  background-color: #000000;
+  background-image: url('https://img.freepik.com/free-vector/beautiful-mandala-design_79603-2105.jpg?w=1380'); /* Example rangoli wallpaper */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  color: #d4af37; /* golden text */
+}
+.dashboard {
+  display: flex;
+  height: 100vh;
+}
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background-color: #121212; /* dark blackish */
+  color: #d4af37; /* golden */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 3px 0 10px rgba(212, 175, 55, 0.5);
+}
+.sidebar h2 {
+  margin-bottom: 25px;
+  font-size: 22px;
+  user-select: none;
+  color: #d4af37;
+}
+.sidebar ul {
+  list-style: none;
+  flex-grow: 1;
+}
+.sidebar ul li {
+  margin-bottom: 15px;
+}
+.sidebar ul li a {
+  color: #bfa33a;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+  display: block;
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+  user-select: none;
+}
+.sidebar ul li a:hover,
+.sidebar ul li a.active {
+  background-color: #d4af37;
+  color: #000000;
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  padding: 25px 30px;
+  overflow-y: auto;
+  background-color: rgba(0, 0, 0, 0.75); /* semi-transparent black */
+  box-shadow: inset 0 0 15px rgba(212, 175, 55, 0.6);
+  color: #d4af37;
+}
+
+header h1 {
+  font-size: 26px;
+  margin-bottom: 6px;
+  color: #d4af37;
+}
+header p {
+  color: #e6d99a;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+/* Cards */
+.cards {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+.card {
+  background-color: rgba(212, 175, 55, 0.1);
+  border-radius: 8px;
+  padding: 18px 20px;
+  flex: 1;
+  min-width: 160px;
+  box-shadow: 0 2px 6px rgba(212, 175, 55, 0.3);
+  color: #d4af37;
+}
+.card h3 {
+  margin-bottom: 8px;
+  font-size: 18px;
+}
+
+/* Panels */
+.panel {
+  background-color: rgba(212, 175, 55, 0.1);
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(212, 175, 55, 0.3);
+  margin-bottom: 25px;
+  max-width: 900px;
+  color: #d4af37;
+}
+.panel h2 {
+  margin-bottom: 12px;
+  color: #d4af37;
+}
+.panel p {
+  font-size: 15px;
+  color: #e6d99a;
+  line-height: 1.4;
+}
+button {
+  background-color: #d4af37;
+  color: #000000;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 15px;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
+}
+button:hover {
+  background-color: #bfa33a;
+}
+
+/* Table Styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+table thead {
+  background-color: rgba(212, 175, 55, 0.3);
+}
+table th, table td {
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  padding: 10px;
+  text-align: left;
+  font-size: 14px;
+  color: #d4af37;
+}
+table tbody tr:nth-child(even) {
+  background-color: rgba(212, 175, 55, 0.1);
+}
+
+/* Form inputs */
+input[type="text"], select, textarea {
+  width: 100%;
+  padding: 8px 10px;
+  margin: 8px 0 16px 0;
+  border-radius: 6px;
+  border: 1px solid #bfa33a;
+  font-size: 14px;
+  resize: vertical;
+  background-color: #1a1a1a;
+  color: #d4af37;
+}
+input[type="text"]::placeholder,
+textarea::placeholder {
+  color: #bfa33a;
+}
+label {
+  font-weight: 600;
+  font-size: 14px;
+  color: #d4af37;
+  display: block;
+  margin-top: 10px;
+}
+.form-group {
+  max-width: 480px;
+}
+
+/* Scroll */
+.main-content {
+  scrollbar-width: thin;
+  scrollbar-color: #d4af37 #000000;
+}
+.main-content::-webkit-scrollbar {
+  width: 8px;
+}
+.main-content::-webkit-scrollbar-track {
+  background: #000000;
+}
+.main-content::-webkit-scrollbar-thumb {
+  background-color: #d4af37;
+  border-radius: 20px;
+  border: 2px solid #000000;
+}
+
+  </style>
+</head>
+<body>
+  <div class="dashboard">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <h2>Culture Companion</h2>
+      <ul id="menu-list">
+        <li><a href="#" data-section="dashboard-home" class="active">Dashboard Home</a></li>
+        <li><a href="#" data-section="customer-data">Customer Data</a></li>
+        <li><a href="#" data-section="manage-products">Manage Products</a></li>
+        <li><a href="#" data-section="artisan-profiles">Artisan Profiles</a></li>
+        <li><a href="#" data-section="allocate-companions">Allocate Companions</a></li>
+        <li><a href="#" data-section="event-scheduler">Event Scheduler</a></li>
+        <li><a href="#" data-section="reports">Reports</a></li>
+        <li><a href="#" data-section="settings">Settings</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Dashboard Home -->
+      <section id="dashboard-home" class="content-section">
+        <header>
+          <h1>Welcome, Admin</h1>
+          <p>Your cultural ecosystem manager</p>
+        </header>
+
+        <div class="cards">
+          <div class="card">
+            <h3>👥 Customers</h3>
+            <p>1245 active users</p>
+          </div>
+          <div class="card">
+            <h3>🧵 Artisans</h3>
+            <p>78 onboarded artisans</p>
+          </div>
+          <div class="card">
+            <h3>📦 Products</h3>
+            <p>320 cultural items</p>
+          </div>
+          <div class="card">
+            <h3>🧠 Active Companions</h3>
+            <p id="companion-count">3 region-specific bots online</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>Purpose of Culture Companion</h2>
+          <p>
+            This dashboard helps preserve and promote Indian culture by managing artisans, products, and user experiences — while automating assistance via AI companions.
+          </p>
+        </div>
+      </section>
+
+      <!-- Customer Data -->
+      <section id="customer-data" class="content-section" style="display:none;">
+        <header>
+          <h1>Customer Data</h1>
+          <p>View and analyze user engagement and feedback.</p>
+        </header>
+        <div class="panel">
+          <h2>User Demographics</h2>
+          <table>
+            <thead>
+              <tr><th>Region</th><th>Users</th><th>Top Interests</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Delhi</td><td>320</td><td>Handicrafts, Festivals</td></tr>
+              <tr><td>Tamil Nadu</td><td>270</td><td>Traditional Music, Weaving</td></tr>
+              <tr><td>Rajasthan</td><td>220</td><td>Pottery, Folk Dance</td></tr>
+              <tr><td>Kerala</td><td>180</td><td>Classical Arts, Textiles</td></tr>
+              <tr><td>Others</td><td>255</td><td>Mixed</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="panel">
+          <h2>User Feedback</h2>
+          <ul>
+            <li>"Love the rich cultural stories behind products!" - Anjali</li>
+            <li>"Would love more regional festival coverage." - Rajesh</li>
+            <li>"Easy to navigate and purchase local crafts." - Priya</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Manage Products -->
+      <section id="manage-products" class="content-section" style="display:none;">
+        <header>
+          <h1>Manage Products</h1>
+          <p>Add, edit or remove cultural products.</p>
+        </header>
+        <div class="panel">
+          <h2>Add New Product</h2>
+          <form id="product-form">
+            <div class="form-group">
+              <label for="product-name">Product Name</label>
+              <input type="text" id="product-name" required placeholder="e.g. Rajasthani Pottery" />
+            </div>
+            <div class="form-group">
+              <label for="product-category">Category</label>
+              <select id="product-category" required>
+                <option value="" disabled selected>Select category</option>
+                <option>Handicraft</option>
+                <option>Textile</option>
+                <option>Art</option>
+                <option>Jewelry</option>
+                <option>Food</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="product-description">Description</label>
+              <textarea id="product-description" rows="3" placeholder="Short product description" required></textarea>
+            </div>
+            <button type="submit">Add Product</button>
+          </form>
+        </div>
+        <div class="panel" style="margin-top:20px;">
+          <h2>Product List</h2>
+          <table id="product-table">
+            <thead>
+              <tr><th>Name</th><th>Category</th><th>Description</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+              <!-- Products will appear here -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Artisan Profiles -->
+      <section id="artisan-profiles" class="content-section" style="display:none;">
+        <header>
+          <h1>Artisan Profiles</h1>
+          <p>Manage artisans and their specialties.</p>
+        </header>
+        <div class="panel">
+          <h2>Artisan List</h2>
+          <table id="artisan-table">
+            <thead>
+              <tr><th>Name</th><th>Region</th><th>Skill</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Suresh Kumar</td>
+                <td>Rajasthan</td>
+                <td>Pottery</td>
+                <td><button onclick="alert('Edit feature coming soon')">Edit</button></td>
+              </tr>
+              <tr>
+                <td>Anita Devi</td>
+                <td>West Bengal</td>
+                <td>Weaving</td>
+                <td><button onclick="alert('Edit feature coming soon')">Edit</button></td>
+              </tr>
+              <tr>
+                <td>Ramesh Patel</td>
+                <td>Gujarat</td>
+                <td>Embroidery</td>
+                <td><button onclick="alert('Edit feature coming soon')">Edit</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Allocate Companions -->
+      <section id="allocate-companions" class="content-section" style="display:none;">
+        <header>
+          <h1>Allocate Companions</h1>
+          <p>Assign AI/human companions to specific regions or collections.</p>
+        </header>
+        <div class="panel">
+          <button onclick="allocateCompanion()">Add Companion</button>
+          <button onclick="deallocateCompanion()">Remove Companion</button>
+          <p style="margin-top:10px;" id="companion-count-allocate">3 region-specific bots online</p>
+        </div>
+
+        <div class="panel">
+          <h2>Companion Activity Log</h2>
+          <table id="log-table">
+            <thead>
+              <tr>
+                <th>Action</th>
+                <th>Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Logs will appear here -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Event Scheduler -->
+      <section id="event-scheduler" class="content-section" style="display:none;">
+        <header>
+          <h1>Event Scheduler</h1>
+          <p>Schedule cultural events and workshops.</p>
+        </header>
+        <div class="panel">
+          <h2>Schedule New Event</h2>
+          <form id="event-form">
+            <div class="form-group">
+              <label for="event-name">Event Name</label>
+              <input type="text" id="event-name" placeholder="e.g. Diwali Festival" required/>
+            </div>
+            <div class="form-group">
+              <label for="event-date">Date</label>
+              <input type="date" id="event-date" required />
+            </div>
+            <div class="form-group">
+              <label for="event-description">Description</label>
+              <textarea id="event-description" rows="3" placeholder="Brief about event" required></textarea>
+            </div>
+            <button type="submit">Add Event</button>
+          </form>
+        </div>
+        <div class="panel" style="margin-top:20px;">
+          <h2>Upcoming Events</h2>
+          <table id="event-table">
+            <thead>
+              <tr><th>Name</th><th>Date</th><th>Description</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+              <!-- Events added here -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Reports -->
+      <section id="reports" class="content-section" style="display:none;">
+        <header>
+          <h1>Reports</h1>
+          <p>View analytics and performance reports.</p>
+        </header>
+        <div class="panel">
+          <h2>Monthly Sales</h2>
+          <p>Coming soon — graphs and charts here.</p>
+        </div>
+      </section>
+
+      <!-- Settings -->
+      <section id="settings" class="content-section" style="display:none;">
+        <header>
+          <h1>Settings</h1>
+          <p>Configure dashboard preferences.</p>
+        </header>
+        <div class="panel">
+          <h2>User Settings</h2>
+          <form>
+            <label for="username">Username</label>
+            <input id="username" type="text" placeholder="Admin" disabled />
+
+            <label for="email">Email</label>
+            <input id="email" type="email" placeholder="admin@example.com" disabled />
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // Sidebar menu navigation
+    const menuLinks = document.querySelectorAll('.sidebar ul li a');
+    const sections = document.querySelectorAll('.content-section');
+
+    menuLinks.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        // Remove active class from all links
+        menuLinks.forEach(lnk => lnk.classList.remove('active'));
+        // Add active to clicked link
+        link.classList.add('active');
+        // Show related section and hide others
+        const sectionToShow = link.getAttribute('data-section');
+        sections.forEach(section => {
+          section.style.display = section.id === sectionToShow ? 'block' : 'none';
+        });
+      });
+    });
+
+    // Initial data
+    let companionCount = 3;
+    const companionCountDisplay = document.getElementById('companion-count');
+    const companionCountAllocate = document.getElementById('companion-count-allocate');
+    const logTableBody = document.querySelector('#log-table tbody');
+
+    // Helper functions
+    function getCurrentTime() {
+      return new Date().toLocaleString();
+    }
+    function logAction(action) {
+      const row = logTableBody.insertRow(0);
+      const actionCell = row.insertCell(0);
+      const timeCell = row.insertCell(1);
+      actionCell.textContent = action;
+      timeCell.textContent = getCurrentTime();
+    }
+    function updateCompanionCount() {
+      const text = `${companionCount} region-specific bots online`;
+      companionCountDisplay.textContent = text;
+      companionCountAllocate.textContent = text;
+    }
+
+    // Allocate companion
+    function allocateCompanion() {
+      companionCount++;
+      updateCompanionCount();
+      logAction('✅ Companion Allocated');
+    }
+    // Deallocate companion
+    function deallocateCompanion() {
+      if (companionCount > 0) {
+        companionCount--;
+        updateCompanionCount();
+        logAction('❌ Companion Deallocated');
+      } else {
+        alert('No companions to deallocate.');
+      }
+    }
+
+    // Manage Products Logic
+    const productForm = document.getElementById('product-form');
+    const productTableBody = document.querySelector('#product-table tbody');
+
+    productForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const name = document.getElementById('product-name').value.trim();
+      const category = document.getElementById('product-category').value;
+      const description = document.getElementById('product-description').value.trim();
+      if(name && category && description) {
+        const row = productTableBody.insertRow();
+        row.insertCell(0).textContent = name;
+        row.insertCell(1).textContent = category;
+        row.insertCell(2).textContent = description;
+        const actionsCell = row.insertCell(3);
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'Delete';
+        deleteBtn.style.backgroundColor = '#e11d48';
+        deleteBtn.onclick = () => row.remove();
+        actionsCell.appendChild(deleteBtn);
+
+        productForm.reset();
+      }
+    });
+
+    // Event Scheduler Logic
+    const eventForm = document.getElementById('event-form');
+    const eventTableBody = document.querySelector('#event-table tbody');
+
+    eventForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const name = document.getElementById('event-name').value.trim();
+      const date = document.getElementById('event-date').value;
+      const description = document.getElementById('event-description').value.trim();
+      if(name && date && description) {
+        const row = eventTableBody.insertRow();
+        row.insertCell(0).textContent = name;
+        row.insertCell(1).textContent = date;
+        row.insertCell(2).textContent = description;
+        const actionsCell = row.insertCell(3);
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = 'Delete';
+                deleteBtn.style.backgroundColor = '#e11d48';
+        deleteBtn.onclick = () => row.remove();
+        actionsCell.appendChild(deleteBtn);
+
+        eventForm.reset();
+      }
+    });
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indian Heritage Tourism Chatbot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .chatbot-container {
+            width: 400px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #ff9a56 0%, #ff6b6b 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-header h2 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .chat-header p {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message-content {
+            max-width: 80%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.4;
+            word-wrap: break-word;
+        }
+
+        .message.bot .message-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-bottom-left-radius: 6px;
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, #ff9a56 0%, #ff6b6b 100%);
+            color: white;
+            border-bottom-right-radius: 6px;
+        }
+
+        .chat-input-container {
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chat-input-wrapper {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .chat-input:focus {
+            background: white;
+            box-shadow: 0 0 20px rgba(255, 154, 86, 0.3);
+        }
+
+        .send-button {
+            width: 45px;
+            height: 45px;
+            border: none;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff9a56 0%, #ff6b6b 100%);
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease;
+            font-size: 18px;
+        }
+
+        .send-button:hover {
+            transform: scale(1.1);
+        }
+
+        .typing-indicator {
+            display: none;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .typing-indicator .message-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 16px;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dots span {
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        .quick-replies {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .quick-reply {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #333;
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .quick-reply:hover {
+            background: rgba(255, 154, 86, 0.2);
+            border-color: #ff9a56;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes typing {
+            0%, 20% { transform: scale(1); }
+            50% { transform: scale(1.5); }
+            80%, 100% { transform: scale(1); }
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 154, 86, 0.5);
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chatbot-container">
+        <div class="chat-header">
+            <h2>🇮🇳 Indian Heritage Guide</h2>
+            <p>Expert on UNESCO sites, ASI monuments & cultural heritage</p>
+        </div>
+        
+        <div class="chat-messages" id="chatMessages">
+            <div class="message bot">
+                <div class="message-content">
+                    Namaste! 🙏 I'm your comprehensive Indian Heritage Guide!<br><br>
+                    I have extensive knowledge of:
+                    • 44 UNESCO World Heritage Sites
+                    • 3,679 ASI protected monuments
+                    • State-wise cultural heritage (Assam, Kerala, Maharashtra, Uttarakhand & more)
+                    • Classical arts, festivals, and traditions
+                    <br><br>Which heritage aspect interests you?
+                </div>
+            </div>
+            <div class="quick-replies">
+                <div class="quick-reply" onclick="sendQuickReply('UNESCO World Heritage Sites')">🏛️ UNESCO Sites</div>
+                <div class="quick-reply" onclick="sendQuickReply('Assam heritage')">🦏 Assam</div>
+                <div class="quick-reply" onclick="sendQuickReply('Kerala culture')">🌴 Kerala</div>
+                <div class="quick-reply" onclick="sendQuickReply('Maharashtra monuments')">⛰️ Maharashtra</div>
+            </div>
+        </div>
+        
+        <div class="typing-indicator" id="typingIndicator">
+            <div class="message-content">
+                <div class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="chat-input-container">
+            <div class="chat-input-wrapper">
+                <input type="text" class="chat-input" id="chatInput" placeholder="Ask about any Indian heritage site, culture, or monument...">
+                <button class="send-button" id="sendButton">➤</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendButton = document.getElementById('sendButton');
+        const typingIndicator = document.getElementById('typingIndicator');
+
+        // Comprehensive Indian Heritage Knowledge Base
+        const heritageKnowledge = {
+            // UNESCO World Heritage Sites
+            'unesco': `🏛️ **India's 44 UNESCO World Heritage Sites**\n\n**Cultural Sites (36):**\n• Taj Mahal (1983) - Agra, UP\n• Ajanta Caves (1983) - Maharashtra\n• Ellora Caves (1983) - Maharashtra\n• Agra Fort (1983) - UP\n• Red Fort Complex (2007) - Delhi\n• Khajuraho (1986) - Madhya Pradesh\n• Hampi (1986) - Karnataka\n• Fatehpur Sikri (1986) - UP\n• Mahabalipuram (1984) - Tamil Nadu\n• Sun Temple Konark (1984) - Odisha\n• Group of Monuments at Pattadakal (1987) - Karnataka\n• Elephanta Caves (1987) - Maharashtra\n• Great Living Chola Temples (1987/2004) - Tamil Nadu\n• Buddhist Monuments at Sanchi (1989) - MP\n• Humayun's Tomb (1993) - Delhi\n• Qutb Minar (1993) - Delhi\n• Mahabodhi Temple (2002) - Bihar\n• Rock Shelters of Bhimbetka (2003) - MP\n• Champaner-Pavagadh (2004) - Gujarat\n• Chhatrapati Shivaji Terminus (2004) - Maharashtra\n• Red Fort Complex (2007) - Delhi\n• Jantar Mantar (2010) - Rajasthan\n• Hill Forts of Rajasthan (2013) - Rajasthan\n• Rani-ki-Vav (2014) - Gujarat\n• Nalanda Mahavihara (2016) - Bihar\n• Historic City of Ahmedabad (2017) - Gujarat\n• Victorian Gothic & Art Deco Mumbai (2018) - Maharashtra\n• Jaipur City (2019) - Rajasthan\n• Ramappa Temple (2021) - Telangana\n• Dholavira (2021) - Gujarat\n• Sacred Ensembles of Hoysalas (2023) - Karnataka\n• Santiniketan (2023) - West Bengal\n• Moidams of Ahom Dynasty (2024) - Assam\n• Maratha Military Landscapes (2025) - Multiple states\n\n**Natural Sites (7):**\n• Kaziranga National Park (1985) - Assam\n• Keoladeo National Park (1985) - Rajasthan\n• Manas Wildlife Sanctuary (1985) - Assam\n• Sundarbans National Park (1987) - West Bengal\n• Nanda Devi & Valley of Flowers (1988/2005) - Uttarakhand\n• Western Ghats (2012) - Multiple states\n• Great Himalayan National Park (2014) - HP\n\n**Mixed Site (1):**\n• Khangchendzonga National Park (2016) - Sikkim\n\nIndia has 3,679 ASI protected monuments!`,
+
+            // Assam Heritage
+            'assam': `🦏 **Assam - Culture & Heritage**\n\n**UNESCO Sites:**\n• **Kaziranga National Park** - One-horned rhinoceros habitat\n• **Manas Wildlife Sanctuary** - Biosphere reserve\n• **Moidams** (2024) - Ahom dynasty mound-burial system\n\n**Major Heritage Sites:**\n🏛️ **Sivasagar** - Ahom monuments:\n   • Rang Ghar - Amphitheater (Asia's oldest)\n   • Talatal Ghar - Multi-story palace\n   • Shiva Dol - Tallest Shiva temple\n\n🏺 **Charaideo Moidams** - Royal Ahom necropolis with pyramid-like burial mounds\n\n**Cultural Heritage:**\n🎭 **Performing Arts:**\n   • Bihu dance & music (state festival)\n   • Sattriya classical dance (Vaishnavite monasteries)\n   • Borgeet devotional songs\n\n🎨 **Handicrafts:**\n   • Japi (traditional bamboo hat)\n   • Muga silk weaving (golden silk unique to Assam)\n   • Bamboo & cane crafts\n\n☕ **Tea Heritage:**\n   • Colonial-era tea gardens\n   • Working tea plantation culture\n   • Traditional tea processing methods\n\n**Indigenous Communities:**\n   • Bodo, Mising, Karbi tribal cultures\n   • Traditional festivals & rituals\n\nAssam's heritage spans from ancient Ahom kingdom to British colonial tea culture!`,
+
+            // Kerala Heritage
+            'kerala': `🌴 **Kerala - God's Own Country**\n\n**UNESCO Sites:**\n• **Western Ghats** - Biodiversity hotspot with Periyar & Silent Valley\n\n**Major Heritage Sites:**\n🏰 **Fort Kochi & Mattancherry:**\n   • Dutch Palace with Kerala murals\n   • Jewish Synagogue (1568)\n   • Chinese fishing nets\n   • St. Francis Church (Vasco da Gama's burial site)\n\n🏛️ **Padmanabhapuram Palace** - Classic Travancore wooden architecture\n\n⛵ **Backwaters Heritage:**\n   • Kettuvallam (traditional houseboats)\n   • Ancient waterway transport system\n   • Coconut palm-lined canals\n\n**Cultural Traditions:**\n🎭 **Classical Arts:**\n   • **Kathakali** - Classical dance-drama\n   • **Mohiniyattam** - Solo female dance\n   • **Theyyam** - North Kerala ritual performance\n   • **Koodiyattam** - Sanskrit theater\n\n🎪 **Festivals:**\n   • **Onam** - State harvest festival\n   • **Vishu** - New Year celebration\n   • **Nehru Trophy Boat Race** - Snake boat races\n   • **Thrissur Pooram** - Temple festival\n\n🎨 **Handicrafts:**\n   • Coir products from coconut fiber\n   • Bronze sculptures (lost-wax technique)\n   • Traditional mural paintings\n   • Kathakali masks & costumes\n\n🌿 **Ayurveda Heritage:**\n   • Ancient medical system\n   • Traditional treatments & medicines\n   • Ayurvedic massage therapies\n\nKerala uniquely blends Hindu traditions with colonial influences!`,
+
+            // Maharashtra Heritage  
+            'maharashtra': `⛰️ **Maharashtra - Land of Marathas**\n\n**UNESCO Sites (7):**\n• **Ajanta Caves** - Buddhist rock-cut monuments with frescoes\n• **Ellora Caves** - 34 temples (Buddhist, Hindu, Jain)\n• **Elephanta Caves** - Shiva temple sculptures\n• **Chhatrapati Shivaji Terminus** - Victorian Gothic architecture\n• **Victorian Gothic & Art Deco Mumbai** - Unique architectural ensemble\n• **Hill Forts of Rajasthan** (includes Maratha forts)\n• **Maratha Military Landscapes** (2025) - Fort systems\n\n**Major Heritage Sites:**\n🏰 **Maratha Forts:**\n   • **Raigad Fort** - Shivaji's capital\n   • **Shaniwar Wada** - Peshwa palace in Pune\n   • **Pratapgad Fort** - Historic Maratha victory site\n   • **Sinhagad Fort** - Legendary fortress\n\n🏛️ **Mumbai Colonial Heritage:**\n   • Gateway of India\n   • Chhatrapati Shivaji Maharaj Museum\n   • Crawford Market\n   • Marine Drive Art Deco buildings\n\n**Rock-Cut Architecture:**\n🗿 **Ajanta Caves (2nd century BCE - 480 CE):**\n   • 30 Buddhist cave monuments\n   • Exquisite paintings & sculptures\n   • Depicts Jataka tales\n\n🕉️ **Ellora Caves (6th-11th century):**\n   • Kailasa Temple - Monolithic wonder\n   • Buddhist, Hindu & Jain caves\n   • Engineering marvel\n\n**Cultural Heritage:**\n🎭 **Performing Arts:**\n   • **Lavani** - Traditional dance form\n   • **Tamasha** - Folk theater\n   • **Powada** - Heroic ballads\n   • **Bharud** - Social commentary performances\n\n🍛 **Cuisine:**\n   • Vada Pav - Mumbai street food\n   • Puran Poli - Sweet flatbread\n   • Misal Pav - Spicy curry\n   • Modak - Ganesh festival sweet\n\n🧵 **Crafts:**\n   • Paithani sarees from Paithan\n   • Bidriware metalwork\n   • Warli paintings\n\nMaharashtra showcases India's ancient cave architecture and Maratha empire legacy!`,
+
+            // Uttarakhand Heritage
+            'uttarakhand': `🏔️ **Uttarakhand - Devbhoomi (Land of Gods)**\n\n**UNESCO Sites:**\n• **Nanda Devi National Park** - Himalayan biodiversity\n• **Valley of Flowers** - Alpine flower sanctuary\n\n**Sacred Heritage:**\n🕉️ **Char Dham Pilgrimage:**\n   • **Badrinath** - Vishnu temple at 3,300m\n   • **Kedarnath** - Shiva temple at 3,583m\n   • **Gangotri** - Source of Ganges\n   • **Yamunotri** - Source of Yamuna\n\n🏞️ **Holy Cities:**\n   • **Haridwar** - Gateway to gods, Ganga Aarti\n   • **Rishikesh** - Yoga capital, ashrams\n   • **Dehradun** - Colonial hill station\n\n**Historical Sites:**\n🏰 **Hill Forts:**\n   • **Askot Fort** - Kumaon dynasty\n   • **Pithoragarh Fort** - Border watch post\n   • **Almora Fort** - Chand dynasty capital\n\n🌲 **Jim Corbett National Park:**\n   • India's oldest national park (1936)\n   • Tiger reserve with colonial history\n   • Jim Corbett's hunting lodge\n\n**Cultural Heritage:**\n🎵 **Folk Traditions:**\n   • **Jagar** - Ritual music & spirit worship\n   • **Pandav Lila** - Narrative theater\n   • **Ramman** - Religious festival-theater\n\n💃 **Dance Forms:**\n   • **Chholiya** - Kumaoni sword dance\n   • **Barada Nati** - Circle dance\n   • **Hurka Baul** - Folk dance with drums\n\n🎨 **Handicrafts:**\n   • Pashmina shawls\n   • Woolen carpets\n   • Copper utensils\n   • Wood carvings\n   • Ringaal (bamboo) crafts\n\n**Mountain Culture:**\n   • Transhumance - Seasonal migration\n   • Traditional architecture (stone & wood)\n   • Sacred groves (Devrai)\n   • Alpine festivals\n\nUttarakhand preserves ancient Himalayan spiritual traditions and mountain cultures!`,
+
+            // ASI Monuments
+            'asi': `🏛️ **Archaeological Survey of India (ASI)**\n\nASI protects **3,679 Monuments of National Importance** across India under the Ancient Monuments Act, 1958.\n\n**Major ASI Circles & Their Famous Monuments:**\n\n🌆 **Delhi Circle:**\n   • Red Fort Complex\n   • Qutb Minar Complex\n   • Humayun's Tomb\n   • Purana Qila\n   • Safdarjung Tomb\n\n🏰 **Agra Circle:**\n   • Taj Mahal\n   • Agra Fort\n   • Fatehpur Sikri\n   • Itimad-ud-Daulah\n   • Sikandra (Akbar's Tomb)\n\n🗿 **Aurangabad Circle:**\n   • Ajanta Caves\n   • Ellora Caves\n   • Daulatabad Fort\n   • Bibi Ka Maqbara\n\n⛰️ **Bhopal Circle:**\n   • Khajuraho Group\n   • Sanchi Stupa\n   • Bhimbetka Rock Shelters\n   • Mandu Monuments\n\n🏺 **Kolkata Circle:**\n   • Victoria Memorial vicinity monuments\n   • Sundarbans archaeological sites\n\n🌊 **Chennai Circle:**\n   • Mahabalipuram\n   • Chola temples\n   • Fort St. George\n\n**ASI Services:**\n   • Monument conservation\n   • Archaeological excavations\n   • Museum management\n   • Research & documentation\n   • Tourist facilitation\n\n**Recent Additions:**\n   • Digital documentation\n   • 3D mapping\n   • Virtual tours\n   • Online ticketing\n\nASI maintains India's archaeological heritage spanning 5,000+ years!`,
+
+            // Classical Arts
+            'classical': `🎭 **Indian Classical Arts Heritage**\n\n**Classical Dances (8 recognized forms):**\n\n💃 **Bharatanatyam** (Tamil Nadu)\n   • Temple dance tradition\n   • Devadasi system origins\n   • Natya Shastra principles\n\n🎭 **Kathak** (North India)\n   • Mughal court influence\n   • Storytelling through dance\n   • Gharana traditions\n\n🌺 **Odissi** (Odisha)\n   • Jagannath temple tradition\n   • Tribhanga posture\n   • Gotipua boy dancers\n\n🌴 **Kathakali** (Kerala)\n   • Elaborate makeup & costumes\n   • Martial arts influence\n   • Ramayana & Mahabharata themes\n\n🎪 **Manipuri** (Manipur)\n   • Ras Lila performances\n   • Vaishnavite devotion\n   • Gentle, graceful movements\n\n🏔️ **Kuchipudi** (Andhra Pradesh)\n   • Dance-drama tradition\n   • Male Brahmin performers\n   • Bhama Kalapam famous piece\n\n🌿 **Mohiniyattam** (Kerala)\n   • Solo female dance\n   • Mohini (enchantress) theme\n   • Graceful, feminine movements\n\n🌸 **Sattriya** (Assam)\n   • Vaishnavite monastery tradition\n   • Ankiya Nat dramas\n   • Youngest classical form (2000)\n\n**Classical Music:**\n🎵 **Hindustani** (North)\n   • Raga-Tala system\n   • Gharana traditions\n   • Khayal, Dhrupad, Thumri\n\n🎶 **Carnatic** (South)\n   • Trinity composers\n   • Kriti compositions\n   • Mathematical precision\n\nThese arts preserve 2000+ year old traditions!`,
+
+            // Festivals
+            'festivals': `🎪 **Indian Festivals & Cultural Celebrations**\n\n**Pan-Indian Major Festivals:**\n\n🪔 **Diwali** (Oct/Nov)\n   • Festival of lights\n   • Lakshmi worship\n   • Regional variations\n\n🌈 **Holi** (March)\n   • Festival of colors\n   • Spring celebration\n   • Radha-Krishna legends\n\n🐘 **Ganesh Chaturthi** (Aug/Sep)\n   • Maharashtra's biggest festival\n   • 11-day celebration\n   • Eco-friendly innovations\n\n**Regional Heritage Festivals:**\n\n🎭 **Durga Puja** (Bengal - Sep/Oct)\n   • 5-day celebration\n   • Artistic pandals\n   • Cultural performances\n\n🌺 **Onam** (Kerala - Aug/Sep)\n   • 10-day harvest festival\n   • Pookalam flower carpets\n   • Traditional feast (Sadhya)\n\n🦏 **Bihu** (Assam - April)\n   • New Year celebration\n   • Traditional dance\n   • Community participation\n\n🐪 **Pushkar Fair** (Rajasthan - Nov)\n   • Camel trading fair\n   • Folk performances\n   • Desert culture showcase\n\n⛵ **Kumbh Mela** (Rotating cities)\n   • World's largest gathering\n   • 12-year cycle\n   • Spiritual significance\n\n**Cultural Festival Features:**\n   • Traditional arts performances\n   • Regional cuisine\n   • Handicraft exhibitions\n   • Folk music & dance\n   • Religious rituals\n   • Community bonding\n\nEach festival preserves unique cultural heritage and brings communities together!`,
+
+            // Architecture
+            'architecture': `🏛️ **Indian Architectural Heritage**\n\n**Architectural Periods & Styles:**\n\n🗿 **Ancient Period (3rd century BCE - 8th century CE):**\n   • Rock-cut caves (Ajanta, Ellora)\n   • Stupas (Sanchi, Amaravati)\n   • Temple architecture beginnings\n\n🕉️ **Classical Temple Architecture:**\n\n**Nagara Style** (North India)\n   • Curvilinear shikhara\n   • Khajuraho temples\n   • Konark Sun Temple\n\n**Dravidian Style** (South India)\n   • Pyramidal vimana\n   • Gopurams (towering gateways)\n   • Chola temples\n\n**Vesara Style** (Deccan)\n   • Mixed features\n   • Hoysala temples\n   • Chalukyan architecture\n\n🏰 **Islamic Architecture (11th-18th centuries):**\n\n**Delhi Sultanate:**\n   • Qutb Minar complex\n   • Indo-Islamic fusion\n   • Geometric patterns\n\n**Mughal Architecture:**\n   • Taj Mahal - epitome of Mughal art\n   • Red Fort, Fatehpur Sikri\n   • Persian garden layouts\n   • Pietra dura inlay work\n\n**Regional Islamic Styles:**\n   • Bijapur Sultanate (Gol Gumbaz)\n   • Gujarat Sultanate\n   • Bengal Sultanate\n\n🏘️ **Colonial Architecture (18th-20th centuries):**\n\n**British Colonial:**\n   • Gothic Revival (Mumbai CST)\n   • Neo-classical (Kolkata)\n   • Art Deco (Mumbai)\n   • Hill station architecture\n\n**Portuguese & Dutch:**\n   • Goan churches\n   • Kochi colonial buildings\n\n**Unique Features:**\n   • Climate-responsive design\n   • Local material usage\n   • Skilled craftsmanship traditions\n   • Cultural symbolism\n   • Engineering innovations\n\nIndian architecture reflects 2,500+ years of continuous building traditions!`,
+
+            // Default helpful responses
+            'help': `🙏 **How I can assist you:**\n\n🏛️ **Heritage Sites:**\n   • 44 UNESCO World Heritage Sites\n   • 3,679 ASI protected monuments\n   • State-wise heritage information\n\n🎭 **Cultural Knowledge:**\n   • Classical arts (dance, music, theater)\n   • Traditional festivals & celebrations\n   • Regional handicrafts & textiles\n\n🏰 **Architectural Heritage:**\n   • Ancient temples & monuments\n   • Islamic architecture\n   • Colonial buildings\n   • Regional architectural styles\n\n🌍 **Travel Information:**\n   • Best times to visit\n   • Cultural experiences\n   • Local traditions & customs\n   • Heritage tourism planning\n\n**Specialized Knowledge:**\n   • Assam (Moidams, Kaziranga, Bihu)\n   • Kerala (Backwaters, Kathakali, Ayurveda)\n   • Maharashtra (Ajanta-Ellora, Maratha heritage)\n   • Uttarakhand (Char Dham, Himalayan culture)\n\nJust ask about any aspect of Indian heritage and culture!`,
+
+            'hello': `Namaste! 🙏 Welcome to your comprehensive Indian Heritage Guide!\n\nI'm equipped with extensive knowledge about India's rich cultural heritage, including all 44 UNESCO World Heritage Sites, thousands of ASI monuments, and detailed information about different states' cultural traditions.\n\nWhat aspect of Indian heritage would you like to explore today?`,
+
+            'thankyou': `Dhanyawad! 🙏 (Thank you!)\n\nI'm delighted to share India's incredible heritage with you. Our country's cultural diversity and historical depth offer endless discoveries.\n\nFeel free to ask about any heritage site, cultural tradition, or travel planning - I'm here to help!`,
+
+            'goodbye': `Namaskar! 🙏 May your journey through India's heritage be enriching and memorable!\n\nRemember to respect local customs, preserve our monuments for future generations, and immerse yourself in the incredible cultural diversity our nation offers.\n\nSafe travels and come back anytime for more heritage insights! Jai Hind! 🇮🇳`
+        };
+
+        // Advanced pattern matching for heritage queries
+        function findBestResponse(input) {
+            const lowerInput = input.toLowerCase();
+            
+            // UNESCO World Heritage Sites
+            if (lowerInput.includes('unesco') || lowerInput.includes('world heritage')) {
+                return heritageKnowledge.unesco;
+            }
+            
+            // State-specific heritage
+            if (lowerInput.includes('assam') || lowerInput.includes('kaziranga') || lowerInput.includes('moidams') || lowerInput.includes('ahom') || lowerInput.includes('bihu')) {
+                return heritageKnowledge.assam;
+            }
+            
+            if (lowerInput.includes('kerala') || lowerInput.includes('backwater') || lowerInput.includes('kathakali') || lowerInput.includes('kochi') || lowerInput.includes('onam')) {
+                return heritageKnowledge.kerala;
+            }
+            
+            if (lowerInput.includes('maharashtra') || lowerInput.includes('ajanta') || lowerInput.includes('ellora') || lowerInput.includes('maratha') || lowerInput.includes('shivaji')) {
+                return heritageKnowledge.maharashtra;
+            }
+            
+            if (lowerInput.includes('uttarakhand') || lowerInput.includes('char dham') || lowerInput.includes('badrinath') || lowerInput.includes('kedarnath') || lowerInput.includes('rishikesh') || lowerInput.includes('haridwar')) {
+                return heritageKnowledge.uttarakhand;
+            }
+            
+            // ASI and monuments
+            if (lowerInput.includes('asi') || lowerInput.includes('archaeological survey') || lowerInput.includes('monument')) {
+                return heritageKnowledge.asi;
+            }
+            
+            // Classical arts
+            if (lowerInput.includes('classical') || lowerInput.includes('dance') || lowerInput.includes('bharatanatyam') || lowerInput.includes('kathak') || lowerInput.includes('sattriya')) {
+                return heritageKnowledge.classical;
+            }
+            
+            // Festivals
+            if (lowerInput.includes('festival') || lowerInput.includes('diwali') || lowerInput.includes('holi') || lowerInput.includes('durga puja')) {
+                return heritageKnowledge.festivals;
+            }
+            
+            // Architecture
+            if (lowerInput.includes('architecture') || lowerInput.includes('temple') || lowerInput.includes('nagara') || lowerInput.includes('dravidian')) {
+                return heritageKnowledge.architecture;
+            }
+
+            // Specific monument queries
+            if (lowerInput.includes('taj mahal')) {
+                return `🏛️ **Taj Mahal - Crown Jewel of India**\n\n📍 **Location:** Agra, Uttar Pradesh\n🏗️ **Built:** 1632-1648 CE by Shah Jahan\n👑 **Architect:** Ustad Ahmad Lahauri\n💎 **Purpose:** Mausoleum for Mumtaz Mahal\n\n**Architectural Marvel:**\n• White Yamuna river marble\n• Pietra dura inlay work\n• Persian garden layout (Charbagh)\n• Perfect symmetry & proportions\n• Central dome with four minarets\n• Calligraphy from Quran\n\n**UNESCO Recognition:** 1983 (Cultural)\n\n**Visit Information:**\n⏰ **Timings:** Sunrise to sunset (closed Fridays)\n🎫 **Entry:** ₹50 Indians, ₹1100 foreigners\n📸 **Photography:** Additional charges inside main tomb\n🌅 **Best Time:** Early morning or sunset\n\n**Cultural Significance:**\n• Symbol of eternal love\n• Masterpiece of Mughal architecture\n• Wonder of the World\n• India's most iconic monument\n\nShah Jahan said: "The sight of this mansion creates sorrowing sighs, and the sun and moon shed tears from their eyes!"`;
+            }
+
+            if (lowerInput.includes('red fort')) {
+                return `🏰 **Red Fort (Lal Qila) - Mughal Power Symbol**\n\n📍 **Location:** Delhi\n🏗️ **Built:** 1638-1648 by Shah Jahan\n🧱 **Material:** Red sandstone walls\n\n**Historical Significance:**\n• Mughal imperial residence for 200+ years\n• Site of Indian independence declaration (1947)\n• PM's Independence Day speech venue\n\n**Key Structures:**\n🏛️ **Diwan-i-Aam:** Hall of Public Audience\n💎 **Diwan-i-Khas:** Hall of Private Audience\n🌸 **Rang Mahal:** Palace of Colors\n🛁 **Hammam:** Royal baths\n🌺 **Hayat Bakhsh Bagh:** Life-bestowing garden\n\n**UNESCO Recognition:** 2007 (Cultural)\n\n**Architecture Features:**\n• Indo-Islamic style\n• Charbagh garden layout\n• Marble pavilions\n• Intricate carvings\n• Water channels (nahr-i-bihisht)\n\n**Cultural Events:**\n• Sound & Light show\n• Independence Day celebrations\n• Red Fort Festival\n\nThe fort represents the zenith of Mughal creativity and power!`;
+            }
+
+            if (lowerInput.includes('qutub minar') || lowerInput.includes('qutb minar')) {
+                return `🕌 **Qutb Minar - Victory Tower of Delhi**\n\n📍 **Location:** Mehrauli, Delhi\n🏗️ **Built:** 1192-1368 CE (multiple rulers)\n📏 **Height:** 72.5 meters (world's tallest brick minaret)\n\n**Historical Layers:**\n• **Qutb-ud-din Aibak** (1192) - Foundation\n• **Iltutmish** (1220) - Extended\n• **Firoz Shah Tughlaq** (1368) - Completed\n\n**Architectural Features:**\n🧱 **Material:** Red sandstone & marble\n🎨 **Style:** Indo-Islamic architecture\n📜 **Inscriptions:** Quranic verses & Persian poetry\n🏛️ **Fluted:** 24 fluted columns\n\n**Complex Monuments:**\n⚔️ **Iron Pillar:** Rust-resistant metallurgy marvel (4th century)\n🕌 **Quwwat-ul-Islam Mosque:** First mosque in Delhi\n🏛️ **Alai Darwaza:** Masterpiece of Indo-Islamic art\n🗿 **Tomb of Iltutmish:** Beautiful geometric patterns\n\n**UNESCO Recognition:** 1993 (Cultural)\n\n**Cultural Significance:**\n• Symbol of Islamic conquest\n• Architectural evolution showcase\n• Scientific achievement (Iron Pillar)\n• Tourist education center\n\n**Legend:** Iron Pillar - If you can encircle it with your arms behind your back, your wish comes true!\n\nQutb Minar marks the beginning of Islamic architecture in India!`;
+            }
+
+            if (lowerInput.includes('khajuraho')) {
+                return `🕉️ **Khajuraho - Temples of Love & Life**\n\n📍 **Location:** Madhya Pradesh\n🏗️ **Built:** 950-1050 CE (Chandela dynasty)\n👑 **Rulers:** Yashovarman, Dhanga, Vidyadhara\n\n**Temple Groups:**\n🌅 **Western Group:** Main temple complex\n   • Kandariya Mahadev (largest)\n   • Lakshmana Temple\n   • Chaunsat Yogini\n\n🌄 **Eastern Group:** Jain temples\n   • Parsva Nath\n   • Adinath\n\n🌆 **Southern Group:** Scattered temples\n\n**Architectural Marvel:**\n🏗️ **Style:** Nagara (North Indian)\n⛰️ **Structure:** Mountain-like shikhara\n🎨 **Sculptures:** 10,000+ carved figures\n📐 **Layout:** Cosmic symbolism\n\n**Famous Sculptures:**\n💃 **Apsaras:** Celestial dancers\n🕉️ **Deities:** Hindu pantheon\n💑 **Mithuna:** Loving couples\n🌺 **Erotic Art:** 10% of total sculptures\n\n**UNESCO Recognition:** 1986 (Cultural)\n\n**Cultural Significance:**\n• Tantric philosophy representation\n• Life celebration (all aspects)\n• Architectural pinnacle of medieval India\n• Sexual education in stone\n\n**Symbolism:**\n• Outer desires → Inner spiritual journey\n• Material world → Spiritual enlightenment\n• Human emotions → Divine consciousness\n\n**Best Time to Visit:** Oct-March\n🎪 **Festival:** Khajuraho Dance Festival (Feb-March)\n\nKhajuraho celebrates the complete human experience on the path to moksha!`;
+            }
+
+            if (lowerInput.includes('hampi')) {
+                return `⛰️ **Hampi - Ruins of Vijayanagara Empire**\n\n📍 **Location:** Karnataka\n🏗️ **Period:** 14th-16th centuries\n👑 **Empire:** Vijayanagara (Harihara & Bukka)\n\n**Historical Glory:**\n• Capital of South India's largest empire\n• Prosperous trade center\n• Population: 500,000+ at peak\n• Destroyed by Deccan Sultans (1565)\n\n**Major Monuments:**\n\n🕉️ **Sacred Center:**\n   • **Virupaksha Temple** - Still active Shiva temple\n   • **Vittala Temple** - Stone chariot & musical pillars\n   • **Hazara Rama Temple** - Ramayana reliefs\n   • **Achyutaraya Temple** - Ruined splendor\n\n🏰 **Royal Center:**\n   • **Lotus Mahal** - Indo-Islamic architecture\n   • **Elephant Stables** - 11 chambers\n   • **Queen's Bath** - Royal bathing complex\n   • **Stepped Tank** - Water management\n\n**Unique Features:**\n🎵 **Musical Pillars:** Stone columns produce musical notes\n🐘 **Stone Chariot:** Vittala Temple's iconic structure\n💎 **Bazaar Streets:** Ancient market layouts\n🗿 **Boulder Landscape:** Dramatic granite formations\n\n**UNESCO Recognition:** 1986 (Cultural)\n\n**Architectural Style:**\n• Vijayanagara style\n• Dravidian influence\n• Islamic elements\n• Intricate stone carvings\n• Gopuram towers\n\n**Cultural Heritage:**\n• Telugu & Kannada patronage\n• Hindu temple architecture pinnacle\n• Trade route significance\n• Artistic synthesis\n\n**Modern Significance:**\n• Archaeological wonder\n• Rock climbing destination\n• Spiritual tourism\n• Heritage conservation model\n\nHampi is an open-air museum showcasing medieval South Indian grandeur!`;
+            }
+
+            if (lowerInput.includes('ajanta')) {
+                return `🗿 **Ajanta Caves - Buddhist Art Masterpiece**\n\n📍 **Location:** Aurangabad, Maharashtra\n⏰ **Period:** 2nd century BCE - 6th century CE\n🏛️ **Total Caves:** 30 rock-cut monuments\n\n**Historical Phases:**\n\n**Phase I (2nd-1st century BCE):**\n   • Caves 9, 10, 12, 13, 15A\n   • Hinayana Buddhism\n   • Simple architecture\n\n**Phase II (5th-6th century CE):**\n   • Caves 1-8, 11, 14-29\n   • Mahayana Buddhism\n   • Elaborate paintings & sculptures\n\n**Famous Caves:**\n\n🎨 **Cave 1:** Bodhisattva Padmapani paintings\n🏛️ **Cave 2:** Jataka tale illustrations\n🧘 **Cave 26:** Reclining Buddha (Parinirvana)\n⛪ **Cave 19:** Chaitya hall with stupa\n\n**Artistic Treasures:**\n\n🖼️ **Paintings:**\n   • Natural mineral pigments\n   • Fresco technique\n   • Buddhist themes\n   • Court life depictions\n   • Bodhisattva portraits\n\n🗿 **Sculptures:**\n   • Buddha in various mudras\n   • Bodhisattva figures\n   • Decorative motifs\n   • Architectural elements\n\n**UNESCO Recognition:** 1983 (Cultural)\n\n**Unique Features:**\n• Perfect preservation in some caves\n• Artistic evolution over 800 years\n• Buddhist philosophy in art\n• Technical painting mastery\n• Integration of architecture, sculpture & painting\n\n**Conservation Challenges:**\n• Moisture damage\n• Tourist impact\n• Natural weathering\n• Modern restoration efforts\n\n**Cultural Significance:**\n• Peak of ancient Indian art\n• Buddhist monastery life\n• International artistic influence\n• Silk Route cultural exchange\n\n**Rediscovery:** 1819 by British officer John Smith\n\nAjanta represents the golden age of Indian Buddhist art!`;
+            }
+
+            if (lowerInput.includes('ellora')) {
+                return `⛰️ **Ellora Caves - Multi-Religious Marvel**\n\n📍 **Location:** Aurangabad, Maharashtra\n⏰ **Period:** 6th-11th centuries CE\n🏛️ **Total Caves:** 34 (3 religions)\n\n**Religious Distribution:**\n\n🧘 **Buddhist Caves (1-12):** 6th-8th centuries\n   • Monasteries & prayer halls\n   • Multi-story structures\n   • Tantric Buddhism influence\n\n🕉️ **Hindu Caves (13-29):** 7th-10th centuries\n   • Dedicated to Shiva, Vishnu, Devi\n   • **Kailasa Temple (Cave 16)** - Crown jewel\n   • Dramatic sculptures\n\n🙏 **Jain Caves (30-34):** 9th-11th centuries\n   • Detailed architectural elements\n   • Peaceful, meditative atmosphere\n   • Fine decorative work\n\n**Kailasa Temple (Cave 16) - The Wonder:**\n\n🏔️ **Concept:** Mount Kailasa replica\n⛏️ **Construction:** Carved from single rock\n📏 **Dimensions:** 32m long, 20m wide, 30m high\n🗿 **Material:** 200,000 tons of rock removed\n👑 **Patron:** Rashtrakuta King Krishna I\n\n**Engineering Marvel:**\n• Top-down excavation\n• No structural supports needed\n• Perfect architectural proportions\n• Integrated sculpture & architecture\n• Drainage system for monsoons\n\n**Architectural Elements:**\n🐘 **Elephant Sculptures:** Life-size carvings\n🏛️ **Mandapa Halls:** Multiple levels\n📿 **Shiva Lingam:** Central sanctum\n🎭 **Ramayana Panels:** Epic narratives\n\n**UNESCO Recognition:** 1983 (Cultural)\n\n**Cultural Significance:**\n• Religious harmony showcase\n• Architectural evolution\n• Patronage by multiple dynasties\n• Artistic synthesis\n• Living heritage (some temples still active)\n\n**Conservation:**\n• ASI protection\n• Structural monitoring\n• Visitor management\n• Documentation projects\n\n**Famous Quote:** "Most wonderful and mysterious is the Kailasa of Ellora, carved out of the living rock!" - Archaeological Survey\n\nEllora demonstrates India's pluralistic heritage and architectural genius!`;
+            }
+
+            // More specific site queries
+            if (lowerInput.includes('sanchi')) {
+                return `☸️ **Sanchi - Buddhist Heritage Sanctuary**\n\n📍 **Location:** Madhya Pradesh\n⏰ **Period:** 3rd century BCE - 12th century CE\n🏛️ **Monuments:** 50+ Buddhist structures\n\n**Great Stupa (Stupa 1):**\n\n👑 **Patron:** Emperor Ashoka (3rd century BCE)\n🏗️ **Expansion:** Shunga period (2nd century BCE)\n📏 **Dimensions:** 36.6m diameter, 16.46m height\n⛩️ **Toranas:** 4 intricately carved gateways\n\n**Architectural Evolution:**\n\n**Mauryan Period (3rd century BCE):**\n   • Original Ashoka stupa\n   • Simple brick structure\n   • Buddhist establishment\n\n**Shunga Period (2nd-1st century BCE):**\n   • Stone casing added\n   • Magnificent toranas carved\n   • Artistic flowering\n\n**Gupta Period (4th-6th centuries):**\n   • Temple additions\n   • Sculptural refinement\n   • Monastic expansion\n\n**Famous Gateways:**\n\n🐘 **Eastern Torana:** Elephant processions\n🦁 **Southern Torana:** Lion capitals\n🐎 **Western Torana:** Horse & rider scenes\n🌸 **Northern Torana:** Miracle stories\n\n**Sculptural Themes:**\n• Jataka tales (Buddha's previous lives)\n• Buddha's life events (symbolic)\n• Royal patronage scenes\n• Floral & animal motifs\n• Yaksha & Yakshini figures\n\n**UNESCO Recognition:** 1989 (Cultural)\n\n**Cultural Significance:**\n• Early Buddhist art development\n• Ashoka's dhamma propagation\n• Merchant patronage of Buddhism\n• Artistic influence on later sites\n• Monastic education center\n\n**Archaeological Museum:**\n• Lion Capital of Ashoka (National Emblem)\n• Original sculptures & artifacts\n• Buddhist art evolution display\n\n**Conservation:**\n• ASI maintenance\n• Scientific preservation\n• Visitor interpretation center\n\nSanchi represents Buddhism's golden age under Ashoka's patronage!`;
+            }
+
+            // Greetings and common responses
+            if (lowerInput.includes('hello') || lowerInput.includes('hi') || lowerInput.includes('hey') || lowerInput.includes('namaste')) {
+                return heritageKnowledge.hello;
+            }
+            
+            if (lowerInput.includes('thank') || lowerInput.includes('dhanyawad')) {
+                return heritageKnowledge.thankyou;
+            }
+            
+            if (lowerInput.includes('bye') || lowerInput.includes('goodbye') || lowerInput.includes('namaskar')) {
+                return heritageKnowledge.goodbye;
+            }
+
+            if (lowerInput.includes('help') || lowerInput.includes('assist') || lowerInput.includes('guide')) {
+                return heritageKnowledge.help;
+            }
+
+            // Default response for unmatched queries
+            return `🙏 I'd be happy to help you explore Indian heritage!\n\nI have detailed knowledge about:\n\n🏛️ **UNESCO World Heritage Sites** (all 44 sites)\n🗿 **ASI Monuments** (3,679+ protected sites)\n🎭 **Cultural Heritage** (classical arts, festivals, traditions)\n🏰 **Architecture** (temple styles, Islamic monuments, colonial buildings)\n🌍 **State Heritage** (Assam, Kerala, Maharashtra, Uttarakhand & more)\n\nCould you be more specific about what interests you? For example:\n• "Tell me about Taj Mahal"\n• "Assam heritage sites"\n• "Classical Indian dances"\n• "UNESCO sites in Maharashtra"\n• "Temple architecture styles"\n\nWhat would you like to discover?`;
+        }
+
+        function addMessage(content, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'bot'}`;
+            
+            const messageContent = document.createElement('div');
+            messageContent.className = 'message-content';
+            messageContent.innerHTML = content.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            
+            messageDiv.appendChild(messageContent);
+            chatMessages.appendChild(messageDiv);
+            
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function showTyping() {
+            typingIndicator.style.display = 'flex';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function hideTyping() {
+            typingIndicator.style.display = 'none';
+        }
+
+        function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+
+            addMessage(message, true);
+            chatInput.value = '';
+
+            showTyping();
+            
+            setTimeout(() => {
+                hideTyping();
+                const response = findBestResponse(message);
+                addMessage(response);
+            }, 1000 + Math.random() * 1500);
+        }
+
+        function sendQuickReply(message) {
+            addMessage(message, true);
+            
+            showTyping();
+            
+            setTimeout(() => {
+                hideTyping();
+                const response = findBestResponse(message);
+                addMessage(response);
+            }, 800 + Math.random() * 700);
+        }
+
+        sendButton.addEventListener('click', sendMessage);
+        
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+
+        chatInput.addEventListener('input', () => {
+            sendButton.style.background = chatInput.value.trim() ? 
+                'linear-gradient(135deg, #ff9a56 0%, #ff6b6b 100%)' : 
+                'linear-gradient(135deg, #ccc 0%, #999 100%)';
+        });
+
+        // Welcome message enhancement with more quick replies
+        setTimeout(() => {
+            const quickRepliesDiv = document.querySelector('.quick-replies');
+            quickRepliesDiv.innerHTML = `
+                <div class="quick-reply" onclick="sendQuickReply('UNESCO World Heritage Sites')">🏛️ UNESCO Sites</div>
+                <div class="quick-reply" onclick="sendQuickReply('Assam heritage')">🦏 Assam</div>
+                <div class="quick-reply" onclick="sendQuickReply('Kerala culture')">🌴 Kerala</div>
+                <div class="quick-reply" onclick="sendQuickReply('Maharashtra monuments')">⛰️ Maharashtra</div>
+                <div class="quick-reply" onclick="sendQuickReply('Taj Mahal')">🕌 Taj Mahal</div>
+                <div class="quick-reply" onclick="sendQuickReply('Classical dances')">💃 Classical Arts</div>
+                <div class="quick-reply" onclick="sendQuickReply('Indian festivals')">🎪 Festivals</div>
+                <div class="quick-reply" onclick="sendQuickReply('ASI monuments')">🗿 ASI Sites</div>
+            `;
+        }, 1000);
+    </script>
+</body>
+</html>

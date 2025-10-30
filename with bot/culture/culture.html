@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Culture & Heritage</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Reset */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Poppins', sans-serif; background: #111; color: #fff; }
+
+    /* Navbar */
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 15px 50px; background: #000; position: fixed; width: 100%;
+      z-index: 1000;
+    }
+    nav .logo { font-size: 22px; font-weight: bold; color: #facc15; }
+    nav ul { list-style: none; display: flex; }
+    nav ul li { margin-left: 25px; }
+    nav ul li a {
+      text-decoration: none; color: #fff; font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    nav ul li a:hover, nav ul li a.active { color: #facc15; }
+
+    /* Hero Section */
+    .hero {
+      height: 100vh;
+      background: linear-gradient(to right, rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+                  url('https://varnam.my/wp-content/uploads/2021/12/Untitled-design-11-1.jpg') center/cover no-repeat;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 20px;
+      position: relative;
+    }
+    .hero h1 { font-size: 48px; margin-bottom: 15px; color: #facc15; animation: fadeInDown 1.5s; }
+    .hero p { font-size: 18px; max-width: 700px; margin-bottom: 25px; animation: fadeInUp 1.5s; }
+    .hero button {
+      padding: 12px 28px; font-size: 16px; border: none; cursor: pointer;
+      background: #facc15; color: #000; font-weight: bold; border-radius: 6px;
+      transition: 0.3s;
+      animation: fadeInUp 2s;
+    }
+    .hero button:hover { background: #eab308; }
+
+    /* Highlights Section */
+    .highlights {
+      padding: 80px 50px; background: #1a1a1a; text-align: center;
+    }
+    .highlights h2 { font-size: 36px; margin-bottom: 10px; }
+    .highlights p { margin-bottom: 40px; color: #bbb; }
+    .highlight-container {
+      display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;
+    }
+    .highlight {
+      background: #222; padding: 30px; border-radius: 12px; width: 280px;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      animation: slideUp 1.5s ease forwards;
+    }
+    .highlight:hover { transform: translateY(-10px); box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
+    .highlight i {
+      font-size: 40px; color: #facc15; margin-bottom: 15px;
+    }
+    .highlight h3 { margin-bottom: 12px; font-size: 22px; }
+    .highlight p { font-size: 15px; color: #aaa; }
+
+    /* Events Section */
+    .events {
+      padding: 80px 50px; background: #111; text-align: center;
+    }
+    .events h2 { font-size: 36px; margin-bottom: 40px; color: #facc15; }
+    .event-grid {
+      display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;
+    }
+    .event {
+      background: #222; padding: 20px; border-radius: 12px; width: 280px;
+      transition: transform 0.3s;
+    }
+    .event img { width: 100%; border-radius: 10px; margin-bottom: 15px; }
+    .event:hover { transform: scale(1.05); }
+    .event h3 { margin-bottom: 10px; }
+    .event p { font-size: 14px; color: #aaa; }
+
+    /* Footer */
+    footer {
+      background: #000; padding: 30px; text-align: center; color: #bbb;
+    }
+    .social-icons a {
+      color: #facc15; margin: 0 10px; font-size: 20px; transition: 0.3s;
+    }
+    .social-icons a:hover { color: #fff; }
+
+    /* Animations */
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(100px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav { padding: 15px 20px; }
+      nav ul { display: none; }
+      .hero h1 { font-size: 34px; }
+      .highlight-container, .event-grid { flex-direction: column; align-items: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <div class="logo"><i class="fas fa-landmark"></i> Culture</div>
+    <ul>
+      <li><a href="#home" class="active">Home</a></li>
+      <li><a href="#heritage">Heritage</a></li>
+      <li><a href="#events">Events</a></li>
+      <li><a href="#traditions">Traditions</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" id="home">
+    <h1>Celebrate Culture & Heritage</h1>
+    <p>Discover the traditions, languages, and art that shape our history and define our future.</p>
+    <button>Explore Now</button>
+  </section>
+
+    <section class="highlights" id="heritage">
+    <h2>Our Heritage & Traditions</h2>
+    <p>Explore the richness of diverse cultures from around the world.</p>
+
+    <div class="highlight-container">
+      <div class="highlight">
+        <i class="fas fa-paint-brush"></i>
+        <h3><a href="Subpages\indian-artists.html">Indian Artists</a></h3>
+        <p>Discover legendary and contemporary artists shaping India’s cultural legacy.</p>
+      </div>
+
+      <div class="highlight">
+        <i class="fas fa-hammer"></i>
+        <h3><a href="Subpages\indian-craft.html">Indian Craft</a></h3>
+        <p>Explore traditional crafts passed down through generations.</p>
+      </div>
+
+      <div class="highlight">
+        <i class="fas fa-utensils"></i>
+        <h3><a href="Subpages\indian-cuisine.html">Indian Cuisine</a></h3>
+        <p>Savor the flavors of India’s diverse and vibrant food traditions.</p>
+      </div>
+
+      <div class="highlight">
+        <i class="fas fa-landmark"></i>
+        <h3><a href="Subpages\indian-culture.html">Indian Culture</a></h3>
+        <p>Experience the depth of India’s customs, values, and traditions.</p>
+      </div>
+
+      <div class="highlight">
+        <i class="fas fa-music"></i>
+        <h3><a href="Subpages\indian-dance.html">Indian Dance</a></h3>
+        <p>Celebrate classical and folk dances that bring stories to life.</p>
+      </div>
+
+      <div class="highlight">
+        <i class="fas fa-swatchbook"></i>
+        <h3><a href="Subpages\indian-fabric-art.html">Indian Fabric Art</a></h3>
+        <p>Admire weaving, embroidery, and textile traditions from every region.</p>
+      </div>
+
+      <div class="highlight">
+        <i class="fas fa-palette"></i>
+        <h3><a href="Subpages\indian-folk-art.html">Indian Folk Art</a></h3>
+        <p>Explore vibrant folk paintings and regional art forms.</p>
+      </div>
+
+      <div class="highlight">
+        <i class="fas fa-drum"></i>
+        <h3><a href="Subpages\indian-folk-dance.html">Indian Folk Dance</a></h3>
+        <p>Enjoy lively folk dances celebrating festivals and rural traditions.</p>
+      </div>
+
+      <div class="highlight">
+        <i class="fas fa-image"></i>
+        <h3><a href="Subpages\indian-galleries.html">Indian Galleries</a></h3>
+        <p>Step into India’s renowned museums and art galleries.</p>
+      </div>
+
+      <div class="highlight">
+        <i class="fas fa-brush"></i>
+        <h3><a href="Subpages\indian-visual-art.html">Indian Visual Art</a></h3>
+        <p>Discover painting styles and visual traditions across centuries.</p>
+      </div>
+    </div>
+    </section>
+
+
+  <!-- Events Section -->
+  <section class="events" id="events">
+    <h2>Upcoming Cultural Events</h2>
+    <div class="event-grid">
+      <div class="event">
+        <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=900&q=80" alt="Festival">
+        <h3>Dance Festival</h3>
+        <p>A global showcase of traditional dance performances.</p>
+      </div>
+      <div class="event">
+        <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?auto=format&fit=crop&w=900&q=80" alt="Exhibition">
+        <h3>Art Exhibition</h3>
+        <p>Indigenous artists present unique works from across cultures.</p>
+      </div>
+      <div class="event">
+        <img src="https://images.unsplash.com/photo-1518609878373-06d740f60d8b?auto=format&fit=crop&w=900&q=80" alt="Music">
+        <h3>World Music Night</h3>
+        <p>Experience live traditional music from around the world.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Culture & Heritage. All rights reserved.</p>
+    <div class="social-icons">
+      <a href="#"><i class="fab fa-facebook"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-youtube"></i></a>
+    </div>
+  </footer>
+  <!-- Chatbot Floating Icon -->
+<div id="chatbot-icon">
+  💬
+</div>
+
+<!-- Chatbot Sidebar -->
+<div id="chatbot-sidebar">
+  <div id="chatbot-close">✖</div>
+  <iframe src="chatbot.html"></iframe>
+</div>
+
+<style>
+  /* Floating Icon */
+  #chatbot-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--primary-gold);
+    color: black;
+    font-size: 24px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow-strong);
+    z-index: 2000;
+    transition: transform 0.3s ease;
+  }
+
+  #chatbot-icon:hover {
+    transform: scale(1.1);
+  }
+
+  /* Sidebar */
+  #chatbot-sidebar {
+    position: fixed;
+    top: 0;
+    right: -420px; /* Hidden by default */
+    width: 420px;
+    height: 100%;
+    background: white;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.5);
+    z-index: 2500;
+    transition: right 0.4s ease;
+    display: flex;
+    flex-direction: column;
+  }
+
+  #chatbot-sidebar iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  #chatbot-sidebar.active {
+    right: 0;
+  }
+
+  /* Close Button */
+  #chatbot-close {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 2600;
+    background: #ff4d4d;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+  }
+</style>
+
+<script>
+  const chatbotIcon = document.getElementById("chatbot-icon");
+  const chatbotSidebar = document.getElementById("chatbot-sidebar");
+  const chatbotClose = document.getElementById("chatbot-close");
+
+  chatbotIcon.addEventListener("click", () => {
+    chatbotSidebar.classList.add("active");
+  });
+
+  chatbotClose.addEventListener("click", () => {
+    chatbotSidebar.classList.remove("active");
+  });
+</script>
+
+
+</body>
+</html>
